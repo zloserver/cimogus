@@ -35,7 +35,7 @@ SystemTrayNotificationHandler::SystemTrayNotificationHandler(QObject* parent) :
     m_menu.addSeparator();
 
     m_trayActionVisitWebSite = m_menu.addAction(QIcon(":/images/tray/link.png"), tr("Visit Website"), [&](){
-        QDesktopServices::openUrl(QUrl("https://amnezia.org"));
+        QDesktopServices::openUrl(QUrl("https://zlovpn.com"));
     });
 
     m_trayActionQuit = m_menu.addAction(QIcon(":/images/tray/cancel.png"), tr("Quit") + " " + APPLICATION_NAME, this, [&](){
@@ -49,10 +49,10 @@ SystemTrayNotificationHandler::SystemTrayNotificationHandler(QObject* parent) :
 SystemTrayNotificationHandler::~SystemTrayNotificationHandler() {
 }
 
-void SystemTrayNotificationHandler::setConnectionState(Vpn::ConnectionState state)
+void SystemTrayNotificationHandler::setConnectionState(Vpn::ConnectionState state, bool getLastError)
 {
     setTrayState(state);
-    NotificationHandler::setConnectionState(state);
+    NotificationHandler::setConnectionState(state, getLastError);
 }
 
 void SystemTrayNotificationHandler::onTranslationsUpdated()

@@ -1,10 +1,10 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
-Name=AmneziaVPN
+Name=ZloVPN
 Version=@CMAKE_PROJECT_VERSION@
-Comment=Client of your self-hosted VPN
-Exec=AmneziaVPN
-Icon=/usr/share/pixmaps/AmneziaVPN.png
+Comment=Client of ZloVPN
+Exec=ZloVPN
+Icon=/usr/share/pixmaps/ZloVPN.png
 Categories=Network;Qt;Security;
 Terminal=false

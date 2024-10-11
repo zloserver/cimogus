@@ -20,7 +20,7 @@ namespace amnezia::serialization::inbounds
 //],
 
 const static QString listen = "127.0.0.1";
-const static int port = 10808;
+const static int port = 10833;
 const static QString protocol = "socks";
 
 QJsonObject GenerateInboundEntry()

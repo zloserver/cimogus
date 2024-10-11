@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-    <Name>AmneziaVPN</Name>
+    <Name>ZloVPN</Name>
     <Version>@CMAKE_PROJECT_VERSION@</Version>
-    <Title>AmneziaVPN</Title>
-    <Publisher>AmneziaVPN</Publisher>
-    <StartMenuDir>AmneziaVPN</StartMenuDir>
-    <TargetDir>@ApplicationsDir@/AmneziaVPN</TargetDir>
+    <Title>ZloVPN</Title>
+    <Publisher>ZloVPN</Publisher>
+    <StartMenuDir>ZloVPN</StartMenuDir>
+    <TargetDir>@ApplicationsDir@/ZloVPN</TargetDir>
     <WizardDefaultWidth>600</WizardDefaultWidth>
     <WizardDefaultHeight>380</WizardDefaultHeight>
     <WizardStyle>Modern</WizardStyle>
@@ -17,11 +17,4 @@
     <DependsOnLocalInstallerBinary>true</DependsOnLocalInstallerBinary>
     <SupportsModify>false</SupportsModify>
     <DisableAuthorizationFallback>true</DisableAuthorizationFallback>
-    <RemoteRepositories>
-        <Repository>
-            <Url>https://amneziavpn.org/updates/linux</Url>
-            <Enabled>true</Enabled>
-            <DisplayName>AmneziaVPN - repository for Linux</DisplayName>
-        </Repository>
-    </RemoteRepositories>
 </Installer>

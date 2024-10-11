@@ -93,16 +93,14 @@ ListView {
 
                 Layout.fillWidth: true
 
-                text: name
-                descriptionText: description
+                text: protocolName
+                descriptionText: descriptionText
 
                 ButtonGroup.group: containersRadioButtonGroup
 
-                imageSource: "qrc:/images/controls/download.svg"
-                showImage: !isInstalled
-
-                checkable: isInstalled && !ConnectionController.isConnected
-                checked: proxyDefaultServerContainersModel.mapToSource(index) === ServersModel.getDefaultServerData("defaultContainer")
+                // todo: if we're adding more protocols, derive this from selected protocol
+                checkable: !ConnectionController.isConnected
+                checked: true
 
                 onClicked: {
                     if (ConnectionController.isConnected && isInstalled) {
@@ -112,7 +110,7 @@ ListView {
 
                     if (checked) {
                         containersDropDown.close()
-                        ServersModel.setDefaultContainer(ServersModel.defaultIndex, proxyDefaultServerContainersModel.mapToSource(index))
+                        // ServersModel.setDefaultContainer(ServersModel.selectedServerIndex, proxyDefaultServerContainersModel.mapToSource(index))
                     } else {
                         ContainersModel.setProcessedContainerIndex(proxyDefaultServerContainersModel.mapToSource(index))
                         InstallController.setShouldCreateServer(false)

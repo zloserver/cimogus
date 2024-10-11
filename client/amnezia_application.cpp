@@ -84,6 +84,9 @@ void AmneziaApplication::init()
     m_vpnConnection->moveToThread(&m_vpnConnectionThread);
     m_vpnConnectionThread.start();
 
+    m_authController.reset(new AuthController(m_settings));
+    m_engine->rootContext()->setContextProperty("AuthController", m_authController.get());
+
     initModels();
     loadTranslator();
     initControllers();
@@ -219,6 +222,9 @@ void AmneziaApplication::registerTypes()
 
     qmlRegisterType<InstalledAppsModel>("InstalledAppsModel", 1, 0, "InstalledAppsModel");
 
+    qmlRegisterType<UserInfo>("UserInfo", 1, 0, "UserInfo");
+    qmlRegisterType<Errors>("Errors", 1, 0, "Errors");
+
     Vpn::declareQmlVpnConnectionStateEnum();
     PageLoader::declareQmlPageEnum();
 }
@@ -243,7 +249,7 @@ void AmneziaApplication::updateTranslator(const QLocale &locale)
         QCoreApplication::removeTranslator(m_translator.get());
     }
 
-    QString strFileName = QString(":/translations/amneziavpn") + QLatin1String("_") + locale.name() + ".qm";
+    QString strFileName = QString(":/translations/zlovpn") + QLatin1String("_") + locale.name() + ".qm";
     if (m_translator->load(strFileName)) {
         if (QCoreApplication::installTranslator(m_translator.get())) {
             m_settings->setAppLanguage(locale);
@@ -282,7 +288,7 @@ bool AmneziaApplication::parseCommands()
 
 #if !defined(Q_OS_ANDROID) && !defined(Q_OS_IOS)
 void AmneziaApplication::startLocalServer() {
-    const QString serverName("AmneziaVPNInstance");
+    const QString serverName("ZloVPNInstance");
     QLocalServer::removeServer(serverName);
 
     QLocalServer* server = new QLocalServer(this);
@@ -317,6 +323,13 @@ void AmneziaApplication::initModels()
     connect(m_serversModel.get(), &ServersModel::defaultServerContainersUpdated, m_defaultServerContainersModel.get(),
             &ContainersModel::updateModel);
     m_serversModel->resetModel();
+
+    m_selectedServerProtocolsModel.reset(new AvailableProtocolsModel(this));
+    m_engine->rootContext()->setContextProperty("SelectedServerProtocolsModel", m_selectedServerProtocolsModel.get());
+
+    m_regionsModel.reset(new RegionsModel(m_authController, m_settings, this));
+    m_engine->rootContext()->setContextProperty("RegionsModel", m_regionsModel.get());
+    m_regionsModel->resetModel();
 
     m_languageModel.reset(new LanguageModel(m_settings, this));
     m_engine->rootContext()->setContextProperty("LanguageModel", m_languageModel.get());
@@ -363,8 +376,6 @@ void AmneziaApplication::initModels()
 
     m_clientManagementModel.reset(new ClientManagementModel(m_settings, this));
     m_engine->rootContext()->setContextProperty("ClientManagementModel", m_clientManagementModel.get());
-    connect(m_clientManagementModel.get(), &ClientManagementModel::adminConfigRevoked, m_serversModel.get(),
-            &ServersModel::clearCachedProfile);
 
     m_apiServicesModel.reset(new ApiServicesModel(this));
     m_engine->rootContext()->setContextProperty("ApiServicesModel", m_apiServicesModel.get());
@@ -381,8 +392,11 @@ void AmneziaApplication::initModels()
 
 void AmneziaApplication::initControllers()
 {
+    m_importController.reset(new ImportController(m_serversModel, m_containersModel, m_settings));
+    m_engine->rootContext()->setContextProperty("ImportController", m_importController.get());
+
     m_connectionController.reset(
-            new ConnectionController(m_serversModel, m_containersModel, m_clientManagementModel, m_vpnConnection, m_settings));
+            new ConnectionController(m_importController, m_authController, m_regionsModel, m_serversModel, m_containersModel, m_clientManagementModel, m_vpnConnection, m_settings));
     m_engine->rootContext()->setContextProperty("ConnectionController", m_connectionController.get());
 
     connect(m_connectionController.get(), qOverload<const QString &>(&ConnectionController::connectionErrorOccurred), this,
@@ -403,45 +417,7 @@ void AmneziaApplication::initControllers()
     m_pageController.reset(new PageController(m_serversModel, m_settings));
     m_engine->rootContext()->setContextProperty("PageController", m_pageController.get());
 
-    m_installController.reset(new InstallController(m_serversModel, m_containersModel, m_protocolsModel, m_clientManagementModel,
-                                                    m_apiServicesModel, m_settings));
-    m_engine->rootContext()->setContextProperty("InstallController", m_installController.get());
-    connect(m_installController.get(), &InstallController::passphraseRequestStarted, m_pageController.get(),
-            &PageController::showPassphraseRequestDrawer);
-    connect(m_pageController.get(), &PageController::passphraseRequestDrawerClosed, m_installController.get(),
-            &InstallController::setEncryptedPassphrase);
-    connect(m_installController.get(), &InstallController::currentContainerUpdated, m_connectionController.get(),
-            &ConnectionController::onCurrentContainerUpdated);
-
-    connect(m_installController.get(), &InstallController::updateServerFromApiFinished, this, [this]() {
-        disconnect(m_reloadConfigErrorOccurredConnection);
-        emit m_connectionController->configFromApiUpdated();
-    });
-
-    connect(m_connectionController.get(), &ConnectionController::updateApiConfigFromGateway, this, [this]() {
-        m_reloadConfigErrorOccurredConnection = connect(
-                m_installController.get(), qOverload<ErrorCode>(&InstallController::installationErrorOccurred), this,
-                [this]() { emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Disconnected); },
-                static_cast<Qt::ConnectionType>(Qt::AutoConnection || Qt::SingleShotConnection));
-        m_installController->updateServiceFromApi(m_serversModel->getDefaultServerIndex(), "", "");
-    });
-
-    connect(m_connectionController.get(), &ConnectionController::updateApiConfigFromTelegram, this, [this]() {
-        m_reloadConfigErrorOccurredConnection = connect(
-                m_installController.get(), qOverload<ErrorCode>(&InstallController::installationErrorOccurred), this,
-                [this]() { emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Disconnected); },
-                static_cast<Qt::ConnectionType>(Qt::AutoConnection || Qt::SingleShotConnection));
-        m_serversModel->removeApiConfig(m_serversModel->getDefaultServerIndex());
-        m_installController->updateServiceFromTelegram(m_serversModel->getDefaultServerIndex());
-    });
-
     connect(this, &AmneziaApplication::translationsUpdated, m_connectionController.get(), &ConnectionController::onTranslationsUpdated);
-
-    m_importController.reset(new ImportController(m_serversModel, m_containersModel, m_settings));
-    m_engine->rootContext()->setContextProperty("ImportController", m_importController.get());
-
-    m_exportController.reset(new ExportController(m_serversModel, m_containersModel, m_clientManagementModel, m_settings));
-    m_engine->rootContext()->setContextProperty("ExportController", m_exportController.get());
 
     m_settingsController.reset(
             new SettingsController(m_serversModel, m_containersModel, m_languageModel, m_sitesModel, m_appSplitTunnelingModel, m_settings));

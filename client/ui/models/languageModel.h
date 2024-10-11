@@ -12,13 +12,6 @@ namespace LanguageSettings
     enum class AvailableLanguageEnum {
         English,
         Russian,
-        China_cn,
-        Ukrainian,
-        Persian,
-        Arabic,
-        Burmese,
-        Urdu,
-        Hindi
     };
     Q_ENUM_NS(AvailableLanguageEnum)
 
@@ -60,6 +53,7 @@ public slots:
     int getLineHeightAppend();
     QString getCurrentLanguageName();
     QString getCurrentSiteUrl();
+    QString getZloVpnSiteUrl();
 
 signals:
     void updateTranslations(const QLocale &locale);

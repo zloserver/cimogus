@@ -173,7 +173,6 @@ PageType {
                 bodyText: qsTr("Connect to classic paid and free VPN services from Amnezia")
 
                 rightImageSource: "qrc:/images/controls/chevron-right.svg"
-                leftImageSource: "qrc:/images/controls/amnezia.svg"
 
                 onClicked: function() {
                     PageController.showBusyIndicator(true)

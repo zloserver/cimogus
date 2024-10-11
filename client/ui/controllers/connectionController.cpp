@@ -11,15 +11,21 @@
 #include "core/enums/apiEnums.h"
 #include "version.h"
 
-ConnectionController::ConnectionController(const QSharedPointer<ServersModel> &serversModel,
+ConnectionController::ConnectionController(const QSharedPointer<ImportController> importController,
+                                           const QSharedPointer<AuthController> authController, 
+                                           const QSharedPointer<RegionsModel> regionsModel,
+                                           const QSharedPointer<ServersModel> &serversModel,
                                            const QSharedPointer<ContainersModel> &containersModel,
                                            const QSharedPointer<ClientManagementModel> &clientManagementModel,
                                            const QSharedPointer<VpnConnection> &vpnConnection, const std::shared_ptr<Settings> &settings,
                                            QObject *parent)
     : QObject(parent),
+      m_importController(importController),
+      m_authController(authController),
+      m_regionsModel(regionsModel),
       m_serversModel(serversModel),
       m_containersModel(containersModel),
-      m_clientManagementModel(clientManagementModel),
+      m_clientManagementModel(clientManagementModel), 
       m_vpnConnection(vpnConnection),
       m_settings(settings)
 {
@@ -42,25 +48,62 @@ void ConnectionController::openConnection()
 //     }
 // #endif
 
-    int serverIndex = m_serversModel->getDefaultServerIndex();
+    /*int serverIndex = m_serversModel->getDefaultServerIndex();
     QJsonObject serverConfig = m_serversModel->getServerConfig(serverIndex);
-    auto configVersion = serverConfig.value(config_key::configVersion).toInt();
+    auto configVersion = serverConfig.value(config_key::configVersion).toInt();*/
 
     emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Preparing);
 
-    if (configVersion == ApiConfigSources::Telegram
-        && !m_serversModel->data(serverIndex, ServersModel::Roles::HasInstalledContainers).toBool()) {
-        emit updateApiConfigFromTelegram();
-    } else if (configVersion && m_serversModel->isApiKeyExpired(serverIndex)) {
-        qDebug() << "attempt to update api config by end_date event";
-        if (configVersion == ApiConfigSources::Telegram) {
-            emit updateApiConfigFromTelegram();
-        } else {
-            emit updateApiConfigFromGateway();
-        }
-    } else {
-        continueConnection();
+    m_serversModel->clearServers();
+
+    QString selectedRegionId = m_regionsModel->getSelectedRegionId();
+    if (selectedRegionId.isEmpty()) {
+        emit connectionErrorOccurred("Region not selected");
+        emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Disconnected);
+        return;
     }
+
+    ServerStringRequest* request = new ServerStringRequest;
+    connect(request, &ServerStringRequest::errorOccurred, this, [this, request](const Errors errors) {
+        emit connectionErrorOccurred(errors.errorMessage);
+        emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Error, false);
+        delete request;
+    });
+    connect(request, &ServerStringRequest::stringArrived, this, [this, request](const QString connectionString) {
+        delete request;
+
+        bool result = m_importController->extractConfigFromData(connectionString);
+        if (!result) {
+            emit connectionErrorOccurred("Failed to import config");
+            emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Error, false);
+            return;
+        }
+
+        m_importController->importConfig();
+    });
+
+    connect(m_importController.get(), qOverload<const QString&, bool>(&ImportController::importErrorOccurred), this, [this](const QString& errorMessage, bool goToPageHome) {
+        if (m_vpnConnection->connectionState() != Vpn::ConnectionState::Preparing) return;
+
+        emit connectionErrorOccurred(errorMessage);
+        emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Error, false);
+    });
+
+    connect(m_importController.get(), qOverload<ErrorCode, bool>(&ImportController::importErrorOccurred), this, [this](const ErrorCode errorCode, bool goToHome) {
+        if (m_vpnConnection->connectionState() != Vpn::ConnectionState::Preparing) return;
+
+        emit connectionErrorOccurred(errorCode);
+        emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Error, false);
+    });
+
+    connect(m_importController.get(), &ImportController::importFinished, this, [this]() {
+        m_serversModel->setDefaultServerIndex(0);
+        m_serversModel->setProcessedServerIndex(0);
+        continueConnection();
+    });
+
+    m_authController->getServerConnectionString(selectedRegionId, request);
+
 }
 
 void ConnectionController::closeConnection()
@@ -73,7 +116,7 @@ ErrorCode ConnectionController::getLastConnectionError()
     return m_vpnConnection->lastError();
 }
 
-void ConnectionController::onConnectionStateChanged(Vpn::ConnectionState state)
+void ConnectionController::onConnectionStateChanged(Vpn::ConnectionState state, bool getLastError)
 {
     m_state = state;
 
@@ -113,13 +156,13 @@ void ConnectionController::onConnectionStateChanged(Vpn::ConnectionState state)
     case Vpn::ConnectionState::Error: {
         m_isConnectionInProgress = false;
         m_connectionStateText = tr("Connect");
-        emit connectionErrorOccurred(getLastConnectionError());
+        if (getLastError) emit connectionErrorOccurred(getLastConnectionError());
         break;
     }
     case Vpn::ConnectionState::Unknown: {
         m_isConnectionInProgress = false;
         m_connectionStateText = tr("Connect");
-        emit connectionErrorOccurred(getLastConnectionError());
+        if (getLastError) emit connectionErrorOccurred(getLastConnectionError());
         break;
     }
     }

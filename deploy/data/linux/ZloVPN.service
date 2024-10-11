@@ -1,0 +1,14 @@
+[Unit]
+Description=ZloVPN Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/opt/ZloVPN/service/ZloVPN-service.sh
+Environment=LD_LIBRARY_PATH=/opt/ZloVPN/client/lib
+
+[Install]
+WantedBy=multi-user.target

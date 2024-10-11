@@ -8,7 +8,6 @@ import "TextTypes"
 
 Item {
     id: root
-
     property string text
     property int textMaximumLineCount: 2
     property int textElide: Qt.ElideRight

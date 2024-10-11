@@ -71,6 +71,7 @@ bool IpcClient::init(IpcClient *instance)
     }
 
     qDebug() << "IpcClient::init succeed";
+    qDebug() << "IpcClient::isReplicaValid: " << Instance()->m_ipcClient->isReplicaValid() << " tun2socks: " << Instance()->m_Tun2SocksClient->isReplicaValid();
 
     return (Instance()->m_ipcClient->isReplicaValid() && Instance()->m_Tun2SocksClient->isReplicaValid());
 }

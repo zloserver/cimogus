@@ -12,6 +12,7 @@ Item {
     property string headerText
     property string headerTextDisabledColor: AmneziaStyle.color.charcoalGray
     property string headerTextColor: AmneziaStyle.color.mutedGray
+    property int echoMode: TextInput.Normal
 
     property alias errorText: errorField.text
     property bool checkEmptyText: false
@@ -108,6 +109,9 @@ Item {
                         rightPadding: 0
                         leftPadding: 0
                         bottomPadding: 0
+
+                        passwordCharacter: "ඞ"
+                        echoMode: root.echoMode
 
                         background: Rectangle {
                             anchors.fill: parent

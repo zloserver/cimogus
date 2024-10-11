@@ -35,7 +35,7 @@ PageType {
         anchors.right: parent.right
         anchors.topMargin: 20
 
-        KeyNavigation.tab: telegramButton
+        KeyNavigation.tab: mailButton
     }
 
     FlickableType {
@@ -53,7 +53,7 @@ PageType {
 
             Image {
                 id: image
-                source: "qrc:/images/amneziaBigLogo.png"
+                source: "qrc:/images/zlovpn.svg"
 
                 Layout.alignment: Qt.AlignCenter
                 Layout.topMargin: 16
@@ -61,16 +61,6 @@ PageType {
                 Layout.rightMargin: 16
                 Layout.preferredWidth: 291
                 Layout.preferredHeight: 224
-            }
-
-            Header2TextType {
-                Layout.fillWidth: true
-                Layout.topMargin: 16
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
-
-                text: qsTr("Support Amnezia")
-                horizontalAlignment: Text.AlignHCenter
             }
 
             ParagraphTextType {
@@ -84,7 +74,7 @@ PageType {
                 height: 20
                 font.pixelSize: 14
 
-                text: qsTr("Amnezia is a free and open-source application. You can support the developers if you like it.")
+                text: qsTr("ZloVPN is an easy to use VPN application based on AmneziaVPN.")
                 color: AmneziaStyle.color.paleGray
             }
 
@@ -98,56 +88,18 @@ PageType {
             }
 
             LabelWithButtonType {
-                id: telegramButton
-                Layout.fillWidth: true
-                Layout.topMargin: 16
-
-                text: qsTr("Telegram group")
-                descriptionText: qsTr("To discuss features")
-                leftImageSource: "qrc:/images/controls/telegram.svg"
-
-                KeyNavigation.tab: mailButton
-                parentFlickable: fl
-
-                clickedFunction: function() {
-                    Qt.openUrlExternally(qsTr("https://t.me/amnezia_vpn_en"))
-                }
-            }
-
-            DividerType {}
-
-            LabelWithButtonType {
                 id: mailButton
                 Layout.fillWidth: true
 
-                text: qsTr("support@amnezia.org")
-                descriptionText: qsTr("For reviews and bug reports")
-                leftImageSource: "qrc:/images/controls/mail.svg"
-
-                KeyNavigation.tab: githubButton
-                parentFlickable: fl
-
-                clickedFunction: function() {
-                    GC.copyToClipBoard(text)
-                    PageController.showNotificationMessage(qsTr("Copied"))
-                }
-
-            }
-
-            DividerType {}
-
-            LabelWithButtonType {
-                id: githubButton
-                Layout.fillWidth: true
-
-                text: qsTr("GitHub")
-                leftImageSource: "qrc:/images/controls/github.svg"
+                text: qsTr("Telegram")
+                descriptionText: qsTr("For issues and suggestions")
+                leftImageSource: "qrc:/images/controls/telegram.svg"
 
                 KeyNavigation.tab: websiteButton
                 parentFlickable: fl
 
                 clickedFunction: function() {
-                    Qt.openUrlExternally(qsTr("https://github.com/amnezia-vpn/amnezia-client"))
+                    Qt.openUrlExternally("https://t.me/zlovpn")
                 }
 
             }
@@ -159,13 +111,13 @@ PageType {
                 Layout.fillWidth: true
 
                 text: qsTr("Website")
-                leftImageSource: "qrc:/images/controls/amnezia.svg"
+                leftImageSource: "qrc:/images/controls/browser.svg"
 
-                KeyNavigation.tab: checkUpdatesButton
+                KeyNavigation.tab: privacyPolicyButton
                 parentFlickable: fl
 
                 clickedFunction: function() {
-                    Qt.openUrlExternally(LanguageModel.getCurrentSiteUrl())
+                    Qt.openUrlExternally(LanguageModel.getZloVpnSiteUrl())
                 }
 
             }
@@ -195,33 +147,9 @@ PageType {
             }
 
             BasicButtonType {
-                id: checkUpdatesButton
-                Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: 8
-                Layout.bottomMargin: 16
-                implicitHeight: 32
-
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.goldenApricot
-
-                text: qsTr("Check for updates")
-
-                KeyNavigation.tab: privacyPolicyButton
-                parentFlickable: fl
-
-                clickedFunc: function() {
-                    Qt.openUrlExternally("https://github.com/amnezia-vpn/desktop-client/releases/latest")
-                }
-            }
-
-            BasicButtonType {
               id: privacyPolicyButton
               Layout.alignment: Qt.AlignHCenter
               Layout.bottomMargin: 16
-              Layout.topMargin: -15
               implicitHeight: 25
 
               defaultColor: AmneziaStyle.color.transparent
@@ -230,13 +158,36 @@ PageType {
               disabledColor: AmneziaStyle.color.mutedGray
               textColor: AmneziaStyle.color.goldenApricot
 
+              KeyNavigation.tab: aboutAmneziaButton
               text: qsTr("Privacy Policy")
+
+              parentFlickable: fl
+
+              clickedFunc: function() {
+                Qt.openUrlExternally(LanguageModel.getZloVpnSiteUrl() + "/privacy-policy")
+              }
+            }
+
+            BasicButtonType {
+              id: aboutAmneziaButton
+              Layout.alignment: Qt.AlignHCenter
+              Layout.bottomMargin: 16
+              Layout.topMargin: -12
+              implicitHeight: 25
+
+              defaultColor: AmneziaStyle.color.transparent
+              hoveredColor: AmneziaStyle.color.translucentWhite
+              pressedColor: AmneziaStyle.color.sheerWhite
+              disabledColor: AmneziaStyle.color.mutedGray
+              textColor: AmneziaStyle.color.goldenApricot
+
+              text: qsTr("About AmneziaVPN")
 
               Keys.onTabPressed: lastItemTabClicked()
               parentFlickable: fl
 
               clickedFunc: function() {
-                Qt.openUrlExternally(LanguageModel.getCurrentSiteUrl() + "/policy")
+                PageController.goToPage(PageEnum.PageSettingsAboutOriginal)
               }
             }
         }

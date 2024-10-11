@@ -24,34 +24,62 @@ PageType {
 
         Image {
             id: image
-            source: "qrc:/images/amneziaBigLogo.png"
+            source: "qrc:/images/zlovpn.svg"
 
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.topMargin: 32
-            Layout.preferredWidth: 360
-            Layout.preferredHeight: 287
+            Layout.preferredWidth: 300
+            Layout.preferredHeight: 240
         }
 
         Item {
             id: focusItem
-            KeyNavigation.tab: startButton
+            KeyNavigation.tab: loginButton
         }
 
-        BasicButtonType {
-            id: startButton
+        ColumnLayout {
+            spacing: 4
+
+            Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.bottomMargin: 48
             Layout.leftMargin: 16
             Layout.rightMargin: 16
+            Layout.bottomMargin: 24
             Layout.alignment: Qt.AlignBottom
 
-            text: qsTr("Let's get started")
+            BasicButtonType {
+                id: loginButton
+                Layout.fillWidth: true
 
-            clickedFunc: function() {
-                PageController.goToPage(PageEnum.PageSetupWizardConfigSource)
+                text: qsTr("Login")
+
+                KeyNavigation.tab: registerButton
+
+                onClicked: {
+                    PageController.goToPage(PageEnum.PageLogin)
+                }
             }
 
-            Keys.onTabPressed: lastItemTabClicked(focusItem)
+            BasicButtonType {
+                id: registerButton
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignBottom
+
+                defaultColor: AmneziaStyle.color.transparent
+                hoveredColor: AmneziaStyle.color.translucentWhite
+                pressedColor: AmneziaStyle.color.sheerWhite
+                disabledColor: AmneziaStyle.color.mutedGray
+                textColor: AmneziaStyle.color.mutedGray
+                leftImageColor: AmneziaStyle.color.transparent
+
+                text: qsTr("Register")
+
+                KeyNavigation.tab: loginButton
+
+                onClicked: {
+                    PageController.goToPage(PageEnum.PageRegister)
+                }
+            }
         }
     }
 }

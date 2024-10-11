@@ -47,7 +47,7 @@ NotificationHandler::~NotificationHandler() {
     s_instance = nullptr;
 }
 
-void NotificationHandler::setConnectionState(Vpn::ConnectionState state)
+void NotificationHandler::setConnectionState(Vpn::ConnectionState state, bool _)
 {
     if (state != Vpn::ConnectionState::Connected && state != Vpn::ConnectionState::Disconnected) {
         return;
@@ -60,14 +60,14 @@ void NotificationHandler::setConnectionState(Vpn::ConnectionState state)
     case Vpn::ConnectionState::Connected:
         m_connected = true;
 
-        title = tr("AmneziaVPN");
+        title = tr("ZloVPN");
         message = tr("VPN Connected");
         break;
 
     case Vpn::ConnectionState::Disconnected:
         if (m_connected) {
             m_connected = false;
-            title = tr("AmneziaVPN");
+            title = tr("ZloVPN");
             message = tr("VPN Disconnected");
         }
         break;
@@ -91,7 +91,7 @@ void NotificationHandler::unsecuredNetworkNotification(const QString& networkNam
     qDebug() << "Unsecured network notification shown";
 
 
-    QString title = tr("AmneziaVPN notification");
+    QString title = tr("ZloVPN notification");
     QString message = tr("Unsecured network detected: ") + networkName;
 
     notifyInternal(UnsecuredNetwork, title, message, 2000);

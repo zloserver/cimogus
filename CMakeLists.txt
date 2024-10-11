@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
-set(PROJECT AmneziaVPN)
+set(CMAKE_PREFIX_PATH "C:\\Qt\\6.8.0\\msvc2022_64")
+
+set(PROJECT ZloVPN)
 
 project(${PROJECT} VERSION 4.8.1.9
-        DESCRIPTION "AmneziaVPN"
-        HOMEPAGE_URL "https://amnezia.org/"
+        DESCRIPTION "ZloVPN"
+        HOMEPAGE_URL "https://zlovpn.com/"
 )
 
 string(TIMESTAMP CURRENT_DATE "%Y-%m-%d")
@@ -28,7 +30,7 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Emscripten")
 endif()
 
 set(QT_BUILD_TOOLS_WHEN_CROSS_COMPILING ON)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(APPLE AND NOT IOS)

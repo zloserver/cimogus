@@ -17,7 +17,7 @@ public:
     explicit SystemTrayNotificationHandler(QObject* parent);
     ~SystemTrayNotificationHandler();
 
-    void setConnectionState(Vpn::ConnectionState state) override;
+    void setConnectionState(Vpn::ConnectionState state, bool getLastError) override;
 
     void onTranslationsUpdated() override;
 

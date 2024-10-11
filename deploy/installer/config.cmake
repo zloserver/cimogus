@@ -17,12 +17,12 @@ elseif(LINUX)
     )
     
     configure_file(
-        ${CMAKE_CURRENT_LIST_DIR}/config/AmneziaVPN.desktop.in
-        ${CMAKE_BINARY_DIR}/../AppDir/AmneziaVPN.desktop
+        ${CMAKE_CURRENT_LIST_DIR}/config/ZloVPN.desktop.in
+        ${CMAKE_BINARY_DIR}/../AppDir/ZloVPN.desktop
     )
 endif()
 
 configure_file(
-    ${CMAKE_CURRENT_LIST_DIR}/packages/org.amneziavpn.package/meta/package.xml.in
-    ${CMAKE_BINARY_DIR}/installer/packages/org.amneziavpn.package/meta/package.xml
+    ${CMAKE_CURRENT_LIST_DIR}/packages/com.zloserver.vpn/meta/package.xml.in
+    ${CMAKE_BINARY_DIR}/installer/packages/com.zloserver.vpn/meta/package.xml
 )

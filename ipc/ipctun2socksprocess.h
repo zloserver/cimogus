@@ -33,6 +33,9 @@ public:
     void start() override;
     void stop() override;
 
+    void bingus();
+    void bungus(int exitCode, QProcess::ExitStatus exitStatus);
+
 signals:
 
 private:

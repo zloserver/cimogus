@@ -30,7 +30,7 @@ Window  {
         PageController.closeWindow()
     }
 
-    title: "AmneziaVPN"
+    title: "ZloVPN"
 
     Connections {
         target: PageController

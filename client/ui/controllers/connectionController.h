@@ -5,6 +5,9 @@
 #include "ui/models/clientManagementModel.h"
 #include "ui/models/containers_model.h"
 #include "ui/models/servers_model.h"
+#include "ui/models/regionsModel.h"
+#include "ui/controllers/importController.h"
+#include "ui/controllers/authController.h"
 #include "vpnconnection.h"
 
 class ConnectionController : public QObject
@@ -16,7 +19,10 @@ public:
     Q_PROPERTY(bool isConnectionInProgress READ isConnectionInProgress NOTIFY connectionStateChanged)
     Q_PROPERTY(QString connectionStateText READ connectionStateText NOTIFY connectionStateChanged)
 
-    explicit ConnectionController(const QSharedPointer<ServersModel> &serversModel, const QSharedPointer<ContainersModel> &containersModel,
+    explicit ConnectionController(const QSharedPointer<ImportController> importController,
+                                  const QSharedPointer<AuthController> authController,
+                                  const QSharedPointer<RegionsModel> regionsModel,
+                                  const QSharedPointer<ServersModel> &serversModel, const QSharedPointer<ContainersModel> &containersModel,
                                   const QSharedPointer<ClientManagementModel> &clientManagementModel,
                                   const QSharedPointer<VpnConnection> &vpnConnection, const std::shared_ptr<Settings> &settings,
                                   QObject *parent = nullptr);
@@ -34,7 +40,7 @@ public slots:
     void closeConnection();
 
     ErrorCode getLastConnectionError();
-    void onConnectionStateChanged(Vpn::ConnectionState state);
+    void onConnectionStateChanged(Vpn::ConnectionState state, bool getLastError = true);
 
     void onCurrentContainerUpdated();
 
@@ -66,6 +72,10 @@ private:
     bool isProtocolConfigExists(const QJsonObject &containerConfig, const DockerContainer container);
 
     void continueConnection();
+    
+    QSharedPointer<ImportController> m_importController;
+    QSharedPointer<AuthController> m_authController;
+    QSharedPointer<RegionsModel> m_regionsModel;
 
     QSharedPointer<ServersModel> m_serversModel;
     QSharedPointer<ContainersModel> m_containersModel;

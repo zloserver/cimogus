@@ -76,6 +76,23 @@ PageType {
                 }
             }
 
+            Header2TextType {
+                id: remainingBalanceHeader
+
+                Layout.alignment: Qt.AlignHCenter
+
+                color: AmneziaStyle.color.mutedGray
+                font.pixelSize: 14
+                font.weight: 500
+
+                maximumLineCount: 2
+
+                text: qsTr("Balance: ") + AuthController.userInfo.localizedTimeLeft
+                horizontalAlignment: Qt.AlignHCenter
+
+                KeyNavigation.tab: tabBar
+            }
+
             ConnectButton {
                 id: connectButton
                 Layout.fillHeight: true
@@ -105,8 +122,7 @@ PageType {
                 buttonTextLabel.font.pixelSize: 14
                 buttonTextLabel.font.weight: 500
 
-                property bool isSplitTunnelingEnabled: SitesModel.isTunnelingEnabled || AppSplitTunnelingModel.isTunnelingEnabled ||
-                                                       ServersModel.isDefaultServerDefaultContainerHasSplitTunneling
+                property bool isSplitTunnelingEnabled: SitesModel.isTunnelingEnabled || AppSplitTunnelingModel.isTunnelingEnabled
 
                 text: isSplitTunnelingEnabled ? qsTr("Split tunneling enabled") : qsTr("Split tunneling disabled")
 
@@ -224,7 +240,7 @@ PageType {
                         maximumLineCount: 2
                         elide: Qt.ElideRight
 
-                        text: ServersModel.defaultServerName
+                        text: RegionsModel.selectedRegionName
                         horizontalAlignment: Qt.AlignHCenter
 
                         KeyNavigation.tab: tabBar
@@ -267,18 +283,18 @@ PageType {
 
                 RowLayout {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    Layout.bottomMargin: drawer.isCollapsed ? 44 : ServersModel.isDefaultServerFromApi ? 89 : 44
+                    Layout.bottomMargin: 44
                     spacing: 0
 
                     Image {
                         Layout.rightMargin: 8
                         visible: source !== ""
-                        source: ServersModel.defaultServerImagePathCollapsed
+                        source: RegionsModel.selectedRegionImagePath
                     }
 
                     LabelTextType {
                         id: collapsedServerMenuDescription
-                        text: drawer.isCollapsed ? ServersModel.defaultServerDescriptionCollapsed : ServersModel.defaultServerDescriptionExpanded
+                        text: drawer.isCollapsed ? RegionsModel.selectedRegionDescriptionCollapsed : RegionsModel.selectedRegionDescriptionExpanded
                     }
                 }
             }
@@ -304,7 +320,7 @@ PageType {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     spacing: 8
 
-                    visible: !ServersModel.isDefaultServerFromApi
+                    visible: true
 
                     Item {
                         id: focusItem1
@@ -323,13 +339,13 @@ PageType {
                         rootButtonTextTopMargin: 8
                         rootButtonTextBottomMargin: 8
 
-                        text: ServersModel.defaultServerDefaultContainerName
+                        text: RegionsModel.selectedRegionProtocolName
                         textColor: AmneziaStyle.color.midnightBlack
                         headerText: qsTr("VPN protocol")
                         headerBackButtonImage: "qrc:/images/controls/arrow-left.svg"
 
                         rootButtonClickedFunction: function() {
-                            containersDropDown.open()
+                            containersDropDown.close()
                         }
 
                         drawerParent: root
@@ -344,32 +360,7 @@ PageType {
                                 }
                             }
 
-                            Connections {
-                                target: ServersModel
-
-                                function onDefaultServerIndexChanged() {
-                                    updateContainersModelFilters()
-                                }
-                            }
-
-                            function updateContainersModelFilters() {
-                                if (ServersModel.isDefaultServerHasWriteAccess()) {
-                                    proxyDefaultServerContainersModel.filters = ContainersModelFilters.getWriteAccessProtocolsListFilters()
-                                } else {
-                                    proxyDefaultServerContainersModel.filters = ContainersModelFilters.getReadAccessProtocolsListFilters()
-                                }
-                            }
-
-                            model: SortFilterProxyModel {
-                                id: proxyDefaultServerContainersModel
-                                sourceModel: DefaultServerContainersModel
-
-                                sorters: [
-                                    RoleSorter { roleName: "isInstalled"; sortOrder: Qt.DescendingOrder }
-                                ]
-                            }
-
-                            Component.onCompleted: updateContainersModelFilters()
+                            model: SelectedServerProtocolsModel
                         }
                     }
                 }
@@ -380,7 +371,7 @@ PageType {
                     Layout.leftMargin: 16
                     Layout.rightMargin: 16
 
-                    headerText: qsTr("Servers")
+                    headerText: qsTr("Regions")
                 }
             }
 
@@ -397,8 +388,8 @@ PageType {
                 anchors.bottom: parent.bottom
                 anchors.topMargin: 16
 
-                model: ServersModel
-                currentIndex: ServersModel.defaultIndex
+                model: RegionsModel
+                currentIndex: RegionsModel.selectedRegionIndex
 
                 ScrollBar.vertical: ScrollBar {
                     id: scrollBar
@@ -443,9 +434,9 @@ PageType {
                 }
 
                 Connections {
-                    target: ServersModel
-                    function onDefaultServerIndexChanged(serverIndex) {
-                        serversMenuContent.currentIndex = serverIndex
+                    target: RegionsModel
+                    function onSelectedRegionChanged() {
+                        serversMenuContent.currentIndex = RegionsModel.selectedRegionIndex
                     }
                 }
 
@@ -482,8 +473,10 @@ PageType {
 
                                 Layout.fillWidth: true
 
-                                text: name
-                                descriptionText: serverDescription
+                                text: regionName
+
+                                preTextImageSource: regionImagePath
+                                showPreTextImage: true
 
                                 checked: index === serversMenuContent.currentIndex
                                 checkable: !ConnectionController.isConnected
@@ -492,13 +485,12 @@ PageType {
 
                                 onClicked: {
                                     if (ConnectionController.isConnected) {
-                                        PageController.showNotificationMessage(qsTr("Unable change server while there is an active connection"))
+                                        PageController.showNotificationMessage(qsTr("Unable to change server while there is an active connection"))
                                         return
                                     }
 
                                     serversMenuContent.currentIndex = index
-
-                                    ServersModel.defaultIndex = index
+                                    RegionsModel.selectedRegionIndex = index
                                 }
 
                                 MouseArea {
@@ -507,38 +499,8 @@ PageType {
                                     enabled: false
                                 }
 
-                                Keys.onTabPressed: serverInfoButton.forceActiveFocus()
                                 Keys.onEnterPressed: serverRadioButton.clicked()
                                 Keys.onReturnPressed: serverRadioButton.clicked()
-                            }
-
-                            ImageButtonType {
-                                id: serverInfoButton
-                                image: "qrc:/images/controls/settings.svg"
-                                imageColor: AmneziaStyle.color.paleGray
-
-                                implicitWidth: 56
-                                implicitHeight: 56
-
-                                z: 1
-
-                                Keys.onTabPressed: {
-                                    if (serversMenuContent.focusItemIndex < serversMenuContent.count - 1) {
-                                        serversMenuContent.focusItemIndex++
-                                        serversMenuContent.itemAtIndex(serversMenuContent.focusItemIndex).forceActiveFocus()
-                                    } else {
-                                        focusItem1.forceActiveFocus()
-                                        serversMenuContent.contentY = 0
-                                    }
-                                }
-                                Keys.onEnterPressed: serverInfoButton.clicked()
-                                Keys.onReturnPressed: serverInfoButton.clicked()
-
-                                onClicked: function() {
-                                    ServersModel.processedIndex = index
-                                    PageController.goToPage(PageEnum.PageSettingsServerInfo)
-                                    drawer.close()
-                                }
                             }
                         }
 
@@ -551,5 +513,9 @@ PageType {
                 }
             }
         }
+    }
+
+    Component.onCompleted: {
+        AuthController.refreshServers();
     }
 }

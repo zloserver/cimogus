@@ -91,7 +91,7 @@ extension PacketTunnelProvider {
                 return
             }
 
-            let port = 10808
+            let port = 10833
             let address = "::1"
 
             if var inboundsArray = jsonDict["inbounds"] as? [[String: Any]], !inboundsArray.isEmpty {

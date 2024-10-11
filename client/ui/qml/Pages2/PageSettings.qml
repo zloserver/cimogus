@@ -40,26 +40,8 @@ PageType {
 
                 headerText: qsTr("Settings")
 
-                KeyNavigation.tab: account.rightButton
-            }
-
-            LabelWithButtonType {
-                id: account
-                Layout.fillWidth: true
-                Layout.topMargin: 16
-
-                text: qsTr("Servers")
-                rightImageSource: "qrc:/images/controls/chevron-right.svg"
-                leftImageSource: "qrc:/images/controls/server.svg"
-
-                clickedFunction: function() {
-                    PageController.goToPage(PageEnum.PageSettingsServersList)
-                }
-
                 KeyNavigation.tab: connection.rightButton
             }
-
-            DividerType {}
 
             LabelWithButtonType {
                 id: connection
@@ -90,23 +72,6 @@ PageType {
                     PageController.goToPage(PageEnum.PageSettingsApplication)
                 }
 
-                KeyNavigation.tab: backup.rightButton
-            }
-
-            DividerType {}
-
-            LabelWithButtonType {
-                id: backup
-                Layout.fillWidth: true
-
-                text: qsTr("Backup")
-                rightImageSource: "qrc:/images/controls/chevron-right.svg"
-                leftImageSource: "qrc:/images/controls/save.svg"
-
-                clickedFunction: function() {
-                    PageController.goToPage(PageEnum.PageSettingsBackup)
-                }
-
                 KeyNavigation.tab: about.rightButton
             }
 
@@ -116,9 +81,9 @@ PageType {
                 id: about
                 Layout.fillWidth: true
 
-                text: qsTr("About AmneziaVPN")
+                text: qsTr("About ZloVPN")
                 rightImageSource: "qrc:/images/controls/chevron-right.svg"
-                leftImageSource: "qrc:/images/controls/amnezia.svg"
+                leftImageSource: "qrc:/images/controls/info.svg"
 
                 clickedFunction: function() {
                     PageController.goToPage(PageEnum.PageSettingsAbout)

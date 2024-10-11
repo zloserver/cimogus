@@ -16,16 +16,17 @@
 #include "vpnconnection.h"
 
 #include "ui/controllers/connectionController.h"
-#include "ui/controllers/exportController.h"
 #include "ui/controllers/importController.h"
-#include "ui/controllers/installController.h"
 #include "ui/controllers/pageController.h"
 #include "ui/controllers/settingsController.h"
 #include "ui/controllers/sitesController.h"
 #include "ui/controllers/systemController.h"
+#include "ui/controllers/authController.h"
+#include "ui/models/regionsModel.h"
 #include "ui/controllers/appSplitTunnelingController.h"
 #include "ui/models/containers_model.h"
 #include "ui/models/languageModel.h"
+#include "ui/models/availableProtocolsModel.h"
 #include "ui/models/protocols/cloakConfigModel.h"
 #ifndef Q_OS_ANDROID
     #include "ui/notificationhandler.h"
@@ -93,7 +94,9 @@ private:
     QSharedPointer<QTranslator> m_translator;
     QCommandLineParser m_parser;
 
+    QSharedPointer<AvailableProtocolsModel> m_selectedServerProtocolsModel;
     QSharedPointer<ContainersModel> m_containersModel;
+    QSharedPointer<RegionsModel> m_regionsModel;
     QSharedPointer<ContainersModel> m_defaultServerContainersModel;
     QSharedPointer<ServersModel> m_serversModel;
     QSharedPointer<LanguageModel> m_languageModel;
@@ -125,13 +128,12 @@ private:
 
     QScopedPointer<ConnectionController> m_connectionController;
     QScopedPointer<PageController> m_pageController;
-    QScopedPointer<InstallController> m_installController;
-    QScopedPointer<ImportController> m_importController;
-    QScopedPointer<ExportController> m_exportController;
+    QSharedPointer<ImportController> m_importController;
     QScopedPointer<SettingsController> m_settingsController;
     QScopedPointer<SitesController> m_sitesController;
     QScopedPointer<SystemController> m_systemController;
     QScopedPointer<AppSplitTunnelingController> m_appSplitTunnelingController;
+    QSharedPointer<AuthController> m_authController;
 
     QNetworkAccessManager *m_nam;
 

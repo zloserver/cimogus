@@ -339,6 +339,15 @@ void ServersModel::removeServer()
     endResetModel();
 }
 
+void ServersModel::clearServers() {
+    beginResetModel();
+    m_settings->removeAllServers();
+    m_servers = m_settings->serversArray();
+    setDefaultServerIndex(-1);
+    setProcessedServerIndex(m_defaultServerIndex);
+    endResetModel();
+}
+
 QHash<int, QByteArray> ServersModel::roleNames() const
 {
     QHash<int, QByteArray> roles;

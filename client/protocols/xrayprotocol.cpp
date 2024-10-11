@@ -120,8 +120,8 @@ ErrorCode XrayProtocol::startTun2Sock()
 #endif
 #ifdef Q_OS_LINUX
                     QThread::msleep(1000);
-                    IpcClient::Interface()->createTun("tun2", amnezia::protocols::xray::defaultLocalAddr);
-                    IpcClient::Interface()->updateResolvers("tun2", dnsAddr);
+                    IpcClient::Interface()->createTun("tun3", amnezia::protocols::xray::defaultLocalAddr);
+                    IpcClient::Interface()->updateResolvers("tun3", dnsAddr);
 #endif
 #if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
                     // killSwitch toggle
@@ -137,7 +137,7 @@ ErrorCode XrayProtocol::startTun2Sock()
                     }
                     IpcClient::Interface()->StopRoutingIpv6();
 #ifdef Q_OS_WIN
-                    IpcClient::Interface()->updateResolvers("tun2", dnsAddr);
+                    IpcClient::Interface()->updateResolvers("tun3", dnsAddr);
                     QList<QNetworkInterface> netInterfaces = QNetworkInterface::allInterfaces();
                     for (int i = 0; i < netInterfaces.size(); i++) {
                         for (int j = 0; j < netInterfaces.at(i).addressEntries().size(); j++)
@@ -160,7 +160,7 @@ ErrorCode XrayProtocol::startTun2Sock()
 #if !defined(Q_OS_MACOS)
                 if (vpnState == Vpn::ConnectionState::Disconnected) {
                     setConnectionState(Vpn::ConnectionState::Disconnected);
-                    IpcClient::Interface()->deleteTun("tun2");
+                    IpcClient::Interface()->deleteTun("tun3");
                     IpcClient::Interface()->StartRoutingIpv6();
                     IpcClient::Interface()->clearSavedRoutes();
                 }

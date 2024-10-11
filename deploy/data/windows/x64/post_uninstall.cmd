@@ -1,12 +1,12 @@
 set AmneziaPath=%~dp0
 echo %AmneziaPath%
 
-"%AmneziaPath%\AmneziaVPN.exe" -c
+"%AmneziaPath%\ZloVPN.exe" -c
 timeout /t 1
-sc stop AmneziaVPN-service
-sc delete AmneziaVPN-service
-sc stop AmneziaWGTunnel$AmneziaVPN
-sc delete AmneziaWGTunnel$AmneziaVPN
-taskkill /IM "AmneziaVPN-service.exe" /F
-taskkill /IM "AmneziaVPN.exe" /F
+sc stop ZloVPN-service
+sc delete ZloVPN-service
+sc stop AmneziaWGTunnel$ZloVPN
+sc delete AmneziaWGTunnel$ZloVPN
+taskkill /IM "ZloVPN-service.exe" /F
+taskkill /IM "ZloVPN.exe" /F
 exit /b 0

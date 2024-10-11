@@ -118,7 +118,7 @@ PageType {
 
                     Component.onCompleted: {
                         serverSelectorListView.currentIndex = ServersModel.isDefaultServerHasWriteAccess() ?
-                                    proxyServersModel.mapFromSource(ServersModel.defaultIndex) : 0
+                                    proxyServersModel.mapFromSource(ServersModel.selectedServerIndex) : 0
                         serverSelectorListView.triggerCurrentItem()
                     }
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-    <Name>AmneziaVPN</Name>
+    <Name>ZloVPN</Name>
     <Version>@CMAKE_PROJECT_VERSION@</Version>
-    <Title>AmneziaVPN</Title>
-    <Publisher>AmneziaVPN</Publisher>
-    <StartMenuDir>AmneziaVPN</StartMenuDir>
-    <TargetDir>@RootDir@/Program Files/AmneziaVPN</TargetDir>
+    <Title>ZloVPN</Title>
+    <Publisher>ZloVPN</Publisher>
+    <StartMenuDir>ZloVPN</StartMenuDir>
+    <TargetDir>@RootDir@/Program Files/ZloVPN</TargetDir>
     <WizardDefaultWidth>600</WizardDefaultWidth>
     <WizardDefaultHeight>380</WizardDefaultHeight>
     <WizardStyle>Modern</WizardStyle>

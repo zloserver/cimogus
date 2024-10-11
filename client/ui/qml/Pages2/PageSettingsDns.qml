@@ -38,7 +38,7 @@ PageType {
         anchors.bottom: parent.bottom
         contentHeight: content.height
 
-        property var isServerFromApi: ServersModel.isServerFromApi(ServersModel.defaultIndex)
+        property var isServerFromApi: ServersModel.isServerFromApi(ServersModel.selectedServerIndex)
 
         enabled: !isServerFromApi
 
@@ -63,11 +63,6 @@ PageType {
                 Layout.fillWidth: true
 
                 headerText: qsTr("DNS servers")
-            }
-
-            ParagraphTextType {
-                Layout.fillWidth: true
-                text: qsTr("If AmneziaDNS is not used or installed")
             }
 
             TextFieldWithHeaderType {

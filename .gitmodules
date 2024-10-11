@@ -12,7 +12,7 @@
 	url = https://github.com/amnezia-vpn/3rd-prebuilt
 [submodule "client/3rd/amneziawg-apple"]
 	path = client/3rd/amneziawg-apple
-	url = https://github.com/amnezia-vpn/amneziawg-apple
+	url = https://github.com/zloserver/amneziawg-apple
 [submodule "client/3rd/QSimpleCrypto"]
 	path = client/3rd/QSimpleCrypto
 	url = https://github.com/amnezia-vpn/QSimpleCrypto.git

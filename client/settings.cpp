@@ -78,6 +78,15 @@ void Settings::removeServer(int index)
     emit serverRemoved(index);
 }
 
+void Settings::removeAllServers() {
+    QJsonArray servers = serversArray();
+    qsizetype size = servers.size();
+    setServersArray({});
+    for (qsizetype i = 0; i < size; i++) {
+        emit serverRemoved(0);
+    }
+}
+
 bool Settings::editServer(int index, const QJsonObject &server)
 {
     QJsonArray servers = serversArray();
@@ -441,6 +450,22 @@ bool Settings::isKillSwitchEnabled() const
 void Settings::setKillSwitchEnabled(bool enabled)
 {
     setValue("Conf/killSwitchEnabled", enabled);
+}
+
+QString Settings::getUserToken() {
+    return value("User/token", "").toString();
+}
+
+void Settings::setUserToken(QString token) {
+    setValue("User/token", token);
+}
+
+QString Settings::getSelectedRegionId() {
+    return value("User/selectedRegion", "").toString();
+}
+
+void Settings::setSelectedRegionId(QString id) {
+    setValue("User/selectedRegion", id);
 }
 
 QString Settings::getInstallationUuid(const bool needCreate)

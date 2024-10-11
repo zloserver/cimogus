@@ -155,8 +155,8 @@ namespace amnezia
             constexpr char defaultSite[] = "www.googletagmanager.com";
 
             constexpr char defaultPort[] = "443";
-            constexpr char defaultLocalProxyPort[] = "10808";
-            constexpr char defaultLocalAddr[] = "10.33.0.2";
+            constexpr char defaultLocalProxyPort[] = "10833";
+            constexpr char defaultLocalAddr[] = "10.34.0.2";
         }
 
         namespace cloak

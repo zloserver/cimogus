@@ -25,15 +25,15 @@ void IpcProcessTun2Socks::start()
 {
     qDebug() << "IpcProcessTun2Socks::start()";
     m_t2sProcess->setProgram(amnezia::permittedProcessPath(static_cast<amnezia::PermittedProcess>(amnezia::PermittedProcess::Tun2Socks)));
-    QString XrayConStr = "socks5://127.0.0.1:10808";
+    QString XrayConStr = "socks5://127.0.0.1:10833";
 
 #ifdef Q_OS_WIN
-    QStringList arguments({"-device", "tun://tun2", "-proxy", XrayConStr, "-tun-post-up",
-                           QString("cmd /c netsh interface ip set address name=\"tun2\" static %1 255.255.255.255")
+    QStringList arguments({"-device", "tun://tun3", "-proxy", XrayConStr, "-tun-post-up",
+                           QString("cmd /c netsh interface ip set address name=\"tun3\" static %1 255.255.255.255")
                                .arg(amnezia::protocols::xray::defaultLocalAddr)});
 #endif
 #ifdef Q_OS_LINUX
-    QStringList arguments({"-device", "tun://tun2", "-proxy", XrayConStr});
+    QStringList arguments({"-device", "tun://tun3", "-proxy", XrayConStr});
 #endif
 #ifdef Q_OS_MAC
     QStringList arguments({"-device", "utun22", "-proxy", XrayConStr});
@@ -42,28 +42,38 @@ void IpcProcessTun2Socks::start()
     m_t2sProcess->setArguments(arguments);
 
     Utils::killProcessByName(m_t2sProcess->program());
+
+    connect(m_t2sProcess.data(), &QProcess::readyReadStandardOutput, this, &IpcProcessTun2Socks::bingus);
+    connect(m_t2sProcess.data(), &QProcess::readyReadStandardError, this, [this]() {
+        QString line = m_t2sProcess.data()->readAllStandardError();
+        qDebug() << line;
+    });
+
+    connect(m_t2sProcess.data(), QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &IpcProcessTun2Socks::bungus);
+
     m_t2sProcess->start();
-
-    connect(m_t2sProcess.data(), &QProcess::readyReadStandardOutput, this, [this]() {
-        QString line = m_t2sProcess.data()->readAllStandardOutput();
-        if (line.contains("[STACK] tun://") && line.contains("<-> socks5://127.0.0.1")) {
-            emit setConnectionState(Vpn::ConnectionState::Connected);
-        }
-    });
-
-    connect(m_t2sProcess.data(), QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        qDebug().noquote() << "tun2socks finished, exitCode, exiStatus" << exitCode << exitStatus;
-        emit setConnectionState(Vpn::ConnectionState::Disconnected);
-        if (exitStatus != QProcess::NormalExit){
-            stop();
-        }
-        if (exitCode !=0 ){
-            stop();
-        }
-    });
 
     m_t2sProcess->start();
     m_t2sProcess->waitForStarted();
+}
+
+void IpcProcessTun2Socks::bingus() {
+    QString line = m_t2sProcess.data()->readAllStandardOutput();
+    qDebug().noquote() << "tun2socks: " << line;
+    if (line.contains("[STACK] tun://") && line.contains("<-> socks5://127.0.0.1")) {
+        emit setConnectionState(Vpn::ConnectionState::Connected);
+    }
+}
+
+void IpcProcessTun2Socks::bungus(int exitCode, QProcess::ExitStatus exitStatus) {
+    qDebug().noquote() << "tun2socks finished, exitCode, exiStatus" << exitCode << exitStatus;
+    emit setConnectionState(Vpn::ConnectionState::Disconnected);
+    if (exitStatus != QProcess::NormalExit) {
+        stop();
+    }
+    if (exitCode != 0) {
+        stop();
+    }
 }
 
 void IpcProcessTun2Socks::stop()

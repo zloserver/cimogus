@@ -31,7 +31,7 @@ public:
     void messageClickHandle();
 
 public slots:
-    virtual void setConnectionState(Vpn::ConnectionState state);
+    virtual void setConnectionState(Vpn::ConnectionState state, bool getLastError);
     virtual void onTranslationsUpdated();
 
 signals:

@@ -41,6 +41,7 @@ public:
     QJsonObject server(int index) const;
     void addServer(const QJsonObject &server);
     void removeServer(int index);
+    void removeAllServers();
     bool editServer(int index, const QJsonObject &server);
 
     int defaultServerIndex() const
@@ -221,6 +222,11 @@ public:
     QString getGatewayEndpoint();
     bool isDevGatewayEnv();
     void toggleDevGatewayEnv(bool enabled);
+
+    QString getUserToken();
+    void setUserToken(QString token);
+    QString getSelectedRegionId();
+    void setSelectedRegionId(QString id);
 
 signals:
     void saveLogsChanged(bool enabled);

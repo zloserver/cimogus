@@ -28,6 +28,9 @@ RadioButton {
     property string imageSource
     property bool showImage
 
+    property string preTextImageSource
+    property bool showPreTextImage: false
+
     hoverEnabled: true
     focusPolicy: Qt.TabFocus
 
@@ -117,22 +120,36 @@ RadioButton {
 
             spacing: 4
 
-            ListItemTitleType {
-                text: root.text
-                maximumLineCount: root.textMaximumLineCount
-                elide: root.textElide
+            RowLayout {
+                spacing: 6
 
-                color: {
-                    if (root.checked) {
-                        return selectedTextColor
+                Image {
+                    source: {
+                        if (root.showPreTextImage) {
+                            return root.preTextImageSource
+                        }
+
+                        return ""
                     }
-                    return textColor
                 }
 
-                Layout.fillWidth: true
+                ListItemTitleType {
+                    text: root.text
+                    maximumLineCount: root.textMaximumLineCount
+                    elide: root.textElide
 
-                Behavior on color {
-                    PropertyAnimation { duration: 200 }
+                    color: {
+                        if (root.checked) {
+                            return selectedTextColor
+                        }
+                        return textColor
+                    }
+
+                    Layout.fillWidth: true
+
+                    Behavior on color {
+                        PropertyAnimation { duration: 200 }
+                    }
                 }
             }
 

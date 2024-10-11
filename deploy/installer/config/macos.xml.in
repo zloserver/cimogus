@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-    <Name>AmneziaVPN</Name>
+    <Name>ZloVPN</Name>
     <Version>@CMAKE_PROJECT_VERSION@</Version>
-    <Title>AmneziaVPN</Title>
-    <Publisher>AmneziaVPN</Publisher>
-    <StartMenuDir>AmneziaVPN</StartMenuDir>
-    <TargetDir>/Applications/AmneziaVPN.app</TargetDir>
+    <Title>ZLoVPN</Title>
+    <Publisher>ZloVPN</Publisher>
+    <StartMenuDir>ZloVPN</StartMenuDir>
+    <TargetDir>/Applications/ZloVPN.app</TargetDir>
     <WizardDefaultWidth>600</WizardDefaultWidth>
     <WizardDefaultHeight>380</WizardDefaultHeight>
     <WizardStyle>Mac</WizardStyle>
@@ -17,11 +17,4 @@
     <DependsOnLocalInstallerBinary>true</DependsOnLocalInstallerBinary>
     <SupportsModify>false</SupportsModify>
     <DisableAuthorizationFallback>true</DisableAuthorizationFallback>
-    <RemoteRepositories>
-        <Repository>
-            <Url>https://amneziavpn.org/updates/macos</Url>
-            <Enabled>true</Enabled>
-            <DisplayName>AmneziaVPN - repository for macOS</DisplayName>
-        </Repository>
-    </RemoteRepositories>
 </Installer>
