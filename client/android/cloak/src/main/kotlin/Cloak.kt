@@ -1,9 +1,9 @@
-package org.amnezia.vpn.protocol.cloak
+package com.zloserver.vpn.protocol.cloak
 
 import android.util.Base64
 import net.openvpn.ovpn3.ClientAPI_Config
-import org.amnezia.vpn.protocol.openvpn.OpenVpn
-import org.amnezia.vpn.util.LibraryLoader.loadSharedLibrary
+import com.zloserver.vpn.protocol.openvpn.OpenVpn
+import com.zloserver.vpn.util.LibraryLoader.loadSharedLibrary
 import org.json.JSONObject
 
 class Cloak : OpenVpn() {

@@ -1,4 +1,4 @@
-package org.amnezia.vpn.protocol
+package com.zloserver.vpn.protocol
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,8 +12,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.zip.ZipFile
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.amnezia.vpn.util.Log
-import org.amnezia.vpn.util.net.InetNetwork
+import com.zloserver.vpn.util.Log
+import com.zloserver.vpn.util.net.InetNetwork
 import org.json.JSONObject
 
 private const val TAG = "Protocol"

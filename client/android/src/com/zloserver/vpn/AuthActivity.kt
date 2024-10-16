@@ -1,4 +1,4 @@
-package org.amnezia.vpn
+package com.zloserver.vpn
 
 import android.os.Build
 import android.os.Bundle
@@ -9,8 +9,8 @@ import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricPrompt.AuthenticationResult
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import org.amnezia.vpn.qt.QtAndroidController
-import org.amnezia.vpn.util.Log
+import com.zloserver.vpn.qt.QtAndroidController
+import com.zloserver.vpn.util.Log
 
 private const val TAG = "AuthActivity"
 

@@ -1,4 +1,4 @@
-package org.amnezia.vpn
+package com.zloserver.vpn
 
 import android.Manifest
 import android.content.Intent
@@ -18,11 +18,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import java.io.BufferedReader
 import java.io.IOException
-import org.amnezia.vpn.util.Log
+import com.zloserver.vpn.util.Log
 
 private const val TAG = "ImportConfigActivity"
 
-const val ACTION_IMPORT_CONFIG = "org.amnezia.vpn.IMPORT_CONFIG"
+const val ACTION_IMPORT_CONFIG = "com.zloserver.vpn.IMPORT_CONFIG"
 const val EXTRA_CONFIG = "CONFIG"
 
 class ImportConfigActivity : ComponentActivity() {

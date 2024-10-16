@@ -8,7 +8,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.amnezia.vpn.protocol.openvpn"
+    namespace = "com.zloserver.vpn.protocol.openvpn"
 }
 
 dependencies {

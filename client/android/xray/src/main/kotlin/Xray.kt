@@ -1,24 +1,24 @@
-package org.amnezia.vpn.protocol.xray
+package com.zloserver.vpn.protocol.xray
 
 import android.content.Context
 import android.net.VpnService.Builder
 import java.io.File
 import java.io.IOException
 import go.Seq
-import org.amnezia.vpn.protocol.BadConfigException
-import org.amnezia.vpn.protocol.Protocol
-import org.amnezia.vpn.protocol.ProtocolState.CONNECTED
-import org.amnezia.vpn.protocol.ProtocolState.DISCONNECTED
-import org.amnezia.vpn.protocol.Statistics
-import org.amnezia.vpn.protocol.VpnStartException
+import com.zloserver.vpn.protocol.BadConfigException
+import com.zloserver.vpn.protocol.Protocol
+import com.zloserver.vpn.protocol.ProtocolState.CONNECTED
+import com.zloserver.vpn.protocol.ProtocolState.DISCONNECTED
+import com.zloserver.vpn.protocol.Statistics
+import com.zloserver.vpn.protocol.VpnStartException
 import org.amnezia.vpn.protocol.xray.libXray.DialerController
 import org.amnezia.vpn.protocol.xray.libXray.LibXray
 import org.amnezia.vpn.protocol.xray.libXray.Logger
 import org.amnezia.vpn.protocol.xray.libXray.Tun2SocksConfig
-import org.amnezia.vpn.util.Log
-import org.amnezia.vpn.util.net.InetNetwork
-import org.amnezia.vpn.util.net.ip
-import org.amnezia.vpn.util.net.parseInetAddress
+import com.zloserver.vpn.util.Log
+import com.zloserver.vpn.util.net.InetNetwork
+import com.zloserver.vpn.util.net.ip
+import com.zloserver.vpn.util.net.parseInetAddress
 import org.json.JSONObject
 
 private const val TAG = "Xray"

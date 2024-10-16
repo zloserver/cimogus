@@ -14,8 +14,8 @@ namespace
 {
     AndroidController *s_instance = nullptr;
 
-    constexpr auto QT_ANDROID_CONTROLLER_CLASS = "org/amnezia/vpn/qt/QtAndroidController";
-    constexpr auto ANDROID_LOG_CLASS = "org/amnezia/vpn/util/Log";
+    constexpr auto QT_ANDROID_CONTROLLER_CLASS = "com/zloserver/vpn/qt/QtAndroidController";
+    constexpr auto ANDROID_LOG_CLASS = "com/zloserver/vpn/util/Log";
     constexpr auto TAG = "AmneziaQt";
 } // namespace
 

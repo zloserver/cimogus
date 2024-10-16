@@ -1,3 +1,3 @@
-package org.amnezia.vpn
+package com.zloserver.vpn
 
 class XrayService : AmneziaVpnService()

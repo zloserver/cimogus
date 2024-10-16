@@ -1,7 +1,7 @@
-package org.amnezia.vpn.protocol.xray
+package com.zloserver.vpn.protocol.xray
 
-import org.amnezia.vpn.protocol.ProtocolConfig
-import org.amnezia.vpn.util.net.InetNetwork
+import com.zloserver.vpn.protocol.ProtocolConfig
+import com.zloserver.vpn.util.net.InetNetwork
 
 private const val XRAY_DEFAULT_MTU = 1500
 private const val XRAY_DEFAULT_MAX_MEMORY: Long = 50 shl 20 // 50 MB

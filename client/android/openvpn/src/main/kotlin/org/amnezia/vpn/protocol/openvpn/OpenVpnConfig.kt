@@ -1,6 +1,6 @@
-package org.amnezia.vpn.protocol.openvpn
+package com.zloserver.vpn.protocol.openvpn
 
-import org.amnezia.vpn.protocol.ProtocolConfig
+import com.zloserver.vpn.protocol.ProtocolConfig
 
 private const val OPENVPN_DEFAULT_MTU = 1500
 

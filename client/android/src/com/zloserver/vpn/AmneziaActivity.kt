@@ -1,4 +1,4 @@
-package org.amnezia.vpn
+package com.zloserver.vpn
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -40,12 +40,12 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import org.amnezia.vpn.protocol.getStatistics
-import org.amnezia.vpn.protocol.getStatus
-import org.amnezia.vpn.qt.QtAndroidController
-import org.amnezia.vpn.util.LibraryLoader.loadSharedLibrary
-import org.amnezia.vpn.util.Log
-import org.amnezia.vpn.util.Prefs
+import com.zloserver.vpn.protocol.getStatistics
+import com.zloserver.vpn.protocol.getStatus
+import com.zloserver.vpn.qt.QtAndroidController
+import com.zloserver.vpn.util.LibraryLoader.loadSharedLibrary
+import com.zloserver.vpn.util.Log
+import com.zloserver.vpn.util.Prefs
 import org.json.JSONException
 import org.json.JSONObject
 import org.qtproject.qt.android.bindings.QtActivity

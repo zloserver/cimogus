@@ -1,4 +1,4 @@
-package org.amnezia.vpn.protocol.wireguard
+package com.zloserver.vpn.protocol.wireguard
 
 import android.net.VpnService.Builder
 import java.io.IOException
@@ -7,18 +7,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.amnezia.awg.GoBackend
-import org.amnezia.vpn.protocol.Protocol
-import org.amnezia.vpn.protocol.ProtocolState.CONNECTED
-import org.amnezia.vpn.protocol.ProtocolState.DISCONNECTED
-import org.amnezia.vpn.protocol.Statistics
-import org.amnezia.vpn.protocol.VpnStartException
-import org.amnezia.vpn.util.LibraryLoader.loadSharedLibrary
-import org.amnezia.vpn.util.Log
-import org.amnezia.vpn.util.asSequence
-import org.amnezia.vpn.util.net.InetEndpoint
-import org.amnezia.vpn.util.net.InetNetwork
-import org.amnezia.vpn.util.net.parseInetAddress
-import org.amnezia.vpn.util.optStringOrNull
+import com.zloserver.vpn.protocol.Protocol
+import com.zloserver.vpn.protocol.ProtocolState.CONNECTED
+import com.zloserver.vpn.protocol.ProtocolState.DISCONNECTED
+import com.zloserver.vpn.protocol.Statistics
+import com.zloserver.vpn.protocol.VpnStartException
+import com.zloserver.vpn.util.LibraryLoader.loadSharedLibrary
+import com.zloserver.vpn.util.Log
+import com.zloserver.vpn.util.asSequence
+import com.zloserver.vpn.util.net.InetEndpoint
+import com.zloserver.vpn.util.net.InetNetwork
+import com.zloserver.vpn.util.net.parseInetAddress
+import com.zloserver.vpn.util.optStringOrNull
 import org.json.JSONObject
 
 private const val TAG = "Wireguard"

@@ -1,4 +1,4 @@
-package org.amnezia.vpn
+package com.zloserver.vpn
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager
@@ -40,28 +40,28 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
-import org.amnezia.vpn.protocol.BadConfigException
-import org.amnezia.vpn.protocol.ProtocolState.CONNECTED
-import org.amnezia.vpn.protocol.ProtocolState.CONNECTING
-import org.amnezia.vpn.protocol.ProtocolState.DISCONNECTED
-import org.amnezia.vpn.protocol.ProtocolState.DISCONNECTING
-import org.amnezia.vpn.protocol.ProtocolState.RECONNECTING
-import org.amnezia.vpn.protocol.ProtocolState.UNKNOWN
-import org.amnezia.vpn.protocol.VpnException
-import org.amnezia.vpn.protocol.VpnStartException
-import org.amnezia.vpn.protocol.putStatus
-import org.amnezia.vpn.util.LoadLibraryException
-import org.amnezia.vpn.util.Log
-import org.amnezia.vpn.util.Prefs
-import org.amnezia.vpn.util.net.NetworkState
-import org.amnezia.vpn.util.net.TrafficStats
+import com.zloserver.vpn.protocol.BadConfigException
+import com.zloserver.vpn.protocol.ProtocolState.CONNECTED
+import com.zloserver.vpn.protocol.ProtocolState.CONNECTING
+import com.zloserver.vpn.protocol.ProtocolState.DISCONNECTED
+import com.zloserver.vpn.protocol.ProtocolState.DISCONNECTING
+import com.zloserver.vpn.protocol.ProtocolState.RECONNECTING
+import com.zloserver.vpn.protocol.ProtocolState.UNKNOWN
+import com.zloserver.vpn.protocol.VpnException
+import com.zloserver.vpn.protocol.VpnStartException
+import com.zloserver.vpn.protocol.putStatus
+import com.zloserver.vpn.util.LoadLibraryException
+import com.zloserver.vpn.util.Log
+import com.zloserver.vpn.util.Prefs
+import com.zloserver.vpn.util.net.NetworkState
+import com.zloserver.vpn.util.net.TrafficStats
 import org.json.JSONException
 import org.json.JSONObject
 
 private const val TAG = "AmneziaVpnService"
 
-const val ACTION_DISCONNECT = "org.amnezia.vpn.action.disconnect"
-const val ACTION_CONNECT = "org.amnezia.vpn.action.connect"
+const val ACTION_DISCONNECT = "com.zloserver.vpn.action.disconnect"
+const val ACTION_CONNECT = "com.zloserver.vpn.action.connect"
 
 const val MSG_VPN_CONFIG = "VPN_CONFIG"
 const val MSG_ERROR = "ERROR"

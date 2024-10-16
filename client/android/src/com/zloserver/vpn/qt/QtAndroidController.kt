@@ -1,7 +1,7 @@
-package org.amnezia.vpn.qt
+package com.zloserver.vpn.qt
 
-import org.amnezia.vpn.protocol.ProtocolState
-import org.amnezia.vpn.protocol.Status
+import com.zloserver.vpn.protocol.ProtocolState
+import com.zloserver.vpn.protocol.Status
 
 /**
  * JNI functions of the AndroidController class from android_controller.cpp,

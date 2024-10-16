@@ -1,7 +1,7 @@
-package org.amnezia.vpn.protocol.awg
+package com.zloserver.vpn.protocol.awg
 
-import org.amnezia.vpn.protocol.wireguard.Wireguard
-import org.amnezia.vpn.protocol.wireguard.WireguardConfig
+import com.zloserver.vpn.protocol.wireguard.Wireguard
+import com.zloserver.vpn.protocol.wireguard.WireguardConfig
 import org.json.JSONObject
 
 class Awg : Wireguard() {

@@ -1,4 +1,4 @@
-package org.amnezia.vpn.util
+package com.zloserver.vpn.util
 
 import org.json.JSONArray
 import org.json.JSONObject
