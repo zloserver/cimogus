@@ -137,9 +137,9 @@ void AmneziaApplication::init()
         m_settingsController->importBackupFromOutside(filePath);
     });
 
-    QTimer::singleShot(0, this, [this]() { AmneziaVPN::toggleScreenshots(m_settings->isScreenshotsEnabled()); });
+    QTimer::singleShot(0, this, [this]() { ZloVPN::toggleScreenshots(m_settings->isScreenshotsEnabled()); });
 
-    connect(m_settings.get(), &Settings::screenshotsEnabledChanged, [](bool enabled) { AmneziaVPN::toggleScreenshots(enabled); });
+    connect(m_settings.get(), &Settings::screenshotsEnabledChanged, [](bool enabled) { ZloVPN::toggleScreenshots(enabled); });
 #endif
 
 #ifndef Q_OS_ANDROID

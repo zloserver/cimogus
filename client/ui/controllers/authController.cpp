@@ -1,4 +1,4 @@
-﻿#include "authController.h"
+#include "authController.h"
 
 #include <QNetworkRequest>
 #include <QUrlQuery>
@@ -107,7 +107,7 @@ void AuthController::refreshToken() {
     request.setRawHeader("User-Agent", "ZloVpn");
     request.setRawHeader("Authorization", QString("Bearer " + m_token).toUtf8());
 
-    QNetworkReply* reply = m_qnam->post(request, nullptr);
+    QNetworkReply* reply = m_qnam->post(request, QByteArray());
 
     connect(reply, &QNetworkReply::finished, [this, reply]() {
         if (reply->error() == QNetworkReply::NoError) {

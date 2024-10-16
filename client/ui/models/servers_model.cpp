@@ -754,7 +754,7 @@ void ServersModel::removeApiConfig(const int serverIndex)
                                .arg(serverConfig[config_key::hostName].toString())
                                .arg(serverConfig[config_key::vpnproto].toString());
 
-    AmneziaVPN::removeVPNC(vpncName.toStdString());
+    ZloVPN::removeVPNC(vpncName.toStdString());
 #endif
 
     serverConfig.remove(config_key::dns1);

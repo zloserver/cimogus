@@ -303,7 +303,7 @@ if(APPLE)
         set(BUILD_IOS_GROUP_IDENTIFIER group.com.zloserver.vpn CACHE STRING "iOS Group identifier")
     endif()
     if(NOT BUILD_VPN_DEVELOPMENT_TEAM)
-        set(BUILD_VPN_DEVELOPMENT_TEAM X7UJ388FXK CACHE STRING "Amnezia VPN Development Team")
+        set(BUILD_VPN_DEVELOPMENT_TEAM S6TBJMG52K CACHE STRING "iOS Development Team identifier")
     endif()
 
     set(CMAKE_XCODE_GENERATE_SCHEME FALSE)

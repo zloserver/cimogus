@@ -35,6 +35,27 @@ ConnectionController::ConnectionController(const QSharedPointer<ImportController
 
     connect(this, &ConnectionController::configFromApiUpdated, this, &ConnectionController::continueConnection);
 
+    connect(m_importController.get(), qOverload<const QString&, bool>(&ImportController::importErrorOccurred), this, [this](const QString& errorMessage, bool goToPageHome) {
+        if (m_vpnConnection->connectionState() != Vpn::ConnectionState::Preparing) return;
+
+        emit connectionErrorOccurred(errorMessage);
+        emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Error, false);
+    });
+
+    connect(m_importController.get(), qOverload<ErrorCode, bool>(&ImportController::importErrorOccurred), this, [this](const ErrorCode errorCode, bool goToHome) {
+        if (m_vpnConnection->connectionState() != Vpn::ConnectionState::Preparing) return;
+
+        emit connectionErrorOccurred(errorCode);
+        emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Error, false);
+    });
+
+    connect(m_importController.get(), &ImportController::importFinished, this, [this]() {
+        m_serversModel->setDefaultServerIndex(0);
+        m_serversModel->setProcessedServerIndex(0);
+        continueConnection();
+    });
+
+
     m_state = Vpn::ConnectionState::Disconnected;
 }
 
@@ -80,26 +101,6 @@ void ConnectionController::openConnection()
         }
 
         m_importController->importConfig();
-    });
-
-    connect(m_importController.get(), qOverload<const QString&, bool>(&ImportController::importErrorOccurred), this, [this](const QString& errorMessage, bool goToPageHome) {
-        if (m_vpnConnection->connectionState() != Vpn::ConnectionState::Preparing) return;
-
-        emit connectionErrorOccurred(errorMessage);
-        emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Error, false);
-    });
-
-    connect(m_importController.get(), qOverload<ErrorCode, bool>(&ImportController::importErrorOccurred), this, [this](const ErrorCode errorCode, bool goToHome) {
-        if (m_vpnConnection->connectionState() != Vpn::ConnectionState::Preparing) return;
-
-        emit connectionErrorOccurred(errorCode);
-        emit m_vpnConnection->connectionStateChanged(Vpn::ConnectionState::Error, false);
-    });
-
-    connect(m_importController.get(), &ImportController::importFinished, this, [this]() {
-        m_serversModel->setDefaultServerIndex(0);
-        m_serversModel->setProcessedServerIndex(0);
-        continueConnection();
     });
 
     m_authController->getServerConnectionString(selectedRegionId, request);

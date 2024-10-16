@@ -44,7 +44,7 @@ set_target_properties(networkextension PROPERTIES
 )
 
 set_target_properties("networkextension" PROPERTIES
-    XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "X7UJ388FXK"
+    XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "S6TBJMG52K"
 )
 
 find_library(FW_ASSETS_LIBRARY AssetsLibrary)
