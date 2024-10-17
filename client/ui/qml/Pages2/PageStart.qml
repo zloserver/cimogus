@@ -191,11 +191,6 @@ PageType {
 
             tabBarStackView.push(pagePath, { "objectName" : pagePath })
         }
-
-        Keys.onPressed: function(event) {
-            PageController.keyPressEvent(event.key)
-            event.accepted = true
-        }
     }
 
     TabBar {
@@ -271,5 +266,10 @@ PageType {
 
             Keys.onTabPressed: PageController.forceStackActiveFocus()
         }
+    }
+
+    Keys.onPressed: function(event) {
+        PageController.keyPressEvent(event.key)
+        event.accepted = true
     }
 }
