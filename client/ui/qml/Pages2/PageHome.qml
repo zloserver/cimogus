@@ -316,58 +316,58 @@ PageType {
                 anchors.right: parent.right
                 anchors.left: parent.left
 
-                RowLayout {
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    spacing: 8
+                // RowLayout {
+                //     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                //     spacing: 8
 
-                    visible: true
+                //     visible: true
 
-                    Item {
-                        id: focusItem1
-                        KeyNavigation.tab: containersDropDown
-                    }
+                //     Item {
+                //         id: focusItem1
+                //         KeyNavigation.tab: containersDropDown
+                //     }
 
-                    DropDownType {
-                        id: containersDropDown
+                //     DropDownType {
+                //         id: containersDropDown
 
-                        rootButtonImageColor: AmneziaStyle.color.midnightBlack
-                        rootButtonBackgroundColor: AmneziaStyle.color.paleGray
-                        rootButtonBackgroundHoveredColor: Qt.rgba(215, 216, 219, 0.8)
-                        rootButtonBackgroundPressedColor: Qt.rgba(215, 216, 219, 0.65)
-                        rootButtonHoveredBorderColor: AmneziaStyle.color.transparent
-                        rootButtonDefaultBorderColor: AmneziaStyle.color.transparent
-                        rootButtonTextTopMargin: 8
-                        rootButtonTextBottomMargin: 8
+                //         rootButtonImageColor: AmneziaStyle.color.midnightBlack
+                //         rootButtonBackgroundColor: AmneziaStyle.color.paleGray
+                //         rootButtonBackgroundHoveredColor: Qt.rgba(215, 216, 219, 0.8)
+                //         rootButtonBackgroundPressedColor: Qt.rgba(215, 216, 219, 0.65)
+                //         rootButtonHoveredBorderColor: AmneziaStyle.color.transparent
+                //         rootButtonDefaultBorderColor: AmneziaStyle.color.transparent
+                //         rootButtonTextTopMargin: 8
+                //         rootButtonTextBottomMargin: 8
 
-                        text: RegionsModel.selectedRegionProtocolName
-                        textColor: AmneziaStyle.color.midnightBlack
-                        headerText: qsTr("VPN protocol")
-                        headerBackButtonImage: "qrc:/images/controls/arrow-left.svg"
+                //         text: RegionsModel.selectedRegionProtocolName
+                //         textColor: AmneziaStyle.color.midnightBlack
+                //         headerText: qsTr("VPN protocol")
+                //         headerBackButtonImage: "qrc:/images/controls/arrow-left.svg"
 
-                        rootButtonClickedFunction: function() {
-                            containersDropDown.close()
-                        }
+                //         rootButtonClickedFunction: function() {
+                //             containersDropDown.close()
+                //         }
 
-                        drawerParent: root
-                        KeyNavigation.tab: serversMenuContent
+                //         drawerParent: root
+                //         KeyNavigation.tab: serversMenuContent
 
-                        listView: HomeContainersListView {
-                            id: containersListView
-                            rootWidth: root.width
-                            onVisibleChanged: {
-                                if (containersDropDown.visible && !GC.isMobile()) {
-                                    focusItem1.forceActiveFocus()
-                                }
-                            }
+                //         listView: HomeContainersListView {
+                //             id: containersListView
+                //             rootWidth: root.width
+                //             onVisibleChanged: {
+                //                 if (containersDropDown.visible && !GC.isMobile()) {
+                //                     focusItem1.forceActiveFocus()
+                //                 }
+                //             }
 
-                            model: SelectedServerProtocolsModel
-                        }
-                    }
-                }
+                //             model: SelectedServerProtocolsModel
+                //         }
+                //     }
+                // }
 
                 Header2Type {
                     Layout.fillWidth: true
-                    Layout.topMargin: 48
+                    // Layout.topMargin: 48
                     Layout.leftMargin: 16
                     Layout.rightMargin: 16
 

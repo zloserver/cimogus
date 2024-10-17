@@ -80,7 +80,7 @@
 <context>
     <name>AuthController</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="385"/>
+        <location filename="../ui/controllers/authController.cpp" line="384"/>
         <source>Payment</source>
         <comment>Failed to open payment link</comment>
         <translation type="unfinished"></translation>
@@ -528,17 +528,17 @@ Already installed containers were found on the server. All installed containers 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="115"/>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="117"/>
         <source>Account recovery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="126"/>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="128"/>
         <source>Email</source>
         <translation type="unfinished">Почта</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="139"/>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="141"/>
         <source>Submit</source>
         <translation type="unfinished"></translation>
     </message>
