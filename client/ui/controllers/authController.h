@@ -12,6 +12,7 @@ struct UserInfo {
     Q_PROPERTY(QString username MEMBER username)
     Q_PROPERTY(qint64 timeLeft MEMBER timeLeft)
     Q_PROPERTY(QString localizedTimeLeft READ localizeTimeLeft)
+    Q_PROPERTY(bool isValid MEMBER isValid)
 
 public slots:
     QString localizeTimeLeft() const;
@@ -29,6 +30,7 @@ public:
 
     QString username;
     qint64 timeLeft;
+    bool isValid{false};
 };
 
 struct RegionInfo {

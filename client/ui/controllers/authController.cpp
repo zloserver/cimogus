@@ -251,6 +251,7 @@ void AuthController::refreshUserInfo() {
             UserInfo info{};
             info.username = userObject["username"].toString();
             info.timeLeft = userObject["timeLeft"].toInteger();
+            info.isValid = true;
 
             m_userInfo = info;
 

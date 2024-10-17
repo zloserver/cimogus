@@ -153,7 +153,7 @@ PageType {
                     Layout.fillWidth: true
 
                     text: qsTr("Balance")
-                    descriptionText: uppercaseFirst(AuthController.userInfo.localizedTimeLeft)
+                    descriptionText: AuthController.userInfo.isValid ? uppercaseFirst(AuthController.userInfo.localizedTimeLeft) : qsTr("...")
 
                     leftImageSource: "qrc:/images/controls/balance.svg"
                 }

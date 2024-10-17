@@ -87,7 +87,7 @@ PageType {
 
                 maximumLineCount: 2
 
-                text: qsTr("Balance: ") + AuthController.userInfo.localizedTimeLeft
+                text: AuthController.userInfo.isValid ? qsTr("Balance: ") + AuthController.userInfo.localizedTimeLeft : qsTr("...")
                 horizontalAlignment: Qt.AlignHCenter
 
                 KeyNavigation.tab: tabBar

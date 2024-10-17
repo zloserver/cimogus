@@ -80,7 +80,7 @@
 <context>
     <name>AuthController</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="384"/>
+        <location filename="../ui/controllers/authController.cpp" line="385"/>
         <source>Payment</source>
         <comment>Failed to open payment link</comment>
         <translation type="unfinished"></translation>
@@ -556,6 +556,11 @@ Already installed containers were found on the server. All installed containers 
         <translation>Баланс: </translation>
     </message>
     <message>
+        <location filename="../ui/qml/Pages2/PageHome.qml" line="90"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source> days remaining</source>
         <translation type="vanished"> дней</translation>
     </message>
@@ -570,9 +575,8 @@ Already installed containers were found on the server. All installed containers 
         <translation>Раздельное туннелирование выключено</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageHome.qml" line="344"/>
         <source>VPN protocol</source>
-        <translation>VPN-протокол</translation>
+        <translation type="vanished">VPN-протокол</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageHome.qml" line="374"/>
@@ -3495,6 +3499,11 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <source>Buy %1 months</source>
         <comment>&gt;=5</comment>
         <translation>Купить %1 месяцев</translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="156"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="169"/>
