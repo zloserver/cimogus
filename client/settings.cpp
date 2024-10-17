@@ -458,6 +458,7 @@ QString Settings::getUserToken() {
 
 void Settings::setUserToken(QString token) {
     setValue("User/token", token);
+    m_settings.sync();
 }
 
 QString Settings::getSelectedRegionId() {

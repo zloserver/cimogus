@@ -76,15 +76,15 @@ AuthController::AuthController(std::shared_ptr<Settings> settings, QObject *pare
     });
 
     m_token = m_settings->getUserToken();
-    m_authenticated = !m_token.isEmpty();
-
     refreshToken();
-    refreshUserInfo();
-    refreshServers();
 }
 
 bool AuthController::isAuthenticated() {
     return m_authenticated;
+}
+
+bool AuthController::hasToken() {
+    return !getToken().isEmpty();
 }
 
 QString AuthController::getToken() {
@@ -94,7 +94,17 @@ QString AuthController::getToken() {
 void AuthController::setToken(const QString& token) {
     m_token = token;
     m_settings->setUserToken(token);
-    emit tokenUpdated();
+
+    bool previousState = m_authenticated;
+    m_authenticated = !m_token.isEmpty();
+    bool authenticationStateChanged = previousState != m_authenticated;
+
+    if (m_authenticated) {
+        refreshUserInfo();
+        refreshServers();
+    }
+
+    emit tokenUpdated(authenticationStateChanged);
 }
 
 void AuthController::setUnauthenticated() {

@@ -24,7 +24,7 @@ PageType {
         target: PageController
 
         function onGoToPageHome() {
-            if (!AuthController.isAuthenticated()) {
+            if (!AuthController.hasToken()) {
                 tabBar.visible = false
                 tabBarStackView.goToTabBarPage(PageEnum.PageSetupWizardStart)
             } else {
@@ -152,10 +152,13 @@ PageType {
     Connections {
         target: AuthController
 
-        function onTokenUpdated() {
+        function onTokenUpdated(authenticationStateChanged) {
             if (!AuthController.isAuthenticated()) {
                 tabBar.visible = false
-                tabBarStackView.goToTabBarPage(PageEnum.PageSetupWizardStart)
+                PageController.goToPage(PageEnum.PageSetupWizardStart)
+            } else if (authenticationStateChanged && AuthController.isAuthenticated()) {
+                tabBar.visible = true
+                PageController.goToPage(PageEnum.PageHome)
             }
         }
     }
@@ -178,7 +181,7 @@ PageType {
 
         Component.onCompleted: {
             var pagePath
-            if (PageController.isStartPageVisible()) {
+            if (!AuthController.hasToken()) {
                 tabBar.visible = false
                 pagePath = PageController.getPagePath(PageEnum.PageSetupWizardStart)
             } else {

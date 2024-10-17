@@ -78,6 +78,7 @@ public:
 
 public slots:
     bool isAuthenticated();
+    bool hasToken();
     QString getToken();
     void setToken(const QString& token);
     void setUnauthenticated();
@@ -99,7 +100,7 @@ public slots:
 signals:
     void errorOccurred(const Errors errors);
     void errorOccurredQml(const QString errorMessage, const QVariantMap fieldErrors);
-    void tokenUpdated();
+    void tokenUpdated(bool authenticationStateChanged);
     void loginSuccessfull();
     void registerSuccessfull();
 
