@@ -119,7 +119,7 @@ void AuthController::refreshToken() {
 
     QNetworkReply* reply = m_qnam->post(request, QByteArray());
 
-    connect(reply, &QNetworkReply::finished, [this, reply]() {
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         if (reply->error() == QNetworkReply::NoError) {
             QByteArray data = reply->readAll();
             QJsonDocument document = QJsonDocument::fromJson(data);
@@ -151,7 +151,7 @@ void AuthController::login(const QString& login, const QString& password) {
 
     QNetworkReply* reply = m_qnam->post(request, bytes);
 
-    connect(reply, &QNetworkReply::finished, [this, reply]() {
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         QByteArray data = reply->readAll();
         if (reply->error() == QNetworkReply::NoError) {
             QJsonDocument document = QJsonDocument::fromJson(data);
@@ -161,6 +161,32 @@ void AuthController::login(const QString& login, const QString& password) {
             m_authenticated = true;
 
             emit loginSuccessfull();
+        }
+        else {
+            auto errors = ErrorParser::parse(data);
+            emit errorOccurred(errors);
+        }
+    });
+}
+
+void AuthController::recoverAccount(const QString &email) {
+    QJsonObject body{};
+    body["email"] = email;
+
+    QJsonDocument doc{body};
+    QByteArray bytes = doc.toJson();
+
+    QNetworkRequest request(QUrl(API_ROOT + RECOVERY_ENDPOINT));
+    request.setRawHeader("User-Agent", "ZloVpn");
+    request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Content-Length", QByteArray::number(bytes.size()));
+
+    QNetworkReply* reply = m_qnam->post(request, bytes);
+
+    connect(reply, &QNetworkReply::finished, [this, reply]() {
+        QByteArray data = reply->readAll();
+        if (reply->error() == QNetworkReply::NoError) {
+            emit recoveryEmailSent();
         }
         else {
             auto errors = ErrorParser::parse(data);
@@ -257,7 +283,7 @@ void AuthController::refreshServers() {
 
     QNetworkReply* reply = m_qnam->get(request);
 
-    connect(reply, &QNetworkReply::finished, [this, reply]() {
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         QByteArray data = reply->readAll();
         if (reply->error() == QNetworkReply::NoError) {
             QJsonDocument document = QJsonDocument::fromJson(data);

@@ -80,7 +80,7 @@
 <context>
     <name>AuthController</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="348"/>
+        <location filename="../ui/controllers/authController.cpp" line="385"/>
         <source>Payment</source>
         <comment>Failed to open payment link</comment>
         <translation type="unfinished"></translation>
@@ -511,6 +511,39 @@ Already installed containers were found on the server. All installed containers 
     </message>
 </context>
 <context>
+    <name>PageForgotPassword</name>
+    <message>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="59"/>
+        <source>Recovery link sent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="67"/>
+        <source>A recovery link has been sent to your email. Follow the instructions in the email message to recover your account.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="76"/>
+        <source>Go back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="115"/>
+        <source>Account recovery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="126"/>
+        <source>Email</source>
+        <translation type="unfinished">Почта</translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="139"/>
+        <source>Submit</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PageHome</name>
     <message>
         <location filename="../ui/qml/Pages2/PageHome.qml" line="67"/>
@@ -577,6 +610,11 @@ Already installed containers were found on the server. All installed containers 
         <location filename="../ui/qml/Pages2/PageLogin.qml" line="88"/>
         <source>Password</source>
         <translation>Пароль</translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLogin.qml" line="125"/>
+        <source>Forgot password?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -51,7 +51,7 @@ PageType {
 
                     KeyNavigation.tab: usernameField.textField
 
-                    backButtonFunction: {
+                    backButtonFunction: function() {
                         PageController.closePage()
                     }
                 }
@@ -105,6 +105,27 @@ PageType {
                     clickedFunc: function() {
                         PageController.showBusyIndicator(true)
                         AuthController.login(root.username, root.password)
+                    }
+
+                    KeyNavigation.tab: forgotPasswordButton
+                }
+
+                BasicButtonType {
+                    id: forgotPasswordButton
+
+                    Layout.fillWidth: true
+
+                    defaultColor: AmneziaStyle.color.transparent
+                    hoveredColor: AmneziaStyle.color.translucentWhite
+                    pressedColor: AmneziaStyle.color.sheerWhite
+                    disabledColor: AmneziaStyle.color.mutedGray
+                    textColor: AmneziaStyle.color.mutedGray
+                    leftImageColor: AmneziaStyle.color.transparent
+
+                    text: qsTr("Forgot password?")
+
+                    clickedFunc: function() {
+                        PageController.goToPage(PageEnum.PageForgotPassword)
                     }
 
                     Keys.onTabPressed: lastItemTabClicked()

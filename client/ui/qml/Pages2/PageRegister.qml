@@ -56,7 +56,7 @@ PageType {
 
                     KeyNavigation.tab: emailField.textField
 
-                    backButtonFunction: {
+                    backButtonFunction: function() {
                         PageController.closePage()
                     }
                 }
@@ -148,7 +148,7 @@ PageType {
                 echoMode: TextInput.Password
 
 
-                textField.onTextEdited: {
+                textField.onTextEdited: function() {
                     if (textField.text !== root.password) {
                         passwordMatchError.opacity = 1
                         registerButton.enabled = false

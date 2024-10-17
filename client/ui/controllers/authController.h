@@ -86,6 +86,7 @@ public slots:
     void refreshToken();
     void login(const QString& login, const QString& password);
     void registerUser(const QString& email, const QString& username, const QString& password);
+    void recoverAccount(const QString& email);
     void logout();
 
     void refreshUserInfo();
@@ -103,6 +104,7 @@ signals:
     void tokenUpdated(bool authenticationStateChanged);
     void loginSuccessfull();
     void registerSuccessfull();
+    void recoveryEmailSent();
 
     void userInfoUpdated();
     void regionsUpdated();
