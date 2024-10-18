@@ -91,7 +91,7 @@
       "size" : "83.5x83.5"
     },
     {
-      "filename" : "Frame 4.png",
+      "filename" : "Shield logo - iOS Normal Padded.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -283,7 +283,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Frame 6.png",
+      "filename" : "Shield logo - iOS Dark Padded.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -475,7 +475,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "Frame 5.png",
+      "filename" : "Shield logo - iOS Tint Padded.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
