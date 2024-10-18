@@ -30,6 +30,8 @@ RadioButton {
 
     property string preTextImageSource
     property bool showPreTextImage: false
+    property real preTextImageWidth
+    property real preTextImageHeight
 
     hoverEnabled: true
     focusPolicy: Qt.TabFocus
@@ -124,6 +126,8 @@ RadioButton {
                 spacing: 6
 
                 Image {
+                    Layout.preferredWidth: 21
+                    Layout.preferredHeight: 15
                     source: {
                         if (root.showPreTextImage) {
                             return root.preTextImageSource

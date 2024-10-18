@@ -199,6 +199,7 @@ PageType {
                     Layout.topMargin: 14
                     Layout.leftMargin: 24
                     Layout.rightMargin: 24
+                    Layout.bottomMargin: 24
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
                     spacing: 0
@@ -231,6 +232,15 @@ PageType {
                                 collapsedButtonHeader.opacity = 1
                             }
                         }
+                    }
+
+                    Image {
+                        Layout.rightMargin: 8
+                        Layout.preferredWidth: 29.4
+                        Layout.preferredHeight: 21
+
+                        visible: source !== ""
+                        source: RegionsModel.selectedRegionImagePath
                     }
 
                     Header1TextType {
@@ -278,23 +288,6 @@ PageType {
                                 drawer.open()
                             }
                         }
-                    }
-                }
-
-                RowLayout {
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    Layout.bottomMargin: 44
-                    spacing: 0
-
-                    Image {
-                        Layout.rightMargin: 8
-                        visible: source !== ""
-                        source: RegionsModel.selectedRegionImagePath
-                    }
-
-                    LabelTextType {
-                        id: collapsedServerMenuDescription
-                        text: drawer.isCollapsed ? RegionsModel.selectedRegionDescriptionCollapsed : RegionsModel.selectedRegionDescriptionExpanded
                     }
                 }
             }
@@ -476,6 +469,8 @@ PageType {
                                 text: regionName
 
                                 preTextImageSource: regionImagePath
+                                preTextImageWidth: 21
+                                preTextImageHeight: 15
                                 showPreTextImage: true
 
                                 checked: index === serversMenuContent.currentIndex

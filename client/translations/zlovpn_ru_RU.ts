@@ -579,12 +579,12 @@ Already installed containers were found on the server. All installed containers 
         <translation type="vanished">VPN-протокол</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageHome.qml" line="374"/>
+        <location filename="../ui/qml/Pages2/PageHome.qml" line="363"/>
         <source>Regions</source>
         <translation>Регионы</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageHome.qml" line="488"/>
+        <location filename="../ui/qml/Pages2/PageHome.qml" line="477"/>
         <source>Unable to change server while there is an active connection</source>
         <translation type="unfinished"></translation>
     </message>
