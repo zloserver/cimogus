@@ -9,6 +9,7 @@
 
 #include <QMenu>
 #include <QSystemTrayIcon>
+#include <QSharedPointer>
 
 class SystemTrayNotificationHandler : public NotificationHandler {
     Q_OBJECT
@@ -33,6 +34,9 @@ private:
 
     void setTrayIcon(const QString &iconPath);
 
+    void startConnectingAnimation();
+    void stopConnectingAnimation();
+
 private:
     QMenu m_menu;
     QSystemTrayIcon m_systemTrayIcon;
@@ -45,8 +49,14 @@ private:
     QAction* m_statusLabel = nullptr;    
     QAction* m_separator = nullptr;
 
+    QScopedPointer<QTimer> m_connectingTimer{};
+    bool m_iconState{false};
+
+
+    const QString ResourcesPath = ":/images/tray/%1";
     const QString ConnectedTrayIconName = "active.png";
     const QString DisconnectedTrayIconName = "default.png";
+    const QString ConnectingTrayIconName = "connecting.png";
     const QString ErrorTrayIconName = "error.png";
 };
 

@@ -4710,32 +4710,32 @@ This means that AmneziaWG keeps the fast performance of the original while addin
 <context>
     <name>SystemTrayNotificationHandler</name>
     <message>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="28"/>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="60"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="29"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="61"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>
     <message>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="32"/>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="61"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="33"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="62"/>
         <source>Connect</source>
         <translation>Подключиться</translation>
     </message>
     <message>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="33"/>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="62"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="34"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="63"/>
         <source>Disconnect</source>
         <translation>Отключиться</translation>
     </message>
     <message>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="37"/>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="63"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="38"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="64"/>
         <source>Visit Website</source>
         <translation>Посетить сайт</translation>
     </message>
     <message>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="41"/>
-        <location filename="../ui/systemtray_notificationhandler.cpp" line="64"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="42"/>
+        <location filename="../ui/systemtray_notificationhandler.cpp" line="65"/>
         <source>Quit</source>
         <translation>Закрыть</translation>
     </message>

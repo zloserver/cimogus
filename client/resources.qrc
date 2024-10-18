@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>images/tray/active.png</file>
         <file>images/tray/default.png</file>
+        <file>images/tray/connecting.png</file>
         <file>images/tray/error.png</file>
         <file>server_scripts/remove_container.sh</file>
         <file>server_scripts/setup_host_firewall.sh</file>
