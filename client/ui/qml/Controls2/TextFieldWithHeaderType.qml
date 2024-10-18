@@ -102,7 +102,8 @@ Item {
                         font.weight: 400
                         font.family: "PT Root UI VF"
 
-                        height: 26
+                        height: 24
+                        Layout.preferredHeight: 26
                         Layout.fillWidth: true
 
                         topPadding: 0
