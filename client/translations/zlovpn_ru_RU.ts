@@ -80,7 +80,7 @@
 <context>
     <name>AuthController</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="385"/>
+        <location filename="../ui/controllers/authController.cpp" line="386"/>
         <source>Payment</source>
         <comment>Failed to open payment link</comment>
         <translation type="unfinished"></translation>
@@ -3501,13 +3501,34 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <translation>Купить %1 месяцев</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="156"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="124"/>
+        <source>Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="148"/>
+        <source>Username</source>
+        <translation type="unfinished">Имя пользователя</translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="166"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="196"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="170"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="180"/>
         <source>You can&apos;t add more balance yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="195"/>
+        <source>Email</source>
+        <translation type="unfinished">Почта</translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="206"/>
+        <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3521,7 +3542,7 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <translation>Месяцев</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="155"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="165"/>
         <source>Balance</source>
         <translation>Баланс</translation>
     </message>
@@ -3530,7 +3551,7 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <translation type="vanished"> дней</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="166"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="176"/>
         <source>Add</source>
         <translation>Пополнить</translation>
     </message>

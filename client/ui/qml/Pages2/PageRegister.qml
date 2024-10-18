@@ -36,11 +36,43 @@ PageType {
     property bool passwordErrorVisible: false
     property string passwordError
 
-    Item {
-        id: loginPage
-        anchors.fill: parent
+    RowLayout {
+        id: topStrip
+
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.topMargin: 20
+
+        BackButtonType {
+            id: backButton
+
+            KeyNavigation.tab: emailField.textField
+
+            backButtonFunction: function() {
+                PageController.closePage()
+            }
+        }
+
+        HeaderType {
+            Layout.fillWidth: true
+            Layout.rightMargin: 16
+            Layout.leftMargin: 16
+
+            headerText: qsTr("Register")
+        }
+    }
+
+    FlickableType {
+        id: fl
+        anchors.top: topStrip.bottom
+        anchors.topMargin: 20
+        anchors.bottom: parent.bottom
+        contentHeight: content.height
 
         ColumnLayout {
+            id: content
+
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
@@ -48,28 +80,6 @@ PageType {
             anchors.rightMargin: 16
 
             spacing: 16
-
-            RowLayout {
-                BackButtonType {
-                    id: backButton
-                    Layout.topMargin: 20
-
-                    KeyNavigation.tab: emailField.textField
-
-                    backButtonFunction: function() {
-                        PageController.closePage()
-                    }
-                }
-
-                HeaderType {
-                    Layout.fillWidth: true
-                    Layout.topMargin: 24
-                    Layout.rightMargin: 16
-                    Layout.leftMargin: 16
-
-                    headerText: qsTr("Register")
-                }
-            }
 
             TextFieldWithHeaderType {
                 id: emailField
@@ -188,13 +198,6 @@ PageType {
                     AuthController.registerUser(root.email, root.username, root.password)
                 }
             }
-        }
-
-        PageStart {
-            id: startPage
-            width: root.width
-            height: root.height
-            visible: false
         }
     }
 
