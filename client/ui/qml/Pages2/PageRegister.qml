@@ -134,6 +134,16 @@ PageType {
                 textFieldText: root.password
                 echoMode: TextInput.Password
 
+                textField.onTextEdited: function() {
+                    if (textField.text !== root.passwordConfirmation) {
+                        passwordMatchError.opacity = 1
+                        registerButton.enabled = false
+                    } else {
+                        passwordMatchError.opacity = 0
+                        registerButton.enabled = true
+                    }
+                }
+
                 KeyNavigation.tab: passwordConfirmationField.textField
             }
             Binding { root.password: passwordField.textField.text }

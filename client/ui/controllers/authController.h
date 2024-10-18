@@ -10,6 +10,7 @@ struct UserInfo {
     Q_GADGET
 
     Q_PROPERTY(QString username MEMBER username)
+    Q_PROPERTY(QString email MEMBER email)
     Q_PROPERTY(qint64 timeLeft MEMBER timeLeft)
     Q_PROPERTY(QString localizedTimeLeft READ localizeTimeLeft)
     Q_PROPERTY(bool isValid MEMBER isValid)
@@ -29,6 +30,7 @@ public:
     }
 
     QString username;
+    QString email;
     qint64 timeLeft;
     bool isValid{false};
 };
@@ -89,6 +91,8 @@ public slots:
     void login(const QString& login, const QString& password);
     void registerUser(const QString& email, const QString& username, const QString& password);
     void recoverAccount(const QString& email);
+    void changePassword(const QString& currentPassword, const QString& newPassword);
+    void changeEmail(const QString& newEmail);
     void logout();
 
     void refreshUserInfo();
@@ -107,12 +111,16 @@ signals:
     void loginSuccessfull();
     void registerSuccessfull();
     void recoveryEmailSent();
+    void passwordChanged();
+    void emailChanged();
 
     void userInfoUpdated();
     void regionsUpdated();
     void addBalanceOpened();
 
 private:
+    QNetworkRequest createNetworkRequest(const QString& endpoint, bool needsAuthorization = false, const QByteArray* array = nullptr);
+
     std::shared_ptr<Settings> m_settings;
 
     QString m_token{};

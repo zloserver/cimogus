@@ -229,7 +229,10 @@
         <file>ui/qml/Controls2/SliderType.qml</file>
         <file>images/zlovpn.svg</file>
         <file>images/controls/balance.svg</file>
+        <file>images/controls/password.svg</file>
         <file>ui/qml/Pages2/PageForgotPassword.qml</file>
+        <file>ui/qml/Pages2/PageChangePassword.qml</file>
+        <file>ui/qml/Pages2/PageChangeEmail.qml</file>
     </qresource>
     <qresource prefix="/countriesFlags">
         <file>images/flagKit/ZW.svg</file>

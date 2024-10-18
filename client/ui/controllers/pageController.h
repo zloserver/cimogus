@@ -70,7 +70,9 @@ namespace PageLoader
         PageRegister,
         PageUserAccount,
         PageSettingsAboutOriginal,
-        PageForgotPassword
+        PageForgotPassword,
+        PageChangePassword,
+        PageChangeEmail
     };
     Q_ENUM_NS(PageEnum)
 

@@ -113,10 +113,7 @@ void AuthController::setUnauthenticated() {
 }
 
 void AuthController::refreshToken() {
-    QNetworkRequest request(QUrl(API_ROOT + REFRESH_ENDPOINT));
-    request.setRawHeader("User-Agent", "ZloVpn");
-    request.setRawHeader("Authorization", QString("Bearer " + m_token).toUtf8());
-
+    QNetworkRequest request = createNetworkRequest(REFRESH_ENDPOINT, true);
     QNetworkReply* reply = m_qnam->post(request, QByteArray());
 
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
@@ -144,11 +141,7 @@ void AuthController::login(const QString& login, const QString& password) {
     QJsonDocument doc{body};
     QByteArray bytes = doc.toJson();
 
-    QNetworkRequest request(QUrl(API_ROOT + LOGIN_ENDPOINT));
-    request.setRawHeader("User-Agent", "ZloVpn");
-    request.setRawHeader("Content-Type", "application/json");
-    request.setRawHeader("Content-Length", QByteArray::number(bytes.size()));
-
+    QNetworkRequest request = createNetworkRequest(LOGIN_ENDPOINT, false, &bytes);
     QNetworkReply* reply = m_qnam->post(request, bytes);
 
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
@@ -176,17 +169,58 @@ void AuthController::recoverAccount(const QString &email) {
     QJsonDocument doc{body};
     QByteArray bytes = doc.toJson();
 
-    QNetworkRequest request(QUrl(API_ROOT + RECOVERY_ENDPOINT));
-    request.setRawHeader("User-Agent", "ZloVpn");
-    request.setRawHeader("Content-Type", "application/json");
-    request.setRawHeader("Content-Length", QByteArray::number(bytes.size()));
-
+    QNetworkRequest request = createNetworkRequest(RECOVERY_ENDPOINT, false, &bytes);
     QNetworkReply* reply = m_qnam->post(request, bytes);
 
     connect(reply, &QNetworkReply::finished, [this, reply]() {
         QByteArray data = reply->readAll();
         if (reply->error() == QNetworkReply::NoError) {
             emit recoveryEmailSent();
+        }
+        else {
+            auto errors = ErrorParser::parse(data);
+            emit errorOccurred(errors);
+        }
+    });
+}
+
+void AuthController::changePassword(const QString& currentPassword, const QString& newPassword) {
+    QJsonObject body{};
+    body["currentPassword"] = currentPassword;
+    body["newPassword"] = newPassword;
+
+    QJsonDocument doc{body};
+    QByteArray bytes = doc.toJson();
+
+    QNetworkRequest request = createNetworkRequest(PASSWORD_CHANGE_ENDPOINT, true, &bytes);
+    QNetworkReply* reply = m_qnam->post(request, bytes);
+
+    connect(reply, &QNetworkReply::finished, [this, reply]() {
+        QByteArray data = reply->readAll();
+        if (reply->error() == QNetworkReply::NoError) {
+            emit passwordChanged();
+        }
+        else {
+            auto errors = ErrorParser::parse(data);
+            emit errorOccurred(errors);
+        }
+    });
+}
+
+void AuthController::changeEmail(const QString& newEmail) {
+    QJsonObject body{};
+    body["newEmail"] = newEmail;
+
+    QJsonDocument doc{body};
+    QByteArray bytes = doc.toJson();
+
+    QNetworkRequest request = createNetworkRequest(EMAIL_CHANGE_ENDPOINT, true, &bytes);
+    QNetworkReply* reply = m_qnam->post(request, bytes);
+
+    connect(reply, &QNetworkReply::finished, [this, reply]() {
+        QByteArray data = reply->readAll();
+        if (reply->error() == QNetworkReply::NoError) {
+            emit emailChanged();
         }
         else {
             auto errors = ErrorParser::parse(data);
@@ -204,11 +238,7 @@ void AuthController::registerUser(const QString& email, const QString& username,
     QJsonDocument doc{body};
     QByteArray bytes = doc.toJson();
 
-    QNetworkRequest request(QUrl(API_ROOT + REGISTER_ENDPOINT));
-    request.setRawHeader("User-Agent", "ZloVpn");
-    request.setRawHeader("Content-Type", "application/json");
-    request.setRawHeader("Content-Length", QByteArray::number(bytes.size()));
-
+    QNetworkRequest request = createNetworkRequest(REGISTER_ENDPOINT, false, &bytes);
     QNetworkReply* reply = m_qnam->post(request, bytes);
 
     connect(reply, &QNetworkReply::finished, [this, reply]() {
@@ -234,10 +264,7 @@ void AuthController::logout() {
 }
 
 void AuthController::refreshUserInfo() {
-    QNetworkRequest request(QUrl(API_ROOT + ME_ENDPOINT));
-    request.setRawHeader("User-Agent", "ZloVpn");
-    request.setRawHeader("Authorization", QString("Bearer " + m_token).toUtf8());
-
+    QNetworkRequest request = createNetworkRequest(ME_ENDPOINT, true);
     QNetworkReply* reply = m_qnam->get(request);
 
     connect(reply, &QNetworkReply::finished, [this, reply]() {
@@ -251,6 +278,7 @@ void AuthController::refreshUserInfo() {
             UserInfo info{};
             info.username = userObject["username"].toString();
             info.timeLeft = userObject["timeLeft"].toInteger();
+            info.email = userObject["email"].toString();
             info.isValid = true;
 
             m_userInfo = info;
@@ -278,10 +306,7 @@ static RegionInfo parseRegionInfo(QJsonObject obj) {
 }
 
 void AuthController::refreshServers() {
-    QNetworkRequest request(QUrl(API_ROOT + SERVERS_ENDPOINT));
-    request.setRawHeader("User-Agent", "ZloVpn");
-    request.setRawHeader("Authorization", QString("Bearer " + m_token).toUtf8());
-
+    QNetworkRequest request = createNetworkRequest(SERVERS_ENDPOINT, true);
     QNetworkReply* reply = m_qnam->get(request);
 
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
@@ -368,10 +393,7 @@ void AuthController::addBalance(qint32 months) {
     QJsonDocument doc{ body };
     QByteArray bytes = doc.toJson();
 
-    QNetworkRequest request(QUrl(API_ROOT + PAYMENT_ENDPOINT));
-    request.setRawHeader("User-Agent", "ZloVpn");
-    request.setRawHeader("Authorization", QString("Bearer " + m_token).toUtf8());
-
+    QNetworkRequest request = createNetworkRequest(PAYMENT_ENDPOINT, true, &bytes);
     QNetworkReply* reply = m_qnam->post(request, bytes);
 
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
@@ -399,4 +421,20 @@ void AuthController::addBalance(qint32 months) {
             emit errorOccurred(errors);
         }
     });
+}
+
+QNetworkRequest AuthController::createNetworkRequest(const QString& endpoint, bool needsAuthorization, const QByteArray* array) {
+    QNetworkRequest request(QUrl(API_ROOT + endpoint));
+    request.setRawHeader("User-Agent", "ZloVpn");
+
+    if (needsAuthorization) {
+        request.setRawHeader("Authorization", QString("Bearer " + m_token).toUtf8());
+    }
+
+    if (array) {
+        request.setRawHeader("Content-Type", "application/json");
+        request.setRawHeader("Content-Length", QByteArray::number(array->size()));
+    }
+
+    return request;
 }

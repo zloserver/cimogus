@@ -80,7 +80,7 @@
 <context>
     <name>AuthController</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="386"/>
+        <location filename="../ui/controllers/authController.cpp" line="409"/>
         <source>Payment</source>
         <comment>Failed to open payment link</comment>
         <translation type="unfinished"></translation>
@@ -482,6 +482,97 @@ Already installed containers were found on the server. All installed containers 
         <location filename="../ui/notificationhandler.cpp" line="95"/>
         <source>Unsecured network detected: </source>
         <translation>Обнаружена незащищенная сеть: </translation>
+    </message>
+</context>
+<context>
+    <name>PageChangeEmail</name>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="43"/>
+        <source>Change email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="78"/>
+        <source>Email changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="86"/>
+        <source>Your email has been changed successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="95"/>
+        <source>Go back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="127"/>
+        <source>New email address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="149"/>
+        <source>Confirm new email address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="175"/>
+        <source>Emails do not match</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="186"/>
+        <source>Submit</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PageChangePassword</name>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="46"/>
+        <source>Change password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="81"/>
+        <source>Password changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="89"/>
+        <source>Your password has been changed successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="98"/>
+        <source>Go back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="130"/>
+        <source>Current password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="143"/>
+        <source>New password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="156"/>
+        <source>Confirm password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="183"/>
+        <source>Passwords do not match</source>
+        <translation type="unfinished">Пароли не совпадают</translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="194"/>
+        <source>Submit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1228,33 +1319,33 @@ Already installed containers were found on the server. All installed containers 
 <context>
     <name>PageRegister</name>
     <message>
-        <location filename="../ui/qml/Pages2/PageRegister.qml" line="70"/>
-        <location filename="../ui/qml/Pages2/PageRegister.qml" line="184"/>
+        <location filename="../ui/qml/Pages2/PageRegister.qml" line="62"/>
+        <location filename="../ui/qml/Pages2/PageRegister.qml" line="204"/>
         <source>Register</source>
         <translation>Регистрация</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageRegister.qml" line="78"/>
+        <location filename="../ui/qml/Pages2/PageRegister.qml" line="88"/>
         <source>Email</source>
         <translation>Почта</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageRegister.qml" line="100"/>
+        <location filename="../ui/qml/Pages2/PageRegister.qml" line="110"/>
         <source>Username</source>
         <translation>Имя пользователя</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageRegister.qml" line="122"/>
+        <location filename="../ui/qml/Pages2/PageRegister.qml" line="132"/>
         <source>Password</source>
         <translation>Пароль</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageRegister.qml" line="145"/>
+        <location filename="../ui/qml/Pages2/PageRegister.qml" line="165"/>
         <source>Password confirmation</source>
         <translation>Повторите пароль</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageRegister.qml" line="173"/>
+        <location filename="../ui/qml/Pages2/PageRegister.qml" line="193"/>
         <source>Passwords do not match</source>
         <translation>Пароли не совпадают</translation>
     </message>
@@ -3484,65 +3575,70 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
 <context>
     <name>PageUserAccount</name>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="86"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="87"/>
         <source>Buy %1 month</source>
         <translation>Купить %1 месяц</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="88"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="89"/>
         <source>Buy %1 months</source>
         <comment>2,3,4</comment>
         <translation>Купить %1 месяца</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="89"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="90"/>
         <source>Buy %1 months</source>
         <comment>&gt;=5</comment>
         <translation>Купить %1 месяцев</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="124"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="125"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="148"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="149"/>
         <source>Username</source>
         <translation type="unfinished">Имя пользователя</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="166"/>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="196"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="163"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="224"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="180"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="186"/>
+        <source>Change password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="238"/>
         <source>You can&apos;t add more balance yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="195"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="162"/>
         <source>Email</source>
         <translation type="unfinished">Почта</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="206"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="173"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="58"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="59"/>
         <source>Add Balance</source>
         <translation>Пополнить баланс</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="80"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="81"/>
         <source>Months</source>
         <translation>Месяцев</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="165"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="223"/>
         <source>Balance</source>
         <translation>Баланс</translation>
     </message>
@@ -3551,7 +3647,7 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <translation type="vanished"> дней</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="176"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="234"/>
         <source>Add</source>
         <translation>Пополнить</translation>
     </message>

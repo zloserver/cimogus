@@ -20,7 +20,8 @@ PageType {
         id: fl
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        contentHeight: content.height
+        // contentItem: content
+        // contentHeight: content.height
 
         Popup {
             property real monthsToAdd: 2
@@ -108,8 +109,8 @@ PageType {
             id: content
 
             anchors.top: parent.top
-            anchors.left: parent.left
             anchors.right: parent.right
+            anchors.left: parent.left
 
             spacing: 0
             RowLayout {
@@ -121,7 +122,7 @@ PageType {
                     Layout.rightMargin: 16
                     Layout.leftMargin: 16
 
-                    headerText: AuthController.userInfo.username
+                    headerText: qsTr("Profile")
                 }
 
                 ImageButtonType {
@@ -141,6 +142,77 @@ PageType {
                     }
                 }
             }
+
+            LabelWithButtonType {
+                Layout.fillWidth: true
+
+                text: qsTr("Username")
+                descriptionText: AuthController.userInfo.username
+
+                leftImageSource: "qrc:/images/controls/user.svg"
+                shouldBeWide: true
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+
+                LabelWithButtonType {
+                    Layout.fillWidth: true
+
+                    text: qsTr("Email")
+                    descriptionText: AuthController.userInfo.isValid ? AuthController.userInfo.email : qsTr("...")
+
+                    leftImageSource: "qrc:/images/controls/mail.svg"
+                    shouldBeWide: true
+                }
+
+                BasicButtonType {
+                    Layout.rightMargin: 16
+                    Layout.leftMargin: 16
+                    Layout.minimumWidth: 48
+                    text: qsTr("Edit")
+
+                    defaultColor: AmneziaStyle.color.transparent
+                    hoveredColor: AmneziaStyle.color.translucentWhite
+                    pressedColor: AmneziaStyle.color.sheerWhite
+                    disabledColor: AmneziaStyle.color.mutedGray
+                    textColor: AmneziaStyle.color.mutedGray
+
+                    clickedFunc: function() {
+                        PageController.goToPage(PageEnum.PageChangeEmail)
+                    }
+                }
+            }
+
+            LabelWithButtonType {
+                Layout.fillWidth: true
+
+                text: qsTr("Change password")
+                leftImageSource: "qrc:/images/controls/password.svg"
+                rightImageSource: "qrc:/images/controls/chevron-right.svg"
+
+                clickedFunction: function() {
+                    PageController.goToPage(PageEnum.PageChangePassword)
+                }
+            }
+
+            Item {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle { anchors.fill: parent; color: "#ffaaaa" }
+            }
+        }
+
+
+
+        ColumnLayout {
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            anchors.right: parent.right
+            anchors.left: parent.left
+
+            DividerType {}
 
             RowLayout {
                 Layout.fillWidth: true
