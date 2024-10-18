@@ -31,8 +31,8 @@
     <application
         android:name=".AmneziaApplication"
         android:label="-- %%INSERT_APP_NAME%% --"
-        android:icon="@mipmap/icon"
-        android:roundIcon="@mipmap/icon_round"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:banner="@mipmap/ic_banner"
         android:theme="@style/NoActionBar"
         android:fullBackupContent="@xml/backup_content"
@@ -186,7 +186,7 @@
         <service
             android:name=".AmneziaTileService"
             android:process=":amneziaTileService"
-            android:icon="@drawable/ic_amnezia_round"
+            android:icon="@drawable/ic_status"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:exported="true">
 
