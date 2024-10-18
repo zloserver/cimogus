@@ -21,6 +21,7 @@ Item {
     property string leftImageSource
     property bool isLeftImageHoverEnabled: true
     property bool isSmallLeftImage: false
+    property bool shouldBeWide: false
 
     property alias rightButton: rightImage
     property alias eyeButton: eyeImage
@@ -114,9 +115,16 @@ Item {
 
             visible: leftImageSource ? true : false
 
-            Layout.preferredHeight: (rightImageSource || !isLeftImageHoverEnabled || isSmallLeftImage) ? 40 : 56
-            Layout.preferredWidth: (rightImageSource || !isLeftImageHoverEnabled || isSmallLeftImage)? 40 : 56
-            Layout.rightMargin: isSmallLeftImage ? 8 : (rightImageSource || !isLeftImageHoverEnabled) ? 16 : 0
+            Layout.preferredHeight: (rightImageSource || !isLeftImageHoverEnabled || isSmallLeftImage || shouldBeWide) ? 40 : 56
+            Layout.preferredWidth: (rightImageSource || !isLeftImageHoverEnabled || isSmallLeftImage || shouldBeWide)? 40 : 56
+
+            function calculateRightMargin() {
+                if (isSmallLeftImage) return 8;
+                if (rightImageSource || !isLeftImageHoverEnabled || shouldBeWide) return 16;
+                return 0;
+            }
+
+            Layout.rightMargin: calculateRightMargin()
 
             radius: 12
             color: AmneziaStyle.color.transparent

@@ -111,7 +111,7 @@ PageType {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            spacing: 16
+            spacing: 0
             RowLayout {
                 Layout.fillWidth: true
 
@@ -156,6 +156,7 @@ PageType {
                     descriptionText: AuthController.userInfo.isValid ? uppercaseFirst(AuthController.userInfo.localizedTimeLeft) : qsTr("...")
 
                     leftImageSource: "qrc:/images/controls/balance.svg"
+                    shouldBeWide: true
                 }
 
                 BasicButtonType {

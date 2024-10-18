@@ -579,12 +579,12 @@ Already installed containers were found on the server. All installed containers 
         <translation type="vanished">VPN-протокол</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageHome.qml" line="363"/>
+        <location filename="../ui/qml/Pages2/PageHome.qml" line="367"/>
         <source>Regions</source>
         <translation>Регионы</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageHome.qml" line="477"/>
+        <location filename="../ui/qml/Pages2/PageHome.qml" line="483"/>
         <source>Unable to change server while there is an active connection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3506,7 +3506,7 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="169"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="170"/>
         <source>You can&apos;t add more balance yet.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3530,7 +3530,7 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <translation type="vanished"> дней</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="165"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="166"/>
         <source>Add</source>
         <translation>Пополнить</translation>
     </message>
@@ -4750,7 +4750,7 @@ This means that AmneziaWG keeps the fast performance of the original while addin
 <context>
     <name>TextFieldWithHeaderType</name>
     <message>
-        <location filename="../ui/qml/Controls2/TextFieldWithHeaderType.qml" line="127"/>
+        <location filename="../ui/qml/Controls2/TextFieldWithHeaderType.qml" line="128"/>
         <source>The field can&apos;t be empty</source>
         <translation>Поле не может быть пустым</translation>
     </message>
