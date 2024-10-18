@@ -29,7 +29,7 @@ static QString localizeHoursLeft(qint64 hours) {
 }
 
 QString UserInfo::localizeTimeLeft() const {
-    if (this->timeLeft == -1) return QString(localizeDaysLeft(100)).arg("ඞ");
+    if (this->timeLeft == -1) return QString(localizeDaysLeft(100)).arg("ඞඞඞ");
 
     double hoursLeft = static_cast<double>(this->timeLeft) / 3600000;
     qint64 daysLeft = 0;
