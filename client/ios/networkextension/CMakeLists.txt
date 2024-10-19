@@ -31,8 +31,8 @@ set_target_properties(networkextension PROPERTIES
     XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY[variant=Debug] "Apple Development"
 
     XCODE_ATTRIBUTE_CODE_SIGN_STYLE Manual
-    XCODE_ATTRIBUTE_PROVISIONING_PROFILE_SPECIFIER "match AppStore com.zloserver.vpn.network-extension"
-    XCODE_ATTRIBUTE_PROVISIONING_PROFILE_SPECIFIER[variant=Debug] "match Development com.zloserver.vpn.network-extension"
+    XCODE_ATTRIBUTE_PROVISIONING_PROFILE_SPECIFIER "ZloVPN network extension distribution"
+    XCODE_ATTRIBUTE_PROVISIONING_PROFILE_SPECIFIER[variant=Debug] "ZloVPN network extension"
 )
 
 set_target_properties(networkextension PROPERTIES
@@ -44,7 +44,7 @@ set_target_properties(networkextension PROPERTIES
 )
 
 set_target_properties("networkextension" PROPERTIES
-    XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "S6TBJMG52K"
+    XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "8NJ4QZPB6B"
 )
 
 find_library(FW_ASSETS_LIBRARY AssetsLibrary)

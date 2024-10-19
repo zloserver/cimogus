@@ -20,7 +20,7 @@ PLIST_NAME=$APP_NAME.plist
 
 # Search Qt
 if [ -z "${QT_VERSION+x}" ]; then
-  QT_VERSION=6.6.2;
+  QT_VERSION=6.5.3;
   QT_BIN_DIR=$HOME/Qt/$QT_VERSION/ios/bin
 fi
 
@@ -41,34 +41,42 @@ KEYCHAIN_FILE=$HOME/Library/Keychains/${KEYCHAIN}-db
 if [ "${IOS_SIGNING_CERT_BASE64+x}" ]; then
   echo "Import certificate"
 
-  TRUST_CERT_CER=$BUILD_DIR/trust-cert.cer
   SIGNING_CERT_P12=$BUILD_DIR/signing-cert.p12
 
-  echo $IOS_TRUST_CERT_BASE64 | base64 --decode > $TRUST_CERT_CER
   echo $IOS_SIGNING_CERT_BASE64 | base64 --decode > $SIGNING_CERT_P12
 
-  shasum -a 256 $TRUST_CERT_CER
   shasum -a 256 $SIGNING_CERT_P12
 
   KEYCHAIN_PASS=$IOS_SIGNING_CERT_PASSWORD
 
+  echo "createe"
   security create-keychain -p $KEYCHAIN_PASS $KEYCHAIN || true
+  echo "default"
   security default-keychain -s $KEYCHAIN
+  echo "unlock"
   security unlock-keychain -p $KEYCHAIN_PASS $KEYCHAIN
 
+  echo "default2"
   security default-keychain
+  echo "list"
   security list-keychains
 
-  security import $TRUST_CERT_CER -k $KEYCHAIN -P "" -T /usr/bin/codesign
+  echo "import"
   security import $SIGNING_CERT_P12 -k $KEYCHAIN -P $IOS_SIGNING_CERT_PASSWORD -T /usr/bin/codesign
 
+  echo "setlist"
   security set-key-partition-list -S "apple-tool:,apple:,codesign:" -s -k $KEYCHAIN_PASS $KEYCHAIN
+  echo "findid"
   security find-identity -p codesigning
+  echo "setset"
   security set-keychain-settings $KEYCHAIN_FILE
+  echo "setset36"
   security set-keychain-settings -t 3600 $KEYCHAIN_FILE
+  echo "ukeychain"
   security unlock-keychain -p $KEYCHAIN_PASS $KEYCHAIN_FILE
 
   # Copy provisioning prifiles
+  echo "Copy provisioning files"
   mkdir -p  "$HOME/Library/MobileDevice/Provisioning Profiles/"
 
   echo $IOS_APP_PROVISIONING_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/app.mobileprovision
@@ -88,12 +96,36 @@ else
 fi
 
 # Build project
-xcodebuild \
+BUILD_CONFIG=RelWithDebInfo
+ARCHIVE_PATH=$PROJECT_DIR/archive-ios.xcarchive
+mkdir -p $ARCHIVE_PATH
+
+xcodebuild archive \
 "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN_FILE'" \
--configuration Release \
+-configuration $BUILD_CONFIG \
 -scheme ZloVPN \
--destination "generic/platform=iOS,name=Any iOS'" \
--project $BUILD_DIR/ZloVPN.xcodeproj
+-destination "generic/platform=iOS,name=Any iOS" \
+-project $BUILD_DIR/ZloVPN.xcodeproj \
+-archivePath $ARCHIVE_PATH
+
+cp -R $BUILD_DIR/client/$BUILD_CONFIG-iphoneos/*.dSYM $ARCHIVE_PATH/dSYMs/
+cp -R $BUILD_DIR/client/ios/networkextension/$BUILD_CONFIG-iphoneos/*.dSYM $ARCHIVE_PATH/dSYMs/
+
+# Zip dSYMs
+
+pushd $ARCHIVE_PATH/dSYMs/
+zip -r $OLDPWD/ZloVPN.dSYM.zip *
+popd
+
+# Export to ipa
+IOS_EXPORT=$PROJECT_DIR/ios-export
+IPA_PATH=$PROJECT_DIR/ipa-ios
+mkdir -p $IPA_PATH
+
+xcodebuild -exportArchive \
+-archivePath $ARCHIVE_PATH \
+-exportPath $IPA_PATH \
+-exportOptionsPlist $IOS_EXPORT/ExportOptions.plist
 
 # restore keychain
 security default-keychain -s login.keychain

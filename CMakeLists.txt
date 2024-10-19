@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
-set(CMAKE_PREFIX_PATH "C:\\Qt\\6.8.0\\msvc2022_64")
+set(CMAKE_PREFIX_PATH "/Users/kate/Qt/6.5.3/macos")
 
 set(PROJECT ZloVPN)
 
-project(${PROJECT} VERSION 4.8.1.9
+project(${PROJECT} VERSION 4.8.2.9
         DESCRIPTION "ZloVPN"
         HOMEPAGE_URL "https://zlovpn.com/"
 )
