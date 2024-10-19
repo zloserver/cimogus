@@ -80,7 +80,7 @@
 <context>
     <name>AuthController</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="409"/>
+        <location filename="../ui/controllers/authController.cpp" line="407"/>
         <source>Payment</source>
         <comment>Failed to open payment link</comment>
         <translation type="unfinished"></translation>
@@ -487,42 +487,42 @@ Already installed containers were found on the server. All installed containers 
 <context>
     <name>PageChangeEmail</name>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="43"/>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="45"/>
         <source>Change email</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="78"/>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="80"/>
         <source>Email changed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="86"/>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="88"/>
         <source>Your email has been changed successfully.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="95"/>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="97"/>
         <source>Go back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="127"/>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="129"/>
         <source>New email address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="149"/>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="151"/>
         <source>Confirm new email address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="175"/>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="177"/>
         <source>Emails do not match</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="186"/>
+        <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="188"/>
         <source>Submit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -560,17 +560,17 @@ Already installed containers were found on the server. All installed containers 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="156"/>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="166"/>
         <source>Confirm password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="183"/>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="193"/>
         <source>Passwords do not match</source>
         <translation type="unfinished">Пароли не совпадают</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="194"/>
+        <location filename="../ui/qml/Pages2/PageChangePassword.qml" line="204"/>
         <source>Submit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -629,7 +629,7 @@ Already installed containers were found on the server. All installed containers 
         <translation type="unfinished">Почта</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="141"/>
+        <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="142"/>
         <source>Submit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3603,17 +3603,17 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="163"/>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="224"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="228"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="186"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="190"/>
         <source>Change password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="238"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="242"/>
         <source>You can&apos;t add more balance yet.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3638,7 +3638,7 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <translation>Месяцев</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="223"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="227"/>
         <source>Balance</source>
         <translation>Баланс</translation>
     </message>
@@ -3647,7 +3647,7 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <translation type="vanished"> дней</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="234"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="238"/>
         <source>Add</source>
         <translation>Пополнить</translation>
     </message>
@@ -4708,6 +4708,14 @@ This means that AmneziaWG keeps the fast performance of the original while addin
         <location filename="../ui/qml/Components/SelectLanguageDrawer.qml" line="71"/>
         <source>Choose language</source>
         <translation>Выберите язык</translation>
+    </message>
+</context>
+<context>
+    <name>ServerLocale</name>
+    <message>
+        <location filename="../errorParser.cpp" line="12"/>
+        <source>Server error</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

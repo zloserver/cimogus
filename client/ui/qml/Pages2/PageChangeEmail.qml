@@ -85,7 +85,7 @@ PageType {
 
                 font.pixelSize: 14
 
-                text: qsTr("Your email has been changed successfully.")
+                text: qsTr("A confirmation link has been sent to your email.")
                 color: AmneziaStyle.color.paleGray
             }
 

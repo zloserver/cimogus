@@ -3,12 +3,13 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QCoreApplication>
 
 Errors ErrorParser::parse(QByteArray body) {
     Errors err{};
     QJsonDocument document = QJsonDocument::fromJson(body);
     if (document.isNull()) {
-        err.errorMessage = body;
+        err.errorMessage = QCoreApplication::translate("ServerLocale", "Server error");
         return err;
     }
 
@@ -16,7 +17,7 @@ Errors ErrorParser::parse(QByteArray body) {
     err.errorMessage = obj["error"].toString();
     if (obj.contains("errors")) {
         QJsonObject errors = obj["errors"].toObject();
-        
+
         if (errors.contains("fieldErrors")) {
             QJsonObject fieldErrors = errors["fieldErrors"].toObject();
 

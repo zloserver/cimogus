@@ -131,6 +131,7 @@ PageType {
 
                     KeyNavigation.tab: submitButton
                 }
+                Binding { root.email: emailField.textField.text }
 
                 BasicButtonType {
                     id: submitButton
