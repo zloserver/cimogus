@@ -13,6 +13,7 @@
 #include <QLocalSocket>
 #include <QLocalServer>
 
+#include "screenMarginInfo.h"
 #include "logger.h"
 #include "ui/models/installedAppsModel.h"
 #include "version.h"
@@ -140,6 +141,8 @@ void AmneziaApplication::init()
     QTimer::singleShot(0, this, [this]() { ZloVPN::toggleScreenshots(m_settings->isScreenshotsEnabled()); });
 
     connect(m_settings.get(), &Settings::screenshotsEnabledChanged, [](bool enabled) { ZloVPN::toggleScreenshots(enabled); });
+
+    QTimer::singleShot(0, this, [this]() { m_screenMarginController->refreshScreenMargins(); });
 #endif
 
 #ifndef Q_OS_ANDROID
@@ -195,6 +198,7 @@ void AmneziaApplication::init()
         }
     });
 #endif
+
 }
 
 void AmneziaApplication::registerTypes()
@@ -224,6 +228,7 @@ void AmneziaApplication::registerTypes()
 
     qmlRegisterType<UserInfo>("UserInfo", 1, 0, "UserInfo");
     qmlRegisterType<Errors>("Errors", 1, 0, "Errors");
+    qmlRegisterType<ScreenMarginInfo>("ScreenMarginInfo", 1, 0, "ScreenMarginInfo");
 
     Vpn::declareQmlVpnConnectionStateEnum();
     PageLoader::declareQmlPageEnum();
@@ -435,4 +440,7 @@ void AmneziaApplication::initControllers()
 
     m_systemController.reset(new SystemController(m_settings));
     m_engine->rootContext()->setContextProperty("SystemController", m_systemController.get());
+
+    m_screenMarginController.reset(new ScreenMarginController(this));
+    m_engine->rootContext()->setContextProperty("ScreenMargins", m_screenMarginController.get());
 }

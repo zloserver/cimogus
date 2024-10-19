@@ -8,6 +8,7 @@ import "TextTypes"
 
 Item {
     id: root
+    clip: true
 
     readonly property string drawerExpanded: "expanded"
     readonly property string drawerCollapsed: "collapsed"
@@ -161,15 +162,6 @@ Item {
         color: root.defaultColor
         border.color: root.borderColor
         border.width: 1
-
-        Rectangle {
-            width: parent.radius
-            height: parent.radius
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            anchors.left: parent.left
-            color: parent.color
-        }
     }
 
     Item {

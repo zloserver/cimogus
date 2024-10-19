@@ -498,7 +498,7 @@ Already installed containers were found on the server. All installed containers 
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageChangeEmail.qml" line="88"/>
-        <source>Your email has been changed successfully.</source>
+        <source>A confirmation link has been sent to your email.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3575,70 +3575,70 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
 <context>
     <name>PageUserAccount</name>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="87"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="80"/>
         <source>Buy %1 month</source>
         <translation>Купить %1 месяц</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="89"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="82"/>
         <source>Buy %1 months</source>
         <comment>2,3,4</comment>
         <translation>Купить %1 месяца</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="90"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="83"/>
         <source>Buy %1 months</source>
         <comment>&gt;=5</comment>
         <translation>Купить %1 месяцев</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="125"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="113"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="149"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="153"/>
         <source>Username</source>
         <translation type="unfinished">Имя пользователя</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="163"/>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="228"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="167"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="232"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="190"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="194"/>
         <source>Change password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="242"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="246"/>
         <source>You can&apos;t add more balance yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="162"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="166"/>
         <source>Email</source>
         <translation type="unfinished">Почта</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="173"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="177"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="59"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="52"/>
         <source>Add Balance</source>
         <translation>Пополнить баланс</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="81"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="74"/>
         <source>Months</source>
         <translation>Месяцев</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="227"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="231"/>
         <source>Balance</source>
         <translation>Баланс</translation>
     </message>
@@ -3647,7 +3647,7 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
         <translation type="vanished"> дней</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="238"/>
+        <location filename="../ui/qml/Pages2/PageUserAccount.qml" line="242"/>
         <source>Add</source>
         <translation>Пополнить</translation>
     </message>
@@ -4981,12 +4981,12 @@ This means that AmneziaWG keeps the fast performance of the original while addin
 <context>
     <name>main2</name>
     <message>
-        <location filename="../ui/qml/main2.qml" line="163"/>
+        <location filename="../ui/qml/main2.qml" line="178"/>
         <source>Private key passphrase</source>
         <translation>Парольная фраза для закрытого ключа</translation>
     </message>
     <message>
-        <location filename="../ui/qml/main2.qml" line="186"/>
+        <location filename="../ui/qml/main2.qml" line="201"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>

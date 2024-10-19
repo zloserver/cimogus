@@ -6,13 +6,14 @@ import QtQuick.Dialogs
 
 import PageEnum 1.0
 import Style 1.0
+import ScreenMarginInfo 1.0
 
 import "Config"
 import "Controls2"
 import "Components"
 import "Pages2"
 
-Window  {
+ApplicationWindow  {
     id: root
     objectName: "mainWindow"
     visible: true
@@ -22,6 +23,8 @@ Window  {
     minimumHeight: GC.isDesktop() ? 640 : 0
     maximumWidth: 600
     maximumHeight: 800
+
+    flags: (Qt.platform.os === "ios" ? Qt.MaximizeUsingFullscreenGeometryHint : 0)
 
     color: AmneziaStyle.color.midnightBlack
 
@@ -89,6 +92,10 @@ Window  {
         anchors.left: parent.left
         anchors.bottom: parent.bottom
 
+        anchors.bottomMargin: ScreenMargins.margins.bottom
+        anchors.leftMargin: ScreenMargins.margins.left
+        anchors.rightMargin: ScreenMargins.margins.right
+
         implicitHeight: popupNotificationMessage.height
 
         PopupType {
@@ -112,6 +119,10 @@ Window  {
         anchors.left: parent.left
         anchors.bottom: parent.bottom
 
+        anchors.bottomMargin: ScreenMargins.margins.bottom
+        anchors.leftMargin: ScreenMargins.margins.left
+        anchors.rightMargin: ScreenMargins.margins.right
+
         implicitHeight: popupErrorMessage.height
 
         PopupType {
@@ -121,6 +132,10 @@ Window  {
 
     Item {
         anchors.fill: parent
+        anchors.topMargin: ScreenMargins.margins.top
+        anchors.bottomMargin: ScreenMargins.margins.bottom
+        anchors.leftMargin: ScreenMargins.margins.left
+        anchors.rightMargin: ScreenMargins.margins.right
 
         DrawerType2 {
             id: privateKeyPassphraseDrawer

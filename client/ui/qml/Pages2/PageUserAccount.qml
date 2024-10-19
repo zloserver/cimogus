@@ -16,94 +16,127 @@ import UserInfo 1.0
 PageType {
     id: root
 
-    FlickableType {
-        id: fl
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        // contentItem: content
-        // contentHeight: content.height
+    Popup {
+        property real monthsToAdd: 2
 
-        Popup {
-            property real monthsToAdd: 2
+        id: blockingPopup
+        anchors.centerIn: Overlay.overlay
+        background: Rectangle {
+            radius: 16
+            color: Qt.rgba(14/255, 14/255, 17/255, 0.8)
+            border.color: "transparent"
+        }
 
-            id: blockingPopup
-            anchors.centerIn: Overlay.overlay
-            background: Rectangle {
-                radius: 16
-                color: Qt.rgba(14/255, 14/255, 17/255, 0.8)
-                border.color: "transparent"
+        enter: Transition {
+            NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 100 }
+        }
+        exit: Transition {
+            NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 100 }
+        }
+
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnPressOutside
+
+        padding: 20
+        property int margin: 32
+        property int maxWidth: 380
+        width: Math.min(parent.width - margin, maxWidth)
+
+        ColumnLayout {
+            id: popupContent
+            width: parent.width
+            spacing: 16
+
+            Header2Type {
+                headerText: qsTr("Add Balance")
             }
-
-            enter: Transition {
-                NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 100 }
-            }
-            exit: Transition {
-                NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 100 }
-            }
-
-            modal: true
-            focus: true
-            closePolicy: Popup.CloseOnPressOutside
-
-            padding: 20
-            property int margin: 32
-            property int maxWidth: 380
-            width: Math.min(parent.width - margin, maxWidth)
 
             ColumnLayout {
-                id: popupContent
-                width: parent.width
-                spacing: 16
+                Layout.fillWidth: true
+                visible: AuthController.userInfo.monthsAvailableToAdd() > 1
 
-                Header2Type {
-                    headerText: qsTr("Add Balance")
-                }
+                SliderType {
+                    id: monthsSlider
 
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    visible: AuthController.userInfo.monthsAvailableToAdd() > 1
-
-                    SliderType {
-                        id: monthsSlider
-
-                        minValue: 1
-                        maxValue: AuthController.userInfo.monthsAvailableToAdd()
-                        value: blockingPopup.monthsToAdd
-                        slider.onValueChanged: {
-                            blockingPopup.monthsToAdd = monthsSlider.value
-                        }
-                    }
-
-                    LabelTextType {
-                        Layout.alignment: Qt.AlignHCenter
-                        font.pixelSize: 16
-
-                        text: qsTr("Months")
-                        color: AmneziaStyle.color.mutedGray
+                    minValue: 1
+                    maxValue: AuthController.userInfo.monthsAvailableToAdd()
+                    value: blockingPopup.monthsToAdd
+                    slider.onValueChanged: {
+                        blockingPopup.monthsToAdd = monthsSlider.value
                     }
                 }
 
-                function localizeMonths(count) {
-                    if (count == 1) return qsTr("Buy %1 month").arg(count);
-                    const lastDigit = count % 10;
-                    if (lastDigit == 2 || lastDigit == 3 || lastDigit == 4) return qsTr("Buy %1 months", "2,3,4").arg(count);
-                    return qsTr("Buy %1 months", ">=5").arg(count);
+                LabelTextType {
+                    Layout.alignment: Qt.AlignHCenter
+                    font.pixelSize: 16
+
+                    text: qsTr("Months")
+                    color: AmneziaStyle.color.mutedGray
                 }
+            }
 
-                BasicButtonType {
-                    id: buyButton
+            function localizeMonths(count) {
+                if (count == 1) return qsTr("Buy %1 month").arg(count);
+                const lastDigit = count % 10;
+                if (lastDigit == 2 || lastDigit == 3 || lastDigit == 4) return qsTr("Buy %1 months", "2,3,4").arg(count);
+                return qsTr("Buy %1 months", ">=5").arg(count);
+            }
 
-                    Layout.fillWidth: true
-                    text: popupContent.localizeMonths(blockingPopup.monthsToAdd)
+            BasicButtonType {
+                id: buyButton
 
-                    onClicked: {
-                        blockingPopup.close()
-                        PageController.showBusyIndicator(true)
-                        AuthController.addBalance(blockingPopup.monthsToAdd)
-                    }
+                Layout.fillWidth: true
+                text: popupContent.localizeMonths(blockingPopup.monthsToAdd)
+
+                onClicked: {
+                    blockingPopup.close()
+                    PageController.showBusyIndicator(true)
+                    AuthController.addBalance(blockingPopup.monthsToAdd)
                 }
             }
         }
+    }
+
+    RowLayout {
+        id: topStrip
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.left: parent.left
+
+        HeaderType {
+            Layout.fillWidth: true
+            Layout.topMargin: 24
+            Layout.rightMargin: 16
+            Layout.leftMargin: 16
+
+            headerText: qsTr("Profile")
+        }
+
+        ImageButtonType {
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+            Layout.topMargin: 24
+            Layout.rightMargin: 16
+
+            image: "qrc:/images/controls/logout.svg"
+            imageColor: AmneziaStyle.color.paleGray
+
+            implicitWidth: 40
+            implicitHeight: 40
+
+            onClicked: {
+                AuthController.logout()
+                PageController.goToPage(PageEnum.PageSetupWizardStart)
+            }
+        }
+    }
+
+    FlickableType {
+        id: fl
+        anchors.top: topStrip.bottom
+        anchors.bottom: bottomStrip.top
+        // contentItem: content
+        // contentHeight: content.height
 
         ColumnLayout {
             id: content
@@ -113,35 +146,6 @@ PageType {
             anchors.left: parent.left
 
             spacing: 0
-            RowLayout {
-                Layout.fillWidth: true
-
-                HeaderType {
-                    Layout.fillWidth: true
-                    Layout.topMargin: 24
-                    Layout.rightMargin: 16
-                    Layout.leftMargin: 16
-
-                    headerText: qsTr("Profile")
-                }
-
-                ImageButtonType {
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-                    Layout.topMargin: 24
-                    Layout.rightMargin: 16
-
-                    image: "qrc:/images/controls/logout.svg"
-                    imageColor: AmneziaStyle.color.paleGray
-
-                    implicitWidth: 40
-                    implicitHeight: 40
-
-                    onClicked: {
-                        AuthController.logout()
-                        PageController.goToPage(PageEnum.PageSetupWizardStart)
-                    }
-                }
-            }
 
             LabelWithButtonType {
                 Layout.fillWidth: true
@@ -203,48 +207,47 @@ PageType {
                 Rectangle { anchors.fill: parent; color: "#ffaaaa" }
             }
         }
+    }
 
+    ColumnLayout {
+        id: bottomStrip
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 10
+        anchors.right: parent.right
+        anchors.left: parent.left
 
+        DividerType {}
 
-        ColumnLayout {
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 10
-            anchors.right: parent.right
-            anchors.left: parent.left
+        RowLayout {
+            Layout.fillWidth: true
 
-            DividerType {}
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                LabelWithButtonType {
-                    function uppercaseFirst(x) {
-                        return x.charAt(0).toUpperCase() + x.slice(1);
-                    }
-
-                    Layout.fillWidth: true
-
-                    text: qsTr("Balance")
-                    descriptionText: AuthController.userInfo.isValid ? uppercaseFirst(AuthController.userInfo.localizedTimeLeft) : qsTr("...")
-
-                    leftImageSource: "qrc:/images/controls/balance.svg"
-                    shouldBeWide: true
+            LabelWithButtonType {
+                function uppercaseFirst(x) {
+                    return x.charAt(0).toUpperCase() + x.slice(1);
                 }
 
-                BasicButtonType {
-                    Layout.rightMargin: 16
-                    Layout.leftMargin: 16
-                    Layout.minimumWidth: 90
-                    text: qsTr("Add")
+                Layout.fillWidth: true
 
-                    onClicked: {
-                        if (AuthController.userInfo.monthsAvailableToAdd() == 0) {
-                            PageController.showErrorMessage(qsTr("You can't add more balance yet."))
-                            return;
-                        }
+                text: qsTr("Balance")
+                descriptionText: AuthController.userInfo.isValid ? uppercaseFirst(AuthController.userInfo.localizedTimeLeft) : qsTr("...")
 
-                        blockingPopup.open()
+                leftImageSource: "qrc:/images/controls/balance.svg"
+                shouldBeWide: true
+            }
+
+            BasicButtonType {
+                Layout.rightMargin: 16
+                Layout.leftMargin: 16
+                Layout.minimumWidth: 90
+                text: qsTr("Add")
+
+                onClicked: {
+                    if (AuthController.userInfo.monthsAvailableToAdd() == 0) {
+                        PageController.showErrorMessage(qsTr("You can't add more balance yet."))
+                        return;
                     }
+
+                    blockingPopup.open()
                 }
             }
         }

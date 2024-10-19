@@ -171,6 +171,10 @@ PageType {
         anchors.left: parent.left
         anchors.bottom: tabBar.top
 
+        anchors.topMargin: ScreenMargins.margins.top
+        anchors.leftMargin: ScreenMargins.margins.left
+        anchors.rightMargin: ScreenMargins.margins.right
+
         enabled: !root.isControlsDisabled
 
         function goToTabBarPage(page) {
@@ -200,6 +204,8 @@ PageType {
         anchors.left: parent.left
         anchors.bottom: parent.bottom
 
+        anchors.bottomMargin: ScreenMargins.margins.bottom
+
         topPadding: 8
         bottomPadding: 8
         leftPadding: 96
@@ -218,8 +224,8 @@ PageType {
                 startY: 0
 
                 PathLine { x: width; y: 0 }
-                PathLine { x: width; y: tabBar.height - 1 }
-                PathLine { x: 0; y: tabBar.height - 1 }
+                PathLine { x: width; y: height - 1 }
+                PathLine { x: 0; y: height - 1 }
                 PathLine { x: 0; y: 0 }
 
                 strokeWidth: 1

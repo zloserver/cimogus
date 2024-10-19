@@ -14,6 +14,7 @@
 
 #include "settings.h"
 #include "vpnconnection.h"
+#include "screenMarginInfo.h"
 
 #include "ui/controllers/connectionController.h"
 #include "ui/controllers/importController.h"
@@ -134,6 +135,7 @@ private:
     QScopedPointer<SystemController> m_systemController;
     QScopedPointer<AppSplitTunnelingController> m_appSplitTunnelingController;
     QSharedPointer<AuthController> m_authController;
+    QScopedPointer<ScreenMarginController> m_screenMarginController;
 
     QNetworkAccessManager *m_nam;
 
