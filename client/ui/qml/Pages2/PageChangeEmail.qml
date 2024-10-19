@@ -77,7 +77,7 @@ PageType {
             spacing: 16
 
             Header2Type {
-                headerText: qsTr("Email changed")
+                headerText: qsTr("Email change")
             }
 
             ParagraphTextType {
@@ -85,7 +85,7 @@ PageType {
 
                 font.pixelSize: 14
 
-                text: qsTr("A confirmation link has been sent to your email.")
+                text: qsTr("A confirmation link has been sent to your old email.")
                 color: AmneziaStyle.color.paleGray
             }
 

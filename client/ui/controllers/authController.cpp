@@ -404,7 +404,7 @@ void AuthController::addBalance(qint32 months) {
             QString paymentUrl = document.object()["paymentUrl"].toString();
             if (!QDesktopServices::openUrl(paymentUrl)) {
                 Errors errors{};
-                errors.errorMessage = tr("Payment", "Failed to open payment link");
+                errors.errorMessage = tr("Payment", "Failed to open payment page");
                 emit errorOccurred(errors);
             }
             else {
