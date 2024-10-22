@@ -234,67 +234,92 @@ jobs:
 
   # ------------------------------------------------------
 
-  # Build-MacOS:
-  #   runs-on: macos-latest
+  Build-MacOS:
+    runs-on: macos-latest
 
-  #   env:
-  #     # Keep compat with MacOS 10.15 aka Catalina by Qt 6.4
-  #     QT_VERSION: 6.4.3
-  #     QIF_VERSION: 4.6
+    env:
+      QT_VERSION: 6.5.3
 
-  #   steps:
-  #     - name: "Setup xcode"
-  #       uses: maxim-lobanov/setup-xcode@v1
-  #       with:
-  #         xcode-version: "14.3.1"
+    steps:
+      - name: "Setup xcode"
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "16"
 
-  #     - name: "Install Qt"
-  #       uses: jurplel/install-qt-action@v3
-  #       with:
-  #         version: ${{ env.QT_VERSION }}
-  #         host: "mac"
-  #         target: "desktop"
-  #         arch: "clang_64"
-  #         modules: "qtremoteobjects qt5compat qtshadertools"
-  #         dir: ${{ runner.temp }}
-  #         setup-python: "true"
-  #         set-env: "true"
-  #         extra: "--external 7z --base ${{ env.QT_MIRROR }}"
+      - name: "Install Qt"
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: "mac"
+          target: "desktop"
+          arch: "clang_64"
+          modules: "qtremoteobjects qt5compat qtshadertools"
+          dir: ${{ runner.temp }}
+          setup-python: "true"
+          set-env: "true"
+          extra: "--external 7z --base ${{ env.QT_MIRROR }}"
 
-  #     - name: "Install Qt Installer Framework ${{ env.QIF_VERSION }}"
-  #       run: |
-  #         mkdir -pv ${{ runner.temp }}/Qt/Tools/QtInstallerFramework
-  #         wget https://qt.amzsvc.com/tools/ifw/${{ env.QIF_VERSION }}.zip
-  #         unzip ${{ env.QIF_VERSION }}.zip -d ${{ runner.temp }}/Qt/Tools/QtInstallerFramework/
+      - name: "Install create-dmg"
+        run: |
+          brew install create-dmg
 
-  #     - name: "Get sources"
-  #       uses: actions/checkout@v4
-  #       with:
-  #         submodules: "true"
-  #         fetch-depth: 10
+      - name: "Setup AWS CLI"
+        run: |
+          curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+          sudo installer -pkg AWSCLIV2.pkg -target /
 
-  #     - name: "Setup ccache"
-  #       uses: hendrikmuhs/ccache-action@v1.2
+      - name: "Get sources"
+        uses: actions/checkout@v4
+        with:
+          submodules: "true"
+          fetch-depth: 10
 
-  #     - name: "Build project"
-  #       run: |
-  #         export QT_BIN_DIR="${{ runner.temp }}/Qt/${{ env.QT_VERSION }}/macos/bin"
-  #         export QIF_BIN_DIR="${{ runner.temp }}/Qt/Tools/QtInstallerFramework/${{ env.QIF_VERSION }}/bin"
-  #         bash deploy/build_macos.sh
+      - name: "Setup ccache"
+        uses: hendrikmuhs/ccache-action@v1.2
 
-  #     - name: "Upload installer artifact"
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: AmneziaVPN_MacOS_installer
-  #         path: AmneziaVPN.dmg
-  #         retention-days: 7
+      - name: "Extract api key"
+        run: |
+          mkdir -p private_keys
+          echo ${{ secrets.APPSTORE_API_KEY_BASE64 }} | base64 --decode > private_keys/AuthKey_${{ secrets.APPSTORE_API_KEY_NAME }}.p8
 
-  #     - name: "Upload unpacked artifact"
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: AmneziaVPN_MacOS_unpacked
-  #         path: deploy/build/client/AmneziaVPN.app
-  #         retention-days: 7
+      - name: "Build project"
+        run: |
+          export QT_BIN_DIR="${{ runner.temp }}/Qt/${{ env.QT_VERSION }}/macos/bin"
+          bash deploy/build_macos.sh
+        env:
+          MACOS_SIGNING_CERT_BASE64: ${{ secrets.MACOS_SIGNING_CERT_BASE64 }}
+          MACOS_SIGNING_CERT_PASSWORD: ${{ secrets.MACOS_SIGNING_CERT_PASSWORD }}
+          APPSTORE_API_KEY_NAME: ${{ secrets.APPSTORE_API_KEY_NAME }}
+          APPSTORE_API_KEY_ISSUER: ${{ secrets.APPSTORE_API_KEY_ISSUER }}
+          CODESIGN_ID: ${{ vars.CODESIGN_ID }}
+
+      - name: "Download sparkle"
+        run: |
+          wget -O Sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.6.4/Sparkle-2.6.4.tar.xz
+          mkdir -p sparkle
+          tar -xzvf Sparkle.tar.xz -C sparkle
+
+      - name: "Upload installer artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZloVPN_macOS_Installer
+          path: ZloVPN.dmg
+          retention-days: 7
+
+      - name: "Sync r2 releases"
+        run: |
+          mkdir -p r2-release
+          aws s3 cp s3://${{ vars.UPDATES_BUCKET }}/appcast.xml r2-release/appcast.xml || true
+          export PROJECT_VERSION=$(cat project-version)
+          mkdir -p r2-release/macos
+          mv ZloVPN.dmg r2-release/macos/ZloVPN_${PROJECT_VERSION}.dmg
+          echo "${{ secrets.SPARKLE_SIGNING_KEY }}" | ./sparkle/bin/generate_appcast --ed-key-file - --download-url-prefix ${{ vars.UPDATES_BUCKET_URL }} r2-release/macos
+          aws s3 sync r2-release s3://${{ vars.UPDATES_BUCKET }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}
 
   # ------------------------------------------------------
 

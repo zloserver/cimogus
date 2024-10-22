@@ -76,6 +76,7 @@ private:
 public:
     static void install();
     static void uninstall();
+    static bool isPartiallyInstalled();
     static bool isInstalled();
     static void enableAnchor(const QString &anchor);
     static void disableAnchor(const QString &anchor);

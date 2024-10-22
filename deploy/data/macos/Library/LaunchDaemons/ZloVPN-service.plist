@@ -4,10 +4,8 @@
 <dict>
     <key>Label</key>
     <string>ZloVPN-service</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Applications/ZloVPN.app/Contents/MacOS/ZloVPN-service</string>
-    </array>
+    <key>BundleProgram</key>
+    <string>Contents/MacOS/ZloVPN-service</string>
     <key>KeepAlive</key>
     <true/>
     <key>Sockets</key>

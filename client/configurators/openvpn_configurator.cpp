@@ -18,6 +18,7 @@
 #include "core/scripts_registry.h"
 #include "core/server_defs.h"
 #include "settings.h"
+#include "amnezia_application.h"
 #include "utilities.h"
 
 #include <openssl/pem.h>
@@ -146,7 +147,7 @@ QString OpenVpnConfigurator::processConfigWithLocalSettings(const QPair<QString,
     QString dnsConf = QString("\nscript-security 2\n"
                               "up %1/update-resolv-conf.sh\n"
                               "down %1/update-resolv-conf.sh\n")
-                              .arg(qApp->applicationDirPath());
+                        .arg(amnApp->resourcesDirPath());
 
     config.append(dnsConf);
 #endif

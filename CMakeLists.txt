@@ -4,7 +4,9 @@ set(CMAKE_PREFIX_PATH "/Users/kate/Qt/6.5.3/macos")
 
 set(PROJECT ZloVPN)
 
-project(${PROJECT} VERSION 4.8.2.9
+file(READ project-version READ_VERSION)
+
+project(${PROJECT} VERSION ${READ_VERSION}
         DESCRIPTION "ZloVPN"
         HOMEPAGE_URL "https://zlovpn.com/"
 )
@@ -37,10 +39,12 @@ if(APPLE AND NOT IOS)
     set(CMAKE_OSX_ARCHITECTURES "x86_64")
 endif()
 
-add_subdirectory(client)
-
 if(NOT IOS AND NOT ANDROID)
     add_subdirectory(service)
 
-    include(${CMAKE_SOURCE_DIR}/deploy/installer/config.cmake)
+    if (NOT APPLE)
+        include(${CMAKE_SOURCE_DIR}/deploy/installer/config.cmake)
+    endif()
 endif()
+
+add_subdirectory(client)

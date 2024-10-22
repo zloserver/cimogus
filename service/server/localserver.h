@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QPointer>
 #include <QProcess>
+#include <QSet>
 #include <QSharedPointer>
 #include <QStringList>
 #include <QVector>
@@ -11,7 +12,6 @@
 #include "ipcserver.h"
 
 #include "../../client/daemon/daemonlocalserver.h"
-
 
 #ifdef Q_OS_WIN
 #include "windows/daemon/windowsdaemon.h"
@@ -29,29 +29,29 @@ class QLocalServer;
 class QLocalSocket;
 class QProcess;
 
-class LocalServer : public QObject
-{
-    Q_OBJECT
+class LocalServer : public QObject {
+  Q_OBJECT
 
 public:
-    explicit LocalServer(QObject* parent = nullptr);
-    ~LocalServer();
-    QSharedPointer<QLocalServer> m_server;
-    IpcServer m_ipcServer;
-    IpcProcessTun2Socks m_tun2socks;
-    QRemoteObjectHost m_serverNode;
-    bool m_isRemotingEnabled = false;
+  explicit LocalServer(QObject *parent = nullptr);
+  ~LocalServer();
+  QSharedPointer<QLocalServer> m_server;
+  IpcServer m_ipcServer;
+  IpcProcessTun2Socks m_tun2socks;
+  QRemoteObjectHost m_serverNode;
+  quint64 m_connectionCount = 0;
+  bool m_isRemotingEnabled = false;
 #ifdef Q_OS_LINUX
-    DaemonLocalServer server{qApp};
-    LinuxDaemon daemon;
+  DaemonLocalServer server{qApp};
+  LinuxDaemon daemon;
 #endif
 #ifdef Q_OS_WIN
-    DaemonLocalServer server{qApp};
-    WindowsDaemon daemon;
+  DaemonLocalServer server{qApp};
+  WindowsDaemon daemon;
 #endif
 #ifdef Q_OS_MAC
-    DaemonLocalServer server{qApp};
-    MacOSDaemon daemon;
+  DaemonLocalServer server{qApp};
+  MacOSDaemon daemon;
 #endif
 };
 

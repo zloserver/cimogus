@@ -80,7 +80,7 @@
 <context>
     <name>AuthController</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="407"/>
+        <location filename="../ui/controllers/authController.cpp" line="428"/>
         <source>Payment</source>
         <comment>Failed to open payment page</comment>
         <translation>Произошла ошибка при открытии страницы оплаты.</translation>
@@ -212,27 +212,27 @@
 <context>
     <name>DaysLocale</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="20"/>
+        <location filename="../ui/controllers/authController.cpp" line="25"/>
         <source>%1 days left</source>
         <translation>осталось %1 дней</translation>
     </message>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="18"/>
+        <location filename="../ui/controllers/authController.cpp" line="22"/>
         <source>%1 day left</source>
         <translation>остался %1 день</translation>
     </message>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="28"/>
+        <location filename="../ui/controllers/authController.cpp" line="35"/>
         <source>%1 hours left</source>
         <translation>осталось %1 часов</translation>
     </message>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="26"/>
+        <location filename="../ui/controllers/authController.cpp" line="32"/>
         <source>%1 hour left</source>
         <translation>остался %1 час</translation>
     </message>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="41"/>
+        <location filename="../ui/controllers/authController.cpp" line="51"/>
         <source>less than an hour left</source>
         <translation>осталось меньше часа</translation>
     </message>
@@ -240,12 +240,12 @@
 <context>
     <name>DaysLocale234</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="19"/>
+        <location filename="../ui/controllers/authController.cpp" line="24"/>
         <source>%1 days left</source>
         <translation>осталось %1 дня</translation>
     </message>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="27"/>
+        <location filename="../ui/controllers/authController.cpp" line="34"/>
         <source>%1 hours left</source>
         <translation>осталось %1 часа</translation>
     </message>
@@ -602,6 +602,19 @@ Already installed containers were found on the server. All installed containers 
     </message>
 </context>
 <context>
+    <name>PageFirstSetup</name>
+    <message>
+        <location filename="../ui/qml/Pages2/PageFirstSetup.qml" line="33"/>
+        <source>Initial setup is running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageFirstSetup.qml" line="40"/>
+        <source>Please wait</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PageForgotPassword</name>
     <message>
         <location filename="../ui/qml/Pages2/PageForgotPassword.qml" line="59"/>
@@ -710,6 +723,69 @@ Already installed containers were found on the server. All installed containers 
         <location filename="../ui/qml/Pages2/PageLogin.qml" line="125"/>
         <source>Forgot password?</source>
         <translation>Забыли пароль?</translation>
+    </message>
+</context>
+<context>
+    <name>PageLookingForServer</name>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="41"/>
+        <source>Looking for server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="48"/>
+        <source>Please wait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="69"/>
+        <source>Failed to find server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="78"/>
+        <source>Possible reasons:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="87"/>
+        <source>• You are having connection issues</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="91"/>
+        <source>• One of our servers has been blocked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="95"/>
+        <source>• Our servers are down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="99"/>
+        <source>• Your app is out of date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="111"/>
+        <source>Website</source>
+        <translation type="unfinished">Веб-сайт</translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="124"/>
+        <source>Telegram</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="137"/>
+        <source>Email</source>
+        <translation type="unfinished">Почта</translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="145"/>
+        <source>Copied</source>
+        <translation type="unfinished">Скопировано</translation>
     </message>
 </context>
 <context>
@@ -1617,17 +1693,22 @@ Already installed containers were found on the server. All installed containers 
         <translation type="vanished">Серверы</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageSettings.qml" line="50"/>
+        <location filename="../ui/qml/Pages2/PageSettings.qml" line="52"/>
+        <source>Check for updates</source>
+        <translation type="unfinished">Проверить обновления</translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageSettings.qml" line="69"/>
         <source>Connection</source>
         <translation>Соединение</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageSettings.qml" line="67"/>
+        <location filename="../ui/qml/Pages2/PageSettings.qml" line="86"/>
         <source>Application</source>
         <translation>Приложение</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageSettings.qml" line="84"/>
+        <location filename="../ui/qml/Pages2/PageSettings.qml" line="103"/>
         <source>About ZloVPN</source>
         <translation type="unfinished">О ZloVPN</translation>
     </message>
@@ -1640,12 +1721,12 @@ Already installed containers were found on the server. All installed containers 
         <translation type="vanished">Об AmneziaVPN</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageSettings.qml" line="102"/>
+        <location filename="../ui/qml/Pages2/PageSettings.qml" line="121"/>
         <source>Dev console</source>
         <translation type="unfinished">Консоль разработчика</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageSettings.qml" line="123"/>
+        <location filename="../ui/qml/Pages2/PageSettings.qml" line="142"/>
         <source>Close application</source>
         <translation>Закрыть приложение</translation>
     </message>
@@ -3557,17 +3638,17 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
 <context>
     <name>PageStart</name>
     <message>
-        <location filename="../ui/qml/Pages2/PageStart.qml" line="135"/>
+        <location filename="../ui/qml/Pages2/PageStart.qml" line="141"/>
         <source>Logging was disabled after 14 days, log files were deleted</source>
         <translation>Логирование было отключено по прошествии 14 дней, файлы логов были удалены.</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageStart.qml" line="139"/>
+        <location filename="../ui/qml/Pages2/PageStart.qml" line="145"/>
         <source>Settings restored from backup file</source>
         <translation>Настройки восстановлены из бэкап файла</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageStart.qml" line="145"/>
+        <location filename="../ui/qml/Pages2/PageStart.qml" line="151"/>
         <source>Logging is enabled. Note that logs will be automaticallydisabled after 14 days, and all log files will be deleted.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4883,7 +4964,7 @@ This means that AmneziaWG keeps the fast performance of the original while addin
 <context>
     <name>VpnConnection</name>
     <message>
-        <location filename="../vpnconnection.cpp" line="408"/>
+        <location filename="../vpnconnection.cpp" line="397"/>
         <source>Mbps</source>
         <translation>Мбит/с</translation>
     </message>

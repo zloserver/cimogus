@@ -24,7 +24,13 @@ PageType {
         target: PageController
 
         function onGoToPageHome() {
-            if (!AuthController.hasToken()) {
+            if (FirstSetupController.firstSetupNeeded()) {
+                tabBar.visible = false
+                tabBarStackView.goToTabBarPage(PageEnum.PageFirstSetup)
+            } else if (!AuthController.spikeReady) {
+                tabBar.visible = false
+                tabBarStackView.goToTabBarPage(PageEnum.PageLookingForServer)
+            } else if (!AuthController.hasToken()) {
                 tabBar.visible = false
                 tabBarStackView.goToTabBarPage(PageEnum.PageSetupWizardStart)
             } else {
@@ -153,7 +159,13 @@ PageType {
         target: AuthController
 
         function onTokenUpdated(authenticationStateChanged) {
-            if (!AuthController.isAuthenticated()) {
+            if (FirstSetupController.firstSetupNeeded()) {
+                tabBar.visible = false
+                PageController.goToPage(PageEnum.PageFirstSetup)
+            } else if (!AuthController.spikeReady) {
+                tabBar.visible = false
+                PageController.goToPage(PageEnum.PageLookingForServer)
+            } else if (!AuthController.isAuthenticated()) {
                 tabBar.visible = false
                 PageController.goToPage(PageEnum.PageSetupWizardStart)
             } else if (authenticationStateChanged && AuthController.isAuthenticated()) {
@@ -185,7 +197,13 @@ PageType {
 
         Component.onCompleted: {
             var pagePath
-            if (!AuthController.hasToken()) {
+            if (FirstSetupController.firstSetupNeeded()) {
+                tabBar.visible = false
+                pagePath = PageController.getPagePath(PageEnum.PageFirstSetup)
+            } else if (!AuthController.spikeReady) {
+                tabBar.visible = false
+                pagePath = PageController.getPagePath(PageEnum.PageLookingForServer)
+            } else if (!AuthController.hasToken()) {
                 tabBar.visible = false
                 pagePath = PageController.getPagePath(PageEnum.PageSetupWizardStart)
             } else {

@@ -233,6 +233,9 @@
         <file>ui/qml/Pages2/PageForgotPassword.qml</file>
         <file>ui/qml/Pages2/PageChangePassword.qml</file>
         <file>ui/qml/Pages2/PageChangeEmail.qml</file>
+        <file>ui/qml/Pages2/PageFirstSetup.qml</file>
+        <file>ui/qml/Pages2/PageLookingForServer.qml</file>
+        <file>ui/qml/Controls2/SpinnerType.qml</file>
     </qresource>
     <qresource prefix="/countriesFlags">
         <file>images/flagKit/ZW.svg</file>

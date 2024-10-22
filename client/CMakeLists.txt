@@ -10,16 +10,16 @@ set_property(GLOBAL PROPERTY AUTOMOC_TARGETS_FOLDER "Autogen")
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "Autogen")
 
 set(PACKAGES
-    Core Gui Network Xml
-    RemoteObjects Quick Svg QuickControls2
-    Core5Compat Concurrent LinguistTools
+        Core Gui Network Xml
+        RemoteObjects Quick Svg QuickControls2
+        Core5Compat Concurrent LinguistTools Qml
 )
 
 execute_process(
-  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-  COMMAND git rev-parse --short HEAD
-  OUTPUT_VARIABLE GIT_COMMIT_HASH
-  OUTPUT_STRIP_TRAILING_WHITESPACE
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        COMMAND git rev-parse --short HEAD
+        OUTPUT_VARIABLE GIT_COMMIT_HASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
 add_definitions(-DGIT_COMMIT_HASH="${GIT_COMMIT_HASH}")
@@ -30,45 +30,76 @@ add_definitions(-DPROD_PROXY_STORAGE_KEY="$ENV{PROD_PROXY_STORAGE_KEY}")
 add_definitions(-DDEV_AGW_PUBLIC_KEY="$ENV{DEV_AGW_PUBLIC_KEY}")
 add_definitions(-DDEV_AGW_ENDPOINT="$ENV{DEV_AGW_ENDPOINT}")
 
-if(IOS)
+if (IOS)
     set(PACKAGES ${PACKAGES} Multimedia)
-endif()
+endif ()
 
-if(WIN32 OR (APPLE AND NOT IOS) OR (LINUX AND NOT ANDROID))
+if (WIN32 OR (APPLE AND NOT IOS) OR (LINUX AND NOT ANDROID))
     set(PACKAGES ${PACKAGES} Widgets)
-endif()
+endif ()
 
 find_package(Qt6 REQUIRED COMPONENTS ${PACKAGES})
 
 set(LIBS ${LIBS}
-    Qt6::Core Qt6::Gui
-    Qt6::Network Qt6::Xml Qt6::RemoteObjects
-    Qt6::Quick Qt6::Svg Qt6::QuickControls2
-    Qt6::Core5Compat Qt6::Concurrent
+        Qt6::Core Qt6::Gui
+        Qt6::Network Qt6::Xml Qt6::RemoteObjects
+        Qt6::Quick Qt6::Svg Qt6::QuickControls2
+        Qt6::Core5Compat Qt6::Concurrent
 )
 
-if(IOS)
+if (IOS)
     set(LIBS ${LIBS} Qt6::Multimedia)
-endif()
+endif ()
 
-if(WIN32 OR (APPLE AND NOT IOS) OR (LINUX AND NOT ANDROID))
+if (WIN32 OR (APPLE AND NOT IOS) OR (LINUX AND NOT ANDROID))
     set(LIBS ${LIBS} Qt6::Widgets)
-endif()
+endif ()
 
 qt_standard_project_setup()
 qt_add_executable(${PROJECT} MANUAL_FINALIZATION
-    ui/controllers/authController.h ui/controllers/authController.cpp
-    endpoints.h
-    ui/models/availableProtocolsModel.h ui/models/availableProtocolsModel.cpp
-    ui/models/regionsModel.h ui/models/regionsModel.cpp
-    errorParser.h errorParser.cpp
+        ui/controllers/authController.h ui/controllers/authController.cpp
+        endpoints.h
+        ui/models/availableProtocolsModel.h ui/models/availableProtocolsModel.cpp
+        ui/models/regionsModel.h ui/models/regionsModel.cpp
+        errorParser.h errorParser.cpp
+        core/controllers/firstSetupController.h core/controllers/firstSetupController.cpp
+        core/controllers/autoUpdateController.h core/controllers/autoUpdateController.cpp
 )
 
-if(WIN32 OR (APPLE AND NOT IOS) OR (LINUX AND NOT ANDROID))
+if (APPLE AND NOT IOS)
+    set(FRAMEWORKS_DIR ${CMAKE_CURRENT_LIST_DIR}/3rd/macos)
+    set(FRAMEWORKS ${FRAMEWORKS_DIR}/Sparkle.framework)
+
+    set(LIBS ${LIBS} ${FRAMEWORKS})
+    set_target_properties(${PROJECT} PROPERTIES
+            XCODE_EMBED_FRAMEWORKS ${FRAMEWORKS}
+            XCODE_EMBED_FRAMEWORKS_CODE_SIGN_ON_COPY "YES"
+    )
+
+    # set_target_properties(${PROJECT} PROPERTIES
+    #         MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_LIST_DIR}/macos/app/Info.plist
+    # )
+endif()
+
+file(GLOB_RECURSE QML_FILES *.qml)
+message(${QML_FILES})
+
+set(QML_FILES_DIR ${CMAKE_CURRENT_LIST_DIR}/ui/qml)
+set_source_files_properties(${QML_FILES_DIR}/Modules/Style/AmneziaStyle.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+set_source_files_properties(${QML_FILES_DIR}/Config/GlobalConfig.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
+qt_add_qml_module(${PROJECT}
+        URI Application
+        VERSION 4.8
+        QML_FILES
+        ${QML_FILES}
+)
+
+if (WIN32 OR (APPLE AND NOT IOS) OR (LINUX AND NOT ANDROID))
     qt_add_repc_replicas(${PROJECT} ${CMAKE_CURRENT_LIST_DIR}/../ipc/ipc_interface.rep)
     qt_add_repc_replicas(${PROJECT} ${CMAKE_CURRENT_LIST_DIR}/../ipc/ipc_process_interface.rep)
     qt_add_repc_replicas(${PROJECT} ${CMAKE_CURRENT_LIST_DIR}/../ipc/ipc_process_tun2socks.rep)
-endif()
+endif ()
 
 qt6_add_resources(QRC ${QRC} ${CMAKE_CURRENT_LIST_DIR}/resources.qrc)
 
@@ -76,7 +107,7 @@ qt6_add_resources(QRC ${QRC} ${CMAKE_CURRENT_LIST_DIR}/resources.qrc)
 set(CMAKE_AUTORCC ON)
 
 set(AMNEZIAVPN_TS_FILES
-    ${CMAKE_CURRENT_LIST_DIR}/translations/zlovpn_ru_RU.ts
+        ${CMAKE_CURRENT_LIST_DIR}/translations/zlovpn_ru_RU.ts
 )
 
 file(GLOB_RECURSE AMNEZIAVPN_TS_SOURCES *.qrc *.cpp *.h *.ui)
@@ -84,144 +115,144 @@ file(GLOB_RECURSE AMNEZIAVPN_TS_SOURCES *.qrc *.cpp *.h *.ui)
 qt_create_translation(AMNEZIAVPN_QM_FILES ${AMNEZIAVPN_TS_SOURCES} ${AMNEZIAVPN_TS_FILES})
 
 set(QM_FILE_LIST "")
-foreach(FILE ${AMNEZIAVPN_QM_FILES})
+foreach (FILE ${AMNEZIAVPN_QM_FILES})
     get_filename_component(QM_FILE_NAME ${FILE} NAME)
     list(APPEND QM_FILE_LIST "<file>${QM_FILE_NAME}</file>")
-endforeach()
+endforeach ()
 string(REPLACE ";" "" QM_FILE_LIST ${QM_FILE_LIST})
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/translations/translations.qrc.in ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc)
 qt6_add_resources(QRC ${I18NQRC} ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc)
 # -- i18n end
 
-if(IOS)
+if (IOS)
     execute_process(COMMAND bash ${CMAKE_CURRENT_LIST_DIR}/ios/scripts/openvpn.sh args
-        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
-endif()
+            WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
+endif ()
 
 set(IS_CI ${CI})
-if(IS_CI)
+if (IS_CI)
     message("Detected CI env")
     find_program(CCACHE "ccache")
-    if(CCACHE)
+    if (CCACHE)
         set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE}")
-    endif()
-endif()
+    endif ()
+endif ()
 
 
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/3rdparty.cmake)
 
 include_directories(
-    ${CMAKE_CURRENT_LIST_DIR}/../ipc
-    ${CMAKE_CURRENT_LIST_DIR}/../common/logger
-    ${CMAKE_CURRENT_LIST_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/../ipc
+        ${CMAKE_CURRENT_LIST_DIR}/../common/logger
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
 set(HEADERS ${HEADERS}
-    ${CMAKE_CURRENT_LIST_DIR}/migrations.h
-    ${CMAKE_CURRENT_LIST_DIR}/../ipc/ipc.h
-    ${CMAKE_CURRENT_LIST_DIR}/amnezia_application.h
-    ${CMAKE_CURRENT_LIST_DIR}/screenMarginInfo.h
-    ${CMAKE_CURRENT_LIST_DIR}/containers/containers_defs.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/defs.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/errorstrings.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/scripts_registry.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/server_defs.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/controllers/apiController.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/controllers/serverController.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/controllers/vpnConfigurationController.h
-    ${CMAKE_CURRENT_LIST_DIR}/protocols/protocols_defs.h
-    ${CMAKE_CURRENT_LIST_DIR}/protocols/qml_register_protocols.h
-    ${CMAKE_CURRENT_LIST_DIR}/ui/pages.h
-    ${CMAKE_CURRENT_LIST_DIR}/ui/qautostart.h
-    ${CMAKE_CURRENT_LIST_DIR}/protocols/vpnprotocol.h
-    ${CMAKE_CURRENT_BINARY_DIR}/version.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/sshclient.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/networkUtilities.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/serialization.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/transfer.h
-    ${CMAKE_CURRENT_LIST_DIR}/core/enums/apiEnums.h
-    ${CMAKE_CURRENT_LIST_DIR}/../common/logger/logger.h
+        ${CMAKE_CURRENT_LIST_DIR}/migrations.h
+        ${CMAKE_CURRENT_LIST_DIR}/../ipc/ipc.h
+        ${CMAKE_CURRENT_LIST_DIR}/amnezia_application.h
+        ${CMAKE_CURRENT_LIST_DIR}/screenMarginInfo.h
+        ${CMAKE_CURRENT_LIST_DIR}/containers/containers_defs.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/defs.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/errorstrings.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/scripts_registry.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/server_defs.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/controllers/apiController.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/controllers/serverController.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/controllers/vpnConfigurationController.h
+        ${CMAKE_CURRENT_LIST_DIR}/protocols/protocols_defs.h
+        ${CMAKE_CURRENT_LIST_DIR}/protocols/qml_register_protocols.h
+        ${CMAKE_CURRENT_LIST_DIR}/ui/pages.h
+        ${CMAKE_CURRENT_LIST_DIR}/ui/qautostart.h
+        ${CMAKE_CURRENT_LIST_DIR}/protocols/vpnprotocol.h
+        ${CMAKE_CURRENT_BINARY_DIR}/version.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/sshclient.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/networkUtilities.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/serialization.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/transfer.h
+        ${CMAKE_CURRENT_LIST_DIR}/core/enums/apiEnums.h
+        ${CMAKE_CURRENT_LIST_DIR}/../common/logger/logger.h
 )
 
 # Mozilla headres
 set(HEADERS ${HEADERS}
-    ${CMAKE_CURRENT_LIST_DIR}/mozilla/models/server.h
-    ${CMAKE_CURRENT_LIST_DIR}/mozilla/shared/ipaddress.h
-    ${CMAKE_CURRENT_LIST_DIR}/mozilla/shared/leakdetector.h
-    ${CMAKE_CURRENT_LIST_DIR}/mozilla/controllerimpl.h
-    ${CMAKE_CURRENT_LIST_DIR}/mozilla/localsocketcontroller.h
+        ${CMAKE_CURRENT_LIST_DIR}/mozilla/models/server.h
+        ${CMAKE_CURRENT_LIST_DIR}/mozilla/shared/ipaddress.h
+        ${CMAKE_CURRENT_LIST_DIR}/mozilla/shared/leakdetector.h
+        ${CMAKE_CURRENT_LIST_DIR}/mozilla/controllerimpl.h
+        ${CMAKE_CURRENT_LIST_DIR}/mozilla/localsocketcontroller.h
 )
 
 include_directories(mozilla)
 include_directories(mozilla/shared)
 include_directories(mozilla/models)
 
-if(NOT IOS)
+if (NOT IOS)
     set(HEADERS ${HEADERS}
-        ${CMAKE_CURRENT_LIST_DIR}/platforms/ios/QRCodeReaderBase.h
+            ${CMAKE_CURRENT_LIST_DIR}/platforms/ios/QRCodeReaderBase.h
     )
-endif()
+endif ()
 
-if(NOT ANDROID)
+if (NOT ANDROID)
     set(HEADERS ${HEADERS}
-        ${CMAKE_CURRENT_LIST_DIR}/ui/notificationhandler.h
+            ${CMAKE_CURRENT_LIST_DIR}/ui/notificationhandler.h
     )
-endif()
+endif ()
 
 set(SOURCES ${SOURCES}
-    ${CMAKE_CURRENT_LIST_DIR}/migrations.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/amnezia_application.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/screenMarginInfo.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/containers/containers_defs.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/errorstrings.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/scripts_registry.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/server_defs.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/controllers/apiController.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/controllers/serverController.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/controllers/vpnConfigurationController.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/protocols/protocols_defs.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/ui/qautostart.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/protocols/vpnprotocol.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/sshclient.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/networkUtilities.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/outbound.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/inbound.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/ss.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/ssd.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/vless.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/trojan.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/vmess.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/core/serialization/vmess_new.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/../common/logger/logger.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/migrations.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/amnezia_application.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/screenMarginInfo.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/containers/containers_defs.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/errorstrings.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/scripts_registry.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/server_defs.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/controllers/apiController.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/controllers/serverController.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/controllers/vpnConfigurationController.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/protocols/protocols_defs.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ui/qautostart.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/protocols/vpnprotocol.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/sshclient.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/networkUtilities.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/outbound.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/inbound.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/ss.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/ssd.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/vless.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/trojan.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/vmess.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/core/serialization/vmess_new.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/../common/logger/logger.cpp
 )
 
 # Mozilla sources
 set(SOURCES ${SOURCES}
-    ${CMAKE_CURRENT_LIST_DIR}/mozilla/models/server.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/mozilla/shared/ipaddress.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/mozilla/shared/leakdetector.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/mozilla/localsocketcontroller.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/mozilla/models/server.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/mozilla/shared/ipaddress.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/mozilla/shared/leakdetector.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/mozilla/localsocketcontroller.cpp
 )
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(${PROJECT} PRIVATE "MZ_DEBUG")
-endif()
+endif ()
 
-if(NOT IOS)
+if (NOT IOS)
     set(SOURCES ${SOURCES}
-        ${CMAKE_CURRENT_LIST_DIR}/platforms/ios/QRCodeReaderBase.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/platforms/ios/QRCodeReaderBase.cpp
     )
-endif()
+endif ()
 
-if(NOT ANDROID)
+if (NOT ANDROID)
     set(SOURCES ${SOURCES}
-        ${CMAKE_CURRENT_LIST_DIR}/ui/notificationhandler.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/ui/notificationhandler.cpp
     )
-endif()
+endif ()
 
 file(GLOB COMMON_FILES_H CONFIGURE_DEPENDS ${CMAKE_CURRENT_LIST_DIR}/*.h)
 file(GLOB COMMON_FILES_CPP CONFIGURE_DEPENDS ${CMAKE_CURRENT_LIST_DIR}/*.cpp)
@@ -233,166 +264,226 @@ file(GLOB CONFIGURATORS_H CONFIGURE_DEPENDS ${CMAKE_CURRENT_LIST_DIR}/configurat
 file(GLOB CONFIGURATORS_CPP CONFIGURE_DEPENDS ${CMAKE_CURRENT_LIST_DIR}/configurators/*.cpp)
 
 file(GLOB UI_MODELS_H CONFIGURE_DEPENDS
-    ${CMAKE_CURRENT_LIST_DIR}/ui/models/*.h
-    ${CMAKE_CURRENT_LIST_DIR}/ui/models/protocols/*.h
-    ${CMAKE_CURRENT_LIST_DIR}/ui/models/services/*.h
+        ${CMAKE_CURRENT_LIST_DIR}/ui/models/*.h
+        ${CMAKE_CURRENT_LIST_DIR}/ui/models/protocols/*.h
+        ${CMAKE_CURRENT_LIST_DIR}/ui/models/services/*.h
 )
 file(GLOB UI_MODELS_CPP CONFIGURE_DEPENDS
-    ${CMAKE_CURRENT_LIST_DIR}/ui/models/*.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/ui/models/protocols/*.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/ui/models/services/*.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ui/models/*.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ui/models/protocols/*.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ui/models/services/*.cpp
 )
 
 file(GLOB UI_CONTROLLERS_H CONFIGURE_DEPENDS ${CMAKE_CURRENT_LIST_DIR}/ui/controllers/*.h)
 file(GLOB UI_CONTROLLERS_CPP CONFIGURE_DEPENDS ${CMAKE_CURRENT_LIST_DIR}/ui/controllers/*.cpp)
 
 set(HEADERS ${HEADERS}
-    ${COMMON_FILES_H}
-    ${PAGE_LOGIC_H}
-    ${CONFIGURATORS_H}
-    ${UI_MODELS_H}
-    ${UI_CONTROLLERS_H}
+        ${COMMON_FILES_H}
+        ${PAGE_LOGIC_H}
+        ${CONFIGURATORS_H}
+        ${UI_MODELS_H}
+        ${UI_CONTROLLERS_H}
 )
 set(SOURCES ${SOURCES}
-    ${COMMON_FILES_CPP}
-    ${PAGE_LOGIC_CPP}
-    ${CONFIGURATORS_CPP}
-    ${UI_MODELS_CPP}
-    ${UI_CONTROLLERS_CPP}
+        ${COMMON_FILES_CPP}
+        ${PAGE_LOGIC_CPP}
+        ${CONFIGURATORS_CPP}
+        ${UI_MODELS_CPP}
+        ${UI_CONTROLLERS_CPP}
 )
 
-if(WIN32)
+if (WIN32)
     configure_file(
-        ${CMAKE_CURRENT_LIST_DIR}/platforms/windows/amneziavpn.rc.in
-        ${CMAKE_CURRENT_BINARY_DIR}/amneziavpn.rc
+            ${CMAKE_CURRENT_LIST_DIR}/platforms/windows/amneziavpn.rc.in
+            ${CMAKE_CURRENT_BINARY_DIR}/amneziavpn.rc
     )
 
     set(HEADERS ${HEADERS}
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/ikev2_vpn_protocol_windows.h
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/ikev2_vpn_protocol_windows.h
     )
 
     set(SOURCES ${SOURCES}
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/ikev2_vpn_protocol_windows.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/ikev2_vpn_protocol_windows.cpp
     )
 
     set(RESOURCES ${RESOURCES}
-        ${CMAKE_CURRENT_BINARY_DIR}/amneziavpn.rc
+            ${CMAKE_CURRENT_BINARY_DIR}/amneziavpn.rc
     )
 
     set(LIBS ${LIBS}
-        user32
-        rasapi32
-        shlwapi
-        iphlpapi
-        ws2_32
-        gdi32
+            user32
+            rasapi32
+            shlwapi
+            iphlpapi
+            ws2_32
+            gdi32
     )
 
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-endif()
+endif ()
 
-if(APPLE)
+if (APPLE)
     cmake_policy(SET CMP0099 OLD)
     cmake_policy(SET CMP0114 NEW)
 
-    if(NOT BUILD_OSX_APP_IDENTIFIER)
+    if (NOT BUILD_OSX_APP_IDENTIFIER)
         set(BUILD_OSX_APP_IDENTIFIER com.zloserver.vpn CACHE STRING "OSX Application identifier")
-    endif()
-    if(NOT BUILD_IOS_APP_IDENTIFIER)
+    endif ()
+    if (NOT BUILD_IOS_APP_IDENTIFIER)
         set(BUILD_IOS_APP_IDENTIFIER com.zloserver.vpn CACHE STRING "iOS Application identifier")
-    endif()
-    if(NOT BUILD_IOS_GROUP_IDENTIFIER)
+    endif ()
+    if (NOT BUILD_IOS_GROUP_IDENTIFIER)
         set(BUILD_IOS_GROUP_IDENTIFIER group.com.zloserver.vpn CACHE STRING "iOS Group identifier")
-    endif()
-    if(NOT BUILD_VPN_DEVELOPMENT_TEAM)
+    endif ()
+    if (NOT BUILD_VPN_DEVELOPMENT_TEAM)
         set(BUILD_VPN_DEVELOPMENT_TEAM S6TBJMG52K CACHE STRING "iOS Development Team identifier")
-    endif()
+    endif ()
 
     set(CMAKE_XCODE_GENERATE_SCHEME FALSE)
     set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM ${BUILD_VPN_DEVELOPMENT_TEAM})
     set(CMAKE_XCODE_ATTRIBUTE_GROUP_ID_IOS ${BUILD_IOS_GROUP_IDENTIFIER})
 
-endif()
+endif ()
 
-if(LINUX AND NOT ANDROID)
+if (LINUX AND NOT ANDROID)
     set(LIBS ${LIBS} -static-libstdc++ -static-libgcc -ldl)
     link_directories(${CMAKE_CURRENT_LIST_DIR}/platforms/linux)
-endif()
+endif ()
 
-if(WIN32 OR (APPLE AND NOT IOS) OR (LINUX AND NOT ANDROID))
+if (WIN32 OR (APPLE AND NOT IOS) OR (LINUX AND NOT ANDROID))
     message("Client desktop build")
     add_compile_definitions(AMNEZIA_DESKTOP)
 
     set(HEADERS ${HEADERS}
-        ${CMAKE_CURRENT_LIST_DIR}/core/ipcclient.h
-        ${CMAKE_CURRENT_LIST_DIR}/core/privileged_process.h
-        ${CMAKE_CURRENT_LIST_DIR}/ui/systemtray_notificationhandler.h
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/openvpnprotocol.h
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/openvpnovercloakprotocol.h
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/shadowsocksvpnprotocol.h
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/wireguardprotocol.h
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/xrayprotocol.h
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/awgprotocol.h
+            ${CMAKE_CURRENT_LIST_DIR}/core/ipcclient.h
+            ${CMAKE_CURRENT_LIST_DIR}/core/privileged_process.h
+            ${CMAKE_CURRENT_LIST_DIR}/ui/systemtray_notificationhandler.h
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/openvpnprotocol.h
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/openvpnovercloakprotocol.h
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/shadowsocksvpnprotocol.h
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/wireguardprotocol.h
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/xrayprotocol.h
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/awgprotocol.h
     )
 
     set(SOURCES ${SOURCES}
-        ${CMAKE_CURRENT_LIST_DIR}/core/ipcclient.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/core/privileged_process.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ui/systemtray_notificationhandler.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/openvpnprotocol.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/openvpnovercloakprotocol.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/shadowsocksvpnprotocol.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/wireguardprotocol.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/xrayprotocol.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/protocols/awgprotocol.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/core/ipcclient.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/core/privileged_process.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/ui/systemtray_notificationhandler.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/openvpnprotocol.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/openvpnovercloakprotocol.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/shadowsocksvpnprotocol.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/wireguardprotocol.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/xrayprotocol.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/protocols/awgprotocol.cpp
     )
-endif()
+endif ()
 
-if(ANDROID)
+if (ANDROID)
     include(cmake/android.cmake)
-endif()
+endif ()
 
-if(IOS)
+if (IOS)
     include(cmake/ios.cmake)
     include(cmake/ios-arch-fixup.cmake)
-elseif(APPLE AND NOT IOS)
+elseif (APPLE AND NOT IOS)
     include(cmake/osxtools.cmake)
     include(cmake/macos.cmake)
-endif()
+endif ()
 
 target_link_libraries(${PROJECT} PRIVATE ${LIBS})
 target_compile_definitions(${PROJECT} PRIVATE "MZ_$<UPPER_CASE:${MZ_PLATFORM_NAME}>")
 
 # deploy artifacts required to run the application to the debug build folder
-if(WIN32)
-    if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
+if (WIN32)
+    if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
         set(DEPLOY_PLATFORM_PATH "windows/x64")
-    else()
+    else ()
         set(DEPLOY_PLATFORM_PATH "windows/x32")
-    endif()
-elseif(LINUX)
+    endif ()
+elseif (LINUX)
     set(DEPLOY_PLATFORM_PATH "linux/client")
-elseif(APPLE AND NOT IOS)
+elseif (APPLE AND NOT IOS)
     set(DEPLOY_PLATFORM_PATH "macos")
-endif()
+endif ()
 
-if(NOT IOS AND NOT ANDROID)
+if (NOT APPLE AND NOT ANDROID)
     add_custom_command(
-        TARGET ${PROJECT} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E $<IF:$<CONFIG:Debug>,copy_directory,true>
-        ${CMAKE_SOURCE_DIR}/deploy/data/${DEPLOY_PLATFORM_PATH}
-        $<TARGET_FILE_DIR:${PROJECT}>
-        COMMAND_EXPAND_LISTS
+            TARGET ${PROJECT} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E $<IF:$<CONFIG:Debug>,copy_directory,true>
+            ${CMAKE_SOURCE_DIR}/deploy/data/${DEPLOY_PLATFORM_PATH}
+            $<TARGET_FILE_DIR:${PROJECT}>
+            COMMAND_EXPAND_LISTS
     )
     add_custom_command(
-        TARGET ${PROJECT} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E $<IF:$<CONFIG:Debug>,copy_directory,true>
-        ${CMAKE_SOURCE_DIR}/client/3rd-prebuilt/deploy-prebuilt/${DEPLOY_PLATFORM_PATH}
-        $<TARGET_FILE_DIR:${PROJECT}>
-        COMMAND_EXPAND_LISTS
+            TARGET ${PROJECT} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E $<IF:$<CONFIG:Debug>,copy_directory,true>
+            ${CMAKE_SOURCE_DIR}/client/3rd-prebuilt/deploy-prebuilt/${DEPLOY_PLATFORM_PATH}
+            $<TARGET_FILE_DIR:${PROJECT}>
+            COMMAND_EXPAND_LISTS
     )
 
-endif()
+elseif (APPLE AND NOT IOS)
+    target_sources(${PROJECT} PRIVATE ${CMAKE_SOURCE_DIR}/deploy/data/${DEPLOY_PLATFORM_PATH}/Library/LaunchDaemons/ZloVPN-service.plist)
+    set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/deploy/data/${DEPLOY_PLATFORM_PATH}/Library/LaunchDaemons/ZloVPN-service.plist
+            PROPERTIES
+            MACOSX_PACKAGE_LOCATION Library/LaunchDaemons)
+
+    add_custom_command(
+            TARGET ${PROJECT} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/deploy/data/${DEPLOY_PLATFORM_PATH}/Resources
+            $<TARGET_BUNDLE_DIR:${PROJECT}>/Contents/Resources
+            COMMAND_EXPAND_LISTS
+    )
+
+    add_dependencies(${PROJECT} ZloVPN-service)
+    add_custom_command(
+            TARGET ${PROJECT} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            $<TARGET_FILE:ZloVPN-service>
+            $<TARGET_FILE_DIR:${PROJECT}>
+            COMMAND_EXPAND_LISTS
+    )
+
+    add_custom_command(
+            TARGET ${PROJECT} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/deploy/data/deploy-prebuilt/${DEPLOY_PLATFORM_PATH}
+            $<TARGET_FILE_DIR:${PROJECT}>
+            COMMAND_EXPAND_LISTS
+    )
+endif ()
 
 target_sources(${PROJECT} PRIVATE ${SOURCES} ${HEADERS} ${RESOURCES} ${QRC} ${I18NQRC})
 qt_finalize_target(${PROJECT})
+
+if (APPLE AND NOT IOS)
+    qt_generate_deploy_qml_app_script(
+            TARGET ${PROJECT}
+            OUTPUT_SCRIPT shmungus
+    )
+
+    # todo: this breaks debugging in xcode, comment out if you want debugging to work
+    # note: if you comment this out, the service won't launch properly from the bundle directory
+    set(deploy_script "${CMAKE_CURRENT_BINARY_DIR}/deployqt_$<CONFIG>_${PROJECT}.cmake")
+    file(GENERATE OUTPUT "${deploy_script}" CONTENT "
+        include(\"${QT_DEPLOY_SUPPORT}\")
+        qt_deploy_qml_imports(
+            TARGET ${PROJECT}
+            PLUGINS_FOUND plugins_found
+        )
+
+        qt_deploy_runtime_dependencies(
+            EXECUTABLE $<TARGET_FILE:${PROJECT}>
+            ADDITIONAL_MODULES \${plugins_found}
+        )
+    ")
+
+    add_custom_command(
+            TARGET ${PROJECT} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -P ${deploy_script}
+            WORKING_DIRECTORY $<TARGET_BUNDLE_DIR:${PROJECT}>/../
+    )
+endif ()

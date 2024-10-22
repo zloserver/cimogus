@@ -43,6 +43,25 @@ PageType {
                 KeyNavigation.tab: connection.rightButton
             }
 
+
+            LabelWithButtonType {
+                id: autoUpdate
+                visible: AutoUpdateController.supportsAutoUpdates
+                Layout.fillWidth: true
+
+                text: qsTr("Check for updates")
+                rightImageSource: "qrc:/images/controls/chevron-right.svg"
+                leftImageSource: "qrc:/images/controls/download.svg"
+
+                clickedFunction: function() {
+                    AutoUpdateController.checkForUpdates();
+                }
+
+                KeyNavigation.tab: application.rightButton
+            }
+
+            DividerType {}
+
             LabelWithButtonType {
                 id: connection
                 Layout.fillWidth: true

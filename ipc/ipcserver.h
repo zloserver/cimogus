@@ -3,6 +3,8 @@
 
 #include <QLocalServer>
 #include <QObject>
+#include <QSet>
+#include <QUuid>
 #include <QRemoteObjectNode>
 #include <QJsonObject>
 #include "../client/daemon/interfaceconfig.h"
@@ -38,6 +40,12 @@ public:
     virtual bool enableKillSwitch(const QJsonObject &excludeAddr, int vpnAdapterIndex) override;
     virtual bool disableKillSwitch() override;
     virtual bool updateResolvers(const QString& ifname, const QList<QHostAddress>& resolvers) override;
+  
+    virtual void connectionEstablished(const QUuid& uniqueId) override;
+    virtual void connectionClose(const QUuid& uniqueId) override;
+    bool hasPendingConnectionClose();
+
+    void amneziaKilled();
 
 private:
     int m_localpid = 0;
@@ -57,6 +65,7 @@ private:
     };
 
     QMap<int, ProcessDescriptor> m_processes;
+    QSet<QUuid> m_pendingCleanClose{};
 };
 
 #endif // IPCSERVER_H

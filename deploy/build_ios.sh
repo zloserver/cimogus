@@ -49,30 +49,19 @@ if [ "${IOS_SIGNING_CERT_BASE64+x}" ]; then
 
   KEYCHAIN_PASS=$IOS_SIGNING_CERT_PASSWORD
 
-  echo "createe"
   security create-keychain -p $KEYCHAIN_PASS $KEYCHAIN || true
-  echo "default"
   security default-keychain -s $KEYCHAIN
-  echo "unlock"
   security unlock-keychain -p $KEYCHAIN_PASS $KEYCHAIN
 
-  echo "default2"
   security default-keychain
-  echo "list"
   security list-keychains
 
-  echo "import"
   security import $SIGNING_CERT_P12 -k $KEYCHAIN -P $IOS_SIGNING_CERT_PASSWORD -T /usr/bin/codesign
 
-  echo "setlist"
   security set-key-partition-list -S "apple-tool:,apple:,codesign:" -s -k $KEYCHAIN_PASS $KEYCHAIN
-  echo "findid"
   security find-identity -p codesigning
-  echo "setset"
   security set-keychain-settings $KEYCHAIN_FILE
-  echo "setset36"
   security set-keychain-settings -t 3600 $KEYCHAIN_FILE
-  echo "ukeychain"
   security unlock-keychain -p $KEYCHAIN_PASS $KEYCHAIN_FILE
 
   # Copy provisioning prifiles

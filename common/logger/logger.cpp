@@ -73,9 +73,15 @@ bool Logger::init(bool isServiceLogger)
     m_textStream.setDevice(&m_file);
     qSetMessagePattern("%{time yyyy-MM-dd hh:mm:ss} %{type} %{message}");
 
-#if !defined(QT_DEBUG) || defined(Q_OS_IOS)
-    qInstallMessageHandler(debugMessageHandler);
+#if defined(Q_OS_IOS)
+    bool isIos = true;
+#else
+    bool isIos = false;
 #endif
+    
+    if (isIos || isServiceLogger) {
+        qInstallMessageHandler(debugMessageHandler);
+    }
 
     return true;
 }
@@ -91,17 +97,9 @@ void Logger::deInit()
 bool Logger::setServiceLogsEnabled(bool enabled)
 {
 #ifdef AMNEZIA_DESKTOP
-    IpcClient *m_IpcClient = new IpcClient;
-
-    if (!m_IpcClient->isSocketConnected()) {
-        if (!IpcClient::init(m_IpcClient)) {
-            qWarning() << "Error occurred when init IPC client";
-            return false;
-        }
-    }
-
-    if (m_IpcClient->Interface()) {
-        m_IpcClient->Interface()->setLogsEnabled(enabled);
+    IpcClient* client = IpcClient::Reinitialize();
+    if (client->Interface()) {
+        client->Interface()->setLogsEnabled(enabled);
     } else {
         qWarning() << "Error occurred setting up service logs";
         return false;
@@ -208,17 +206,9 @@ void Logger::clearLogs(bool isServiceLogger)
 void Logger::clearServiceLogs()
 {
 #ifdef AMNEZIA_DESKTOP
-    IpcClient *m_IpcClient = new IpcClient;
-
-    if (!m_IpcClient->isSocketConnected()) {
-        if (!IpcClient::init(m_IpcClient)) {
-            qWarning() << "Error occurred when init IPC client";
-            return;
-        }
-    }
-
-    if (m_IpcClient->Interface()) {
-        m_IpcClient->Interface()->clearLogs();
+    IpcClient* ipcClient = IpcClient::Reinitialize();
+    if (ipcClient->Interface()) {
+        ipcClient->Interface()->clearLogs();
     } else {
         qWarning() << "Error occurred cleaning up service logs";
     }

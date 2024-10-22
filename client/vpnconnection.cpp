@@ -219,18 +219,7 @@ void VpnConnection::connectToVpn(int serverIndex, const ServerCredentials &crede
                         .arg(ContainerProps::containerToString(container))
              << m_settings->routeMode();
 #if !defined(Q_OS_ANDROID) && !defined(Q_OS_IOS)
-    if (!m_IpcClient) {
-        m_IpcClient = new IpcClient(this);
-    }
-
-    if (!m_IpcClient->isSocketConnected()) {
-        if (!IpcClient::init(m_IpcClient)) {
-            qWarning() << "Error occurred when init IPC client";
-            emit serviceIsNotReady();
-            emit connectionStateChanged(Vpn::ConnectionState::Error);
-            return;
-        }
-    }
+    IpcClient::Reinitialize(this);
 #endif
 
     m_remoteAddress = NetworkUtilities::getIPAddress(credentials.hostName);
