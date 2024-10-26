@@ -81,7 +81,7 @@ jobs:
 
     env:
       QT_VERSION: 6.8.0
-      QIF_VERSION: 4.8
+      QIF_VERSION: 4.7
       BUILD_ARCH: 64
 
     steps:
@@ -93,12 +93,12 @@ jobs:
           private-key: ${{ secrets.APP_PEM }}
           owner: ${{ github.repository_owner }}
 
-      # - name: "Get sources"
-      #   uses: actions/checkout@v4
-      #   with:
-      #     submodules: "true"
-      #     fetch-depth: 10
-      #     token: ${{ steps.app_token.outputs.token }}
+      - name: "Get sources"
+        uses: actions/checkout@v4
+        with:
+          submodules: "true"
+          fetch-depth: 10
+          token: ${{ steps.app_token.outputs.token }}
 
       - name: "Setup ccache"
         uses: hendrikmuhs/ccache-action@v1.2
@@ -116,10 +116,6 @@ jobs:
           tools: "tools_ifw"
           set-env: "true"
           extra: "--external 7z --base ${{ env.QT_MIRROR }}"
-
-      - name: "testing"
-        run: |
-          ls ${{ runner.temp }}\\Qt\\Tools\\QtInstallerFramework
 
       - name: "Setup mvsc"
         uses: ilammy/msvc-dev-cmd@v1
