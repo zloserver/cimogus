@@ -14,7 +14,6 @@
 #include <QTimer>
 #include <QTranslator>
 
-#include "core/ipcclient.h"
 #include "logger.h"
 #include "screenMarginInfo.h"
 #include "ui/models/installedAppsModel.h"
@@ -548,7 +547,8 @@ void AmneziaApplication::initControllers() {
 
   connect(m_authController.get(), &AuthController::spikeUpdated,
           m_autoUpdateController.get(), [this]() {
-    if (!m_authController->isSpikeReady()) return;
-    m_autoUpdateController->init(m_authController->getSpikeUrl());
-  });
+            if (!m_authController->isSpikeReady())
+              return;
+            m_autoUpdateController->init(m_authController->getSpikeUrl());
+          });
 }

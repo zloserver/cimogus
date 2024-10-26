@@ -87,12 +87,14 @@ set(QML_FILES_DIR ${CMAKE_CURRENT_LIST_DIR}/ui/qml)
 set_source_files_properties(${QML_FILES_DIR}/Modules/Style/AmneziaStyle.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 set_source_files_properties(${QML_FILES_DIR}/Config/GlobalConfig.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
-qt_add_qml_module(${PROJECT}
-        URI Application
-        VERSION 4.8
-        QML_FILES
-        ${QML_FILES}
-)
+if (NOT IOS AND NOT ANDROID)
+    qt_add_qml_module(${PROJECT}
+            URI Application
+            VERSION 4.8
+            QML_FILES
+            ${QML_FILES}
+    )
+endif()
 
 if (WIN32 OR (APPLE AND NOT IOS) OR (LINUX AND NOT ANDROID))
     qt_add_repc_replicas(${PROJECT} ${CMAKE_CURRENT_LIST_DIR}/../ipc/ipc_interface.rep)

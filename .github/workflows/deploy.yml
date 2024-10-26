@@ -185,11 +185,20 @@ jobs:
           go install golang.org/x/mobile/cmd/gomobile@latest
           gomobile init
 
+      - name: Get token from Github App
+        uses: actions/create-github-app-token@v1
+        id: app_token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PEM }}
+          owner: ${{ github.repository_owner }}
+
       - name: "Get sources"
         uses: actions/checkout@v4
         with:
           submodules: "true"
           fetch-depth: 10
+          token: ${{ steps.app_token.outputs.token }}
 
       - name: "Setup ccache"
         uses: hendrikmuhs/ccache-action@v1.2
@@ -268,11 +277,20 @@ jobs:
           curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
           sudo installer -pkg AWSCLIV2.pkg -target /
 
+      - name: Get token from Github App
+        uses: actions/create-github-app-token@v1
+        id: app_token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PEM }}
+          owner: ${{ github.repository_owner }}
+
       - name: "Get sources"
         uses: actions/checkout@v4
         with:
           submodules: "true"
           fetch-depth: 10
+          token: ${{ steps.app_token.outputs.token }}
 
       - name: "Setup ccache"
         uses: hendrikmuhs/ccache-action@v1.2
@@ -308,8 +326,8 @@ jobs:
 
       - name: "Sync r2 releases"
         run: |
-          mkdir -p r2-release
-          aws s3 cp s3://${{ vars.UPDATES_BUCKET }}/appcast.xml r2-release/appcast.xml || true
+          mkdir -p r2-release/macos
+          aws s3 cp s3://${{ vars.UPDATES_BUCKET }}/macos/appcast.xml r2-release/macos/appcast.xml || true
           export PROJECT_VERSION=$(cat project-version)
           mkdir -p r2-release/macos
           mv ZloVPN.dmg r2-release/macos/ZloVPN_${PROJECT_VERSION}.dmg
