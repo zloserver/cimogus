@@ -119,7 +119,7 @@ jobs:
 
       - name: "testing"
         run: |
-          ls ${{ runner.temp }}\\Qt\\Tools
+          ls ${{ runner.temp }}\\Qt\\Tools\\QtInstallerFramework
 
       - name: "Setup mvsc"
         uses: ilammy/msvc-dev-cmd@v1
