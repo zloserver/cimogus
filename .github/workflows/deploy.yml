@@ -117,6 +117,10 @@ jobs:
           set-env: "true"
           extra: "--external 7z --base ${{ env.QT_MIRROR }}"
 
+      - name: "testing"
+        run: |
+          ls ${{ runner.temp }}\\Qt\\Tools
+
       - name: "Setup mvsc"
         uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -129,11 +133,6 @@ jobs:
           set QT_BIN_DIR="${{ runner.temp }}\\Qt\\${{ env.QT_VERSION }}\\msvc2022_64\\bin"
           set QIF_BIN_DIR="${{ runner.temp }}\\Qt\\Tools\\QtInstallerFramework\\${{ env.QIF_VERSION }}\\bin"
           call deploy\\build_windows.bat
-
-      - name: "test2"
-        run: |
-          pwd
-          ls
 
       - name: "Upload installer artifact"
         uses: actions/upload-artifact@v4
