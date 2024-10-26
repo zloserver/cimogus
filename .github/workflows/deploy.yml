@@ -93,12 +93,12 @@ jobs:
           private-key: ${{ secrets.APP_PEM }}
           owner: ${{ github.repository_owner }}
 
-      - name: "Get sources"
-        uses: actions/checkout@v4
-        with:
-          submodules: "true"
-          fetch-depth: 10
-          token: ${{ steps.app_token.outputs.token }}
+      # - name: "Get sources"
+      #   uses: actions/checkout@v4
+      #   with:
+      #     submodules: "true"
+      #     fetch-depth: 10
+      #     token: ${{ steps.app_token.outputs.token }}
 
       - name: "Setup ccache"
         uses: hendrikmuhs/ccache-action@v1.2
