@@ -149,7 +149,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ZloVpn_x${{ env.BUILD_ARCH }}.exe
-          draft: true
+          fail_on_unmatched_files: true
 
   # ------------------------------------------------------
 
@@ -267,7 +267,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ${{ github.workspace }}/ipa-ios/ZloVPN.ipa
-          draft: true
+          fail_on_unmatched_files: true
 
   # ------------------------------------------------------
 
@@ -354,6 +354,13 @@ jobs:
           path: ZloVPN.dmg
           retention-days: 7
 
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ZloVPN.dmg
+          fail_on_unmatched_files: true
+
       - name: "Sync r2 releases"
         if: startsWith(github.ref, 'refs/tags/')
         run: |
@@ -369,13 +376,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
           AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: ZloVPN.dmg
-          draft: true
 
   # ------------------------------------------------------
 
@@ -536,5 +536,4 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           generate_release_notes: true
-          draft: false
           make_latest: "true"
