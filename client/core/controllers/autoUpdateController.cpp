@@ -27,6 +27,8 @@ bool AutoUpdateController::canCheckForUpdates() {
     return false;
   return m_macAutoUpdater->canCheckForUpdates();
 #endif
+
+  return false;
 }
 
 bool AutoUpdateController::supportsAutoUpdates() {

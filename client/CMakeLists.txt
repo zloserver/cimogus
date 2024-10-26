@@ -80,10 +80,11 @@ if (APPLE AND NOT IOS)
     # )
 endif ()
 
-file(GLOB_RECURSE QML_FILES *.qml)
+set(QML_FILES_DIR ${CMAKE_CURRENT_LIST_DIR}/ui/qml)
+
+file(GLOB_RECURSE QML_FILES RELATIVE ${CMAKE_CURRENT_LIST_DIR} ${QML_FILES_DIR}/*.qml)
 message(${QML_FILES})
 
-set(QML_FILES_DIR ${CMAKE_CURRENT_LIST_DIR}/ui/qml)
 set_source_files_properties(${QML_FILES_DIR}/Modules/Style/AmneziaStyle.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 set_source_files_properties(${QML_FILES_DIR}/Config/GlobalConfig.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
