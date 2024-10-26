@@ -53,8 +53,6 @@
 	<true/>
 
     <key>SUPublicEDKey</key>
-    <string>${SPARKLE_ED_PUBLIC_KEY}</string>
-	<key>SUFeedURL</key>
-	<string>${SPARKLE_FEED_URL}</string>
+    <string>O8VVzMFrXQYD18iXtRUNX6PV0JXRu22YfahYwTj7YFM=</string>
 </dict>
 </plist>

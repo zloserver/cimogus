@@ -18,7 +18,7 @@ const int API_VERSION = 1;
 const uint32_t BREAKING_HASH = 0xdeadbeef;
 
 #ifdef Q_OS_MACOS
-const QString MAC_UPDATE_ENDPOINT = "/api/v1/updates/mac";
+const QString MAC_UPDATE_ENDPOINT = "/api/v1/updates/mac/appcast.xml";
 #endif
 
 #endif // ENDPOINTS_H
