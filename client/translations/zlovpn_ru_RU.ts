@@ -606,12 +606,12 @@ Already installed containers were found on the server. All installed containers 
     <message>
         <location filename="../ui/qml/Pages2/PageFirstSetup.qml" line="33"/>
         <source>Initial setup is running</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Прозиводится начальная настройка</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageFirstSetup.qml" line="40"/>
         <source>Please wait</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Пожалуйста подождите</translation>
     </message>
 </context>
 <context>
@@ -730,42 +730,42 @@ Already installed containers were found on the server. All installed containers 
     <message>
         <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="41"/>
         <source>Looking for server</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Поиск сервера</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="48"/>
         <source>Please wait</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Пожалуйста подождите</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="69"/>
         <source>Failed to find server</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сервер не найден</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="78"/>
         <source>Possible reasons:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Возможные причины:</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="87"/>
         <source>• You are having connection issues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">• У вас проблемы с подключением к интернету</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="91"/>
         <source>• One of our servers has been blocked</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">• Один из наших серверов заблокирован</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="95"/>
         <source>• Our servers are down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">• Наши сервера недоступны</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="99"/>
         <source>• Your app is out of date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">• Ваше приложение устарело</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageLookingForServer.qml" line="111"/>
