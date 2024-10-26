@@ -85,11 +85,6 @@ jobs:
       BUILD_ARCH: 64
 
     steps:
-      - name: test
-        run: |
-          pwd
-          ls
-
       - name: Get token from Github App
         uses: actions/create-github-app-token@v1
         id: app_token
@@ -134,6 +129,11 @@ jobs:
           set QT_BIN_DIR="${{ runner.temp }}\\Qt\\${{ env.QT_VERSION }}\\msvc2022_64\\bin"
           set QIF_BIN_DIR="${{ runner.temp }}\\Qt\\Tools\\QtInstallerFramework\\${{ env.QIF_VERSION }}\\bin"
           call deploy\\build_windows.bat
+
+      - name: "test2"
+        run: |
+          pwd
+          ls
 
       - name: "Upload installer artifact"
         uses: actions/upload-artifact@v4
