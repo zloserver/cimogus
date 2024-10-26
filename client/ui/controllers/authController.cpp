@@ -443,16 +443,9 @@ void AuthController::getServerConnectionString(
           });
 }
 
-void AuthController::addBalance(qint32 months) {
-  QJsonObject body{};
-  body["months"] = months;
-
-  QJsonDocument doc{body};
-  QByteArray bytes = doc.toJson();
-
-  QNetworkRequest request =
-      createNetworkRequest(PAYMENT_ENDPOINT, true, &bytes);
-  QNetworkReply *reply = m_qnam->post(request, bytes);
+void AuthController::openPaymentLink() {
+  QNetworkRequest request = createNetworkRequest(PAYMENT_ENDPOINT, true);
+  QNetworkReply *reply = m_qnam->get(request);
 
   connect(reply, &QNetworkReply::finished, this, [this, reply]() {
     QByteArray data = reply->readAll();
@@ -467,13 +460,13 @@ void AuthController::addBalance(qint32 months) {
     }
 
     QJsonDocument document = QJsonDocument::fromJson(data);
-    QString paymentUrl = document.object()["paymentUrl"].toString();
+    QString paymentUrl = document.object()["url"].toString();
     if (!QDesktopServices::openUrl(paymentUrl)) {
       Errors errors{};
       errors.errorMessage = tr("Payment", "Failed to open payment page");
       emit errorOccurred(errors);
     } else {
-      emit addBalanceOpened();
+      emit paymentLinkOpened();
     }
   });
 }

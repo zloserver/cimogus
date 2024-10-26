@@ -11,7 +11,7 @@ const QString EMAIL_CHANGE_ENDPOINT = "/api/v1/me/email";
 const QString ME_ENDPOINT = "/api/v1/me";
 const QString SERVERS_ENDPOINT = "/api/v1/vpn/regions";
 const QString CONNECTION_STRING_ENDPOINT = "/api/v1/vpn/connect";
-const QString PAYMENT_ENDPOINT = "/api/v1/bank/createPayment";
+const QString PAYMENT_ENDPOINT = "/api/v1/payments/create";
 
 const QString API_COMPAT_ENDPOINT = "/api/versions";
 const int API_VERSION = 1;

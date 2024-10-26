@@ -116,7 +116,7 @@ public slots:
 
   void getServerConnectionString(const QString &serverId,
                                  ServerStringRequest *stringRequest);
-  void addBalance(qint32 months);
+  void openPaymentLink();
 
   bool isSpikeReady();
   QString getSpikeUrl();
@@ -137,7 +137,7 @@ signals:
 
   void userInfoUpdated();
   void regionsUpdated();
-  void addBalanceOpened();
+  void paymentLinkOpened();
 
 private:
   QNetworkRequest createNetworkRequest(const QString &endpoint,

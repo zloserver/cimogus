@@ -16,88 +16,6 @@ import UserInfo 1.0
 PageType {
     id: root
 
-    Popup {
-        property real monthsToAdd: 2
-
-        id: blockingPopup
-        anchors.centerIn: Overlay.overlay
-        background: Rectangle {
-            radius: 16
-            color: Qt.rgba(14/255, 14/255, 17/255, 0.8)
-            border.color: "transparent"
-        }
-
-        enter: Transition {
-            NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 100 }
-        }
-        exit: Transition {
-            NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 100 }
-        }
-
-        modal: true
-        focus: true
-        closePolicy: Popup.CloseOnPressOutside
-
-        padding: 20
-        property int margin: 32
-        property int maxWidth: 380
-        width: Math.min(parent.width - margin, maxWidth)
-
-        ColumnLayout {
-            id: popupContent
-            width: parent.width
-            spacing: 16
-
-            Header2Type {
-                headerText: qsTr("Add Balance")
-            }
-
-            ColumnLayout {
-                Layout.fillWidth: true
-                visible: AuthController.userInfo.monthsAvailableToAdd() > 1
-
-                SliderType {
-                    id: monthsSlider
-
-                    minValue: 1
-                    maxValue: AuthController.userInfo.monthsAvailableToAdd()
-                    value: blockingPopup.monthsToAdd
-                    slider.onValueChanged: {
-                        blockingPopup.monthsToAdd = monthsSlider.value
-                    }
-                }
-
-                LabelTextType {
-                    Layout.alignment: Qt.AlignHCenter
-                    font.pixelSize: 16
-
-                    text: qsTr("Months")
-                    color: AmneziaStyle.color.mutedGray
-                }
-            }
-
-            function localizeMonths(count) {
-                if (count == 1) return qsTr("Buy %1 month").arg(count);
-                const lastDigit = count % 10;
-                if (lastDigit == 2 || lastDigit == 3 || lastDigit == 4) return qsTr("Buy %1 months", "2,3,4").arg(count);
-                return qsTr("Buy %1 months", ">=5").arg(count);
-            }
-
-            BasicButtonType {
-                id: buyButton
-
-                Layout.fillWidth: true
-                text: popupContent.localizeMonths(blockingPopup.monthsToAdd)
-
-                onClicked: {
-                    blockingPopup.close()
-                    PageController.showBusyIndicator(true)
-                    AuthController.addBalance(blockingPopup.monthsToAdd)
-                }
-            }
-        }
-    }
-
     RowLayout {
         id: topStrip
         anchors.top: parent.top
@@ -247,7 +165,7 @@ PageType {
                         return;
                     }
 
-                    blockingPopup.open()
+                    AuthController.openPaymentLink()
                 }
             }
         }
@@ -260,7 +178,7 @@ PageType {
             PageController.showBusyIndicator(false)
         }
 
-        function onAddBalanceOpened() {
+        function onPaymentLinkOpened() {
             PageController.showBusyIndicator(false)
         }
     }
