@@ -218,7 +218,6 @@ PageType {
 
         function onErrorOccurred(error) {
             PageController.showBusyIndicator(false)
-            PageController.showErrorMessage(error.errorMessage)
         }
 
         function onPasswordChanged() {

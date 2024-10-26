@@ -3,7 +3,9 @@
 #include <QObject>
 
 #ifdef Q_OS_MACOS
+#ifndef Q_MOC_RUN
 #include <AmneziaVPN-Swift.h>
+#endif
 #endif
 
 #include <optional>

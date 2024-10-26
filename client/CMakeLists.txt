@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 set(PROJECT ZloVPN)
 project(${PROJECT})
 
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER "Autogen")
 set_property(GLOBAL PROPERTY AUTOMOC_TARGETS_FOLDER "Autogen")
@@ -79,7 +78,7 @@ if (APPLE AND NOT IOS)
     # set_target_properties(${PROJECT} PROPERTIES
     #         MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_LIST_DIR}/macos/app/Info.plist
     # )
-endif()
+endif ()
 
 file(GLOB_RECURSE QML_FILES *.qml)
 message(${QML_FILES})
@@ -460,30 +459,32 @@ target_sources(${PROJECT} PRIVATE ${SOURCES} ${HEADERS} ${RESOURCES} ${QRC} ${I1
 qt_finalize_target(${PROJECT})
 
 if (APPLE AND NOT IOS)
-    qt_generate_deploy_qml_app_script(
-            TARGET ${PROJECT}
-            OUTPUT_SCRIPT shmungus
-    )
-
-    # todo: this breaks debugging in xcode, comment out if you want debugging to work
-    # note: if you comment this out, the service won't launch properly from the bundle directory
-    set(deploy_script "${CMAKE_CURRENT_BINARY_DIR}/deployqt_$<CONFIG>_${PROJECT}.cmake")
-    file(GENERATE OUTPUT "${deploy_script}" CONTENT "
-        include(\"${QT_DEPLOY_SUPPORT}\")
-        qt_deploy_qml_imports(
-            TARGET ${PROJECT}
-            PLUGINS_FOUND plugins_found
+    if (${COPY_QT_RESOURCES})
+        qt_generate_deploy_qml_app_script(
+                TARGET ${PROJECT}
+                OUTPUT_SCRIPT shmungus
         )
 
-        qt_deploy_runtime_dependencies(
-            EXECUTABLE $<TARGET_FILE:${PROJECT}>
-            ADDITIONAL_MODULES \${plugins_found}
-        )
-    ")
+        # todo: this breaks debugging in xcode, comment out if you want debugging to work
+        # note: if you comment this out, the service won't launch properly from the bundle directory
+        set(deploy_script "${CMAKE_CURRENT_BINARY_DIR}/deployqt_$<CONFIG>_${PROJECT}.cmake")
+        file(GENERATE OUTPUT "${deploy_script}" CONTENT "
+            include(\"${QT_DEPLOY_SUPPORT}\")
+            qt_deploy_qml_imports(
+                TARGET ${PROJECT}
+                PLUGINS_FOUND plugins_found
+            )
 
-    add_custom_command(
-            TARGET ${PROJECT} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -P ${deploy_script}
-            WORKING_DIRECTORY $<TARGET_BUNDLE_DIR:${PROJECT}>/../
-    )
+            qt_deploy_runtime_dependencies(
+                EXECUTABLE $<TARGET_FILE:${PROJECT}>
+                ADDITIONAL_MODULES \${plugins_found}
+            )
+        ")
+
+        add_custom_command(
+                TARGET ${PROJECT} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -P ${deploy_script}
+                WORKING_DIRECTORY $<TARGET_BUNDLE_DIR:${PROJECT}>/../
+        )
+    endif ()
 endif ()

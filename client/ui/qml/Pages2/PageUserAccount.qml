@@ -258,7 +258,6 @@ PageType {
 
         function onErrorOccurred(error) {
             PageController.showBusyIndicator(false)
-            PageController.showErrorMessage(error)
         }
 
         function onAddBalanceOpened() {

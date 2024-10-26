@@ -73,7 +73,8 @@ enum class PageEnum {
   PageChangePassword,
   PageChangeEmail,
   PageFirstSetup,
-  PageLookingForServer
+  PageLookingForServer,
+  PageUpdateRequired
 };
 Q_ENUM_NS(PageEnum)
 

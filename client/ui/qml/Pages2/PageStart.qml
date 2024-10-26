@@ -24,7 +24,11 @@ PageType {
         target: PageController
 
         function onGoToPageHome() {
-            if (FirstSetupController.firstSetupNeeded()) {
+            console.log("go to page home")
+            if (AuthController.updateRequired) {
+                tabBar.visible = false
+                tabBarStackView.goToTabBarPage(PageEnum.PageUpdateRequired)
+            } else if (FirstSetupController.firstSetupNeeded()) {
                 tabBar.visible = false
                 tabBarStackView.goToTabBarPage(PageEnum.PageFirstSetup)
             } else if (!AuthController.spikeReady) {
@@ -159,18 +163,21 @@ PageType {
         target: AuthController
 
         function onTokenUpdated(authenticationStateChanged) {
-            if (FirstSetupController.firstSetupNeeded()) {
-                tabBar.visible = false
-                PageController.goToPage(PageEnum.PageFirstSetup)
-            } else if (!AuthController.spikeReady) {
-                tabBar.visible = false
-                PageController.goToPage(PageEnum.PageLookingForServer)
-            } else if (!AuthController.isAuthenticated()) {
-                tabBar.visible = false
-                PageController.goToPage(PageEnum.PageSetupWizardStart)
-            } else if (authenticationStateChanged && AuthController.isAuthenticated()) {
-                tabBar.visible = true
-                PageController.goToPage(PageEnum.PageHome)
+            PageController.goToPageHome();
+        }
+
+        function onSpikeUpdated() {
+            PageController.goToPageHome()
+        }
+
+        function onApiCompatibilityChanged() {
+            console.log("api compat changed")
+            PageController.goToPageHome()
+        }
+
+        function onErrorOccurred(error) {
+            if (!error.isFormError) {
+                PageController.showErrorMessage(error.errorMessage)
             }
         }
     }
@@ -197,7 +204,10 @@ PageType {
 
         Component.onCompleted: {
             var pagePath
-            if (FirstSetupController.firstSetupNeeded()) {
+            if (AuthController.updateRequired) {
+                tabBar.visible = false
+                tabBarStackView.goToTabBarPage(PageEnum.PageUpdateRequired)
+            } else if (FirstSetupController.firstSetupNeeded()) {
                 tabBar.visible = false
                 pagePath = PageController.getPagePath(PageEnum.PageFirstSetup)
             } else if (!AuthController.spikeReady) {

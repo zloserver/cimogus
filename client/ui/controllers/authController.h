@@ -5,6 +5,17 @@
 #include "settings.h"
 #include <QNetworkAccessManager>
 #include <QObject>
+#include <optional>
+
+struct Response {
+  int statusCode;
+  std::optional<Errors> errors{};
+
+  static bool isOk(int statusCode) { return (statusCode / 100) == 2; }
+  [[nodiscard]] bool isOk() const {
+    return isOk(statusCode) || errors.has_value();
+  }
+};
 
 struct UserInfo {
   Q_GADGET
@@ -69,7 +80,9 @@ class AuthController : public QObject {
   Q_PROPERTY(
       QList<RegionInfo> regionInfo MEMBER m_regions NOTIFY regionsUpdated);
   Q_PROPERTY(bool spikeReady READ isSpikeReady NOTIFY spikeUpdated);
-  Q_PROPERTY(bool spikeErrored MEMBER m_spikeErrored NOTIFY spikeUpdated)
+  Q_PROPERTY(bool spikeErrored MEMBER m_spikeErrored NOTIFY spikeUpdated);
+  Q_PROPERTY(bool updateRequired MEMBER m_updateRequired NOTIFY
+                 apiCompatibilityChanged);
 
 public:
   explicit AuthController(std::shared_ptr<Settings> settings,
@@ -92,6 +105,7 @@ public slots:
   void changePassword(const QString &currentPassword,
                       const QString &newPassword);
   void changeEmail(const QString &newEmail);
+  void checkApiCompatibility();
   void logout();
 
   void refreshUserInfo();
@@ -108,6 +122,7 @@ public slots:
   QString getSpikeUrl();
 
 signals:
+  void apiCompatibilityChanged();
   void spikeErrorOccurred();
   void errorOccurred(const Errors errors);
   void errorOccurredQml(const QString errorMessage,
@@ -128,6 +143,8 @@ private:
   QNetworkRequest createNetworkRequest(const QString &endpoint,
                                        bool needsAuthorization = false,
                                        const QByteArray *array = nullptr);
+  Response parseNetworkReply(QByteArray &data, QNetworkReply &reply,
+                             bool formError = false);
 
   std::shared_ptr<Settings> m_settings;
 
@@ -138,6 +155,7 @@ private:
   QString m_spike{};
   bool m_authenticated{};
   bool m_spikeErrored{};
+  bool m_updateRequired{};
 };
 
 #endif // AUTHCONTROLLER_H

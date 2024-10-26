@@ -2,6 +2,13 @@ message("MAC build")
 
 enable_language(Swift)
 
+set(COPY_QT_RESOURCES YES CACHE BOOL "")
+set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE INTERNAL "" FORCE)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0" CACHE STRING "" FORCE)
+
+include(${CMAKE_SOURCE_DIR}/cmake/InitializeSwift.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/GenerateSwiftHeader.cmake)
+
 find_library(FW_SYSTEMCONFIG SystemConfiguration)
 find_library(FW_SERVICEMGMT ServiceManagement)
 find_library(FW_SECURITY Security)
@@ -25,16 +32,10 @@ set_target_properties(${PROJECT} PROPERTIES MACOSX_BUNDLE TRUE)
 set(SPARKLE_ED_PUBLIC_KEY $ENV{SPARKLE_ED_PUBLIC_KEY})
 set(SPARKLE_FEED_URL $ENV{SPARKLE_FEED_URL})
 
-set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE INTERNAL "" FORCE)
-set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0" CACHE STRING "" FORCE)
 set(APPLE_PROJECT_VERSION ${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}.${CMAKE_PROJECT_VERSION_PATCH})
 
 set_target_properties(${PROJECT} PROPERTIES
-        XCODE_ATTRIBUTE_SWIFT_VERSION "5.0"
         XCODE_ATTRIBUTE_CLANG_ENABLE_MODULES "YES"
-        XCODE_ATTRIBUTE_SWIFT_PRECOMPILE_BRIDGING_HEADER "NO"
-        XCODE_ATTRIBUTE_SWIFT_OBJC_INTERFACE_HEADER_NAME "AmneziaVPN-Swift.h"
-        XCODE_ATTRIBUTE_SWIFT_OBJC_INTEROP_MODE "objcxx"
 
         MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/macos/app/Info.plist.in
         MACOSX_BUNDLE_GUI_IDENTIFIER "${BUILD_OSX_APP_IDENTIFIER}"
@@ -71,9 +72,16 @@ target_compile_options(${PROJECT} PRIVATE
         -DVPN_NE_BUNDLEID=\"${BUILD_IOS_APP_IDENTIFIER}.network-extension\"
 )
 
+# todo: support multiple binaries
+set(SWIFT_OPTIONS "-cxx-interoperability-mode=default" -target ${CMAKE_OSX_ARCHITECTURES}-apple-macosx${CMAKE_OSX_DEPLOYMENT_TARGET})
+target_compile_options(${PROJECT} PUBLIC $<$<COMPILE_LANGUAGE:Swift>:${SWIFT_OPTIONS}>)
+
+_swift_generate_cxx_header(${PROJECT}
+        ${CMAKE_CURRENT_BINARY_DIR}/AmneziaVPN-Swift.h)
+
 # Get SDK path
 execute_process(
-        COMMAND sh -c "xcrun --sdk macosx --show-sdk-path"
+        COMMAND sh -c " xcrun --sdk macosx --show-sdk-path"
         OUTPUT_VARIABLE OSX_SDK_PATH
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )

@@ -80,7 +80,7 @@
 <context>
     <name>AuthController</name>
     <message>
-        <location filename="../ui/controllers/authController.cpp" line="428"/>
+        <location filename="../ui/controllers/authController.cpp" line="473"/>
         <source>Payment</source>
         <comment>Failed to open payment page</comment>
         <translation>Произошла ошибка при открытии страницы оплаты.</translation>
@@ -3638,19 +3638,37 @@ and will not be shared or disclosed to the Amnezia or any third parties</source>
 <context>
     <name>PageStart</name>
     <message>
-        <location filename="../ui/qml/Pages2/PageStart.qml" line="141"/>
+        <location filename="../ui/qml/Pages2/PageStart.qml" line="145"/>
         <source>Logging was disabled after 14 days, log files were deleted</source>
         <translation>Логирование было отключено по прошествии 14 дней, файлы логов были удалены.</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageStart.qml" line="145"/>
+        <location filename="../ui/qml/Pages2/PageStart.qml" line="149"/>
         <source>Settings restored from backup file</source>
         <translation>Настройки восстановлены из бэкап файла</translation>
     </message>
     <message>
-        <location filename="../ui/qml/Pages2/PageStart.qml" line="151"/>
+        <location filename="../ui/qml/Pages2/PageStart.qml" line="155"/>
         <source>Logging is enabled. Note that logs will be automaticallydisabled after 14 days, and all log files will be deleted.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PageUpdateRequired</name>
+    <message>
+        <location filename="../ui/qml/Pages2/PageUpdateRequired.qml" line="38"/>
+        <source>App update required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageUpdateRequired.qml" line="45"/>
+        <source>Install the latest version from our website.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qml/Pages2/PageUpdateRequired.qml" line="66"/>
+        <source>Website</source>
+        <translation type="unfinished">Веб-сайт</translation>
     </message>
 </context>
 <context>
@@ -4794,7 +4812,7 @@ This means that AmneziaWG keeps the fast performance of the original while addin
 <context>
     <name>ServerLocale</name>
     <message>
-        <location filename="../errorParser.cpp" line="12"/>
+        <location filename="../errorParser.cpp" line="15"/>
         <source>Server error</source>
         <translation>Ошибка сервера</translation>
     </message>

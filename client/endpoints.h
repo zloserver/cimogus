@@ -13,6 +13,10 @@ const QString SERVERS_ENDPOINT = "/api/v1/vpn/regions";
 const QString CONNECTION_STRING_ENDPOINT = "/api/v1/vpn/connect";
 const QString PAYMENT_ENDPOINT = "/api/v1/bank/createPayment";
 
+const QString API_COMPAT_ENDPOINT = "/api/versions";
+const int API_VERSION = 1;
+const uint32_t BREAKING_HASH = 0xdeadbeef;
+
 #ifdef Q_OS_MACOS
 const QString MAC_UPDATE_ENDPOINT = "/api/v1/updates/mac";
 #endif
